@@ -1,7 +1,7 @@
 ---
 title: "STA304 - Summer 2021"
 author: "Samantha-Jo Caetano"
-subtitle: Assignment 2 Instructions
+subtitle: Assignment 2 Intructions
 output:
   pdf_document: default
 ---
