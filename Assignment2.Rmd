@@ -7,11 +7,12 @@ output:
   pdf_document: default
 ---
 
-```{r, include=FALSE}
+```{r, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 #library(openintro)
 library(tidyverse)
 library(broom)
+library(ggpubr)
 ```
 
 
@@ -21,7 +22,7 @@ library(broom)
 # Here we are just loading the data files
 census_data <- read_csv("gss_clean.csv")
 # Here you can load in the survey data
-survey_data <- read_csv("ces2019-phone_clean.csv")
+survey_data <- read_csv("ces2019_clean.csv")
 ```
 
 
@@ -36,7 +37,6 @@ survey_data <- read_csv("ces2019-phone_clean.csv")
 <Optional: You can also include a description of each section of this report as a last paragraph.>
 
 
-## Data
 
 <Type here a paragraph introducing the data, its context and as much info about the data collection process that you know.>
 
@@ -129,6 +129,97 @@ census_data.8 <- census_data.7 %>%
 
 
 
+
+## Data Analysis
+```{r}
+
+mytable.1 <- table(survey_data$sex)
+lbls.1 <- paste(names(mytable.1), "\n", mytable.1, sep="")
+
+mytable.2 <- table(census_data$sex)
+lbls.2 <- paste(names(mytable.2), "\n", mytable.2, sep="")
+
+# Pie Chart from data frame with Appended Sample Sizes                              [https://www.statmethods.net/graphs/pie.html]
+# spreads of Sex, pie chart
+ggarrange(
+  
+pie(mytable.1, labels = lbls.1,
+   main="Sex in Survey"),
+pie(mytable.2, labels = lbls.2,
+   main="Sex in Census"), ncol=2, nrow=1
+)
+
+# Spreads of Sex
+ggarrange(
+ggplot(survey_data, aes(x=sex ))+
+  geom_bar(color="darkblue", fill="lightblue", bins = 40) +
+  ggtitle("Spread of Sex in Survey"),
+
+ggplot(census_data.8, aes(x=sex))+
+  geom_bar(color="darkblue", fill="lightblue", bins = 40) +
+  ggtitle("Spread of Sex in Census"),
+ ncol=2, nrow=1)
+
+
+# Spread of Province                          ##----FIX THE LABLES-----##
+ggarrange(
+ggplot(survey_data, aes(x=province ))+
+  geom_bar(color="darkblue", fill="lightblue", bins = 40) +
+  ggtitle("Spread of Province in Survey"),
+
+ggplot(census_data.8, aes(x=province))+
+  geom_bar(color="darkblue", fill="lightblue", bins = 50) +
+  ggtitle("Spread of Province in Census"),
+ ncol=2, nrow=1)
+
+
+# Spread of ages
+ggarrange(
+ggplot(survey_data, aes(x=age ))+
+  geom_histogram(color="darkblue", fill="lightblue", bins = 40) +
+  ggtitle("Spread of Ages in Survey"),
+
+ggplot(census_data.8, aes(x=age))+
+  geom_histogram(color="darkblue", fill="lightblue", bins = 50) +
+  ggtitle("Spread of Ages in Census"),
+ ncol=2, nrow=1)
+
+# Spread of family income                      ----FIX AXIS or Pie Chart----
+ggarrange(
+ggplot(survey_data, aes(x=income_family ))+
+  geom_bar(color="darkblue", fill="lightblue", bins = 40) +
+  ggtitle("Spread of Family's incomes in Survey"),
+
+ggplot(census_data.8, aes(x=income_family))+
+  geom_bar(color="darkblue", fill="lightblue", bins = 50) +
+  ggtitle("Spread of Family's incomes in Census"),
+ ncol=2, nrow=1)
+
+
+# get the frequency for each variable using 
+table(census_data.8$province)
+
+
+```
+
+
+
+
+#Model ideas
+```{r}
+## make stratas based on province for
+
+## make simple estimated regression regression model with FPC
+
+## apply the result on the stratas from step 1 
+
+                        ## refrence STA304-MRPs-Updated.pdf
+
+
+
+```
+
+
 #Grouping based on proviences
 ```{r}
 # make them in groups by province
@@ -146,37 +237,6 @@ saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 
 ```
 
-
-
-#Survey data set
-```{r}
-# get the required cols as the census data 
-view(survey_data)
-
-
-# filter them in groups
- 
- # set the model 
-
-# apply the model for each group
-
-
-# get the results
-
-
-# using the results predict for the census
-
-```
-
-
-
-
-#Data analysis
-
-
-```{r}
-
-```
 
 
 

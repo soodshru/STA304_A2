@@ -245,7 +245,7 @@ survey_data.7 <- survey_data.7 %>%
                                    124999 <  survey_data.7$income ~ "$125,000 and more"))
 
 #now remove the income col as no longer required
-survey_data.7a <- select(survey_data.7, -5)
+survey_data.7a <- select(survey_data.7, -5) 
 
 
 
@@ -268,4 +268,4 @@ survey_data.8 <- survey_data.8 %>%
 
 
 
-write_csv(survey_data, "ces2019_clean.csv")
+write_csv(survey_data.8, "ces2019_clean.csv")
