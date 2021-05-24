@@ -9,22 +9,19 @@ output:
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
-library(openintro)
+#library(openintro)
 library(tidyverse)
+library(broom)
 ```
 
 
 
 ```{r, include = FALSE}
 
-# Here you can load in the census data 
-
+# Here we are just loading the data files
 census_data <- read_csv("gss_clean.csv")
-
 # Here you can load in the survey data
-
 survey_data <- read_csv("ces2019-phone_clean.csv")
-
 ```
 
 
@@ -45,10 +42,148 @@ survey_data <- read_csv("ces2019-phone_clean.csv")
 
 <Type here a summary of the cleaning process (**only add in stuff beyond my original gss_cleaning.R code**). You only need to describe additional cleaning that you and your group did.> ]
 
+#Data cleaning
+```{r}
+#filtering out the required columns
+census_data.1 <- select(census_data, 2,5,11,12,16,17,19,21,23,24,27,28,30,38,44,47,49, 64)
+#head(census_data.1)
+
+
+# adding the place of birth to our data set
+census_data.2 <- census_data.1 %>% mutate(place_birth = coalesce(place_birth_macro_region, place_birth_province ))
+
+     #[https://stackoverflow.com/questions/14563531/combine-column-to-remove-nas]
+
+# removing the columns for place of birth
+census_data.3 <- select(census_data.2, -5,-6)
+#view(census_data.3)
+
+
+# remove the NA
+census_data.4 <- na.omit(census_data.3)
+
+
+# remove don't know from the selected columns
+census_data.5 <- census_data.4[!grepl("Don't know", census_data.4$aboriginal), ]
+census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$vis_minority), ]
+census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$average_hours_worked), ]
+census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$regilion_importance), ]
+census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$average_hours_worked), ]
+census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$religion_participation), ]
+```
+
+
+#Syncing data variables with Census data so that we only have the variables avalible to us
+```{r}
+## EDUCATION
+
+# combining the "Trade certificate or diploma" +"College, CEGEP or other non-university certificate or di..."
+# into "College, CEGEP, trade certificate or other non-university certificate or di..."
+  # reason: to sync with the survey data categoery
+census_data.5$education <- replace(census_data.5$education, census_data.5$education ==
+                                     "College, CEGEP or other non-university certificate or di...",
+                                   "College, CEGEP, trade certificate or other non-university certificate or di...")
+census_data.5$education <- replace(census_data.5$education, census_data.5$education ==
+                                     "Trade certificate or diploma", "College, CEGEP, trade certificate or other non-university certificate or di...")
+
+
+## Religion
+
+# combining "At least 3 times a year" and "Once or twice a year" into "At least once a year"
+census_data.5$religion_participation <- replace(census_data.5$religion_participation, census_data.5$religion_participation =="Once or twice a year", "At least once a year")
+census_data.5$religion_participation <- replace(census_data.5$religion_participation, census_data.5$religion_participation =="At least 3 times a year", "At least once a year")
+
+
+## Feelings life
+
+## make a range for the values to fit with the other frame of 4 vlaues for feeling life
+census_data.6 <- census_data.5 %>%
+  # making a dummy col for now
+  mutate(feelings_life_d = case_when(census_data.5$feelings_life < 2 ~ "Not satisfied at all",       # (0,1) not satisfied
+                                   census_data.5$feelings_life <  6 ~ "Not very satisfied",        # [1,5] not very satisfied
+                                   census_data.5$feelings_life <  10 ~ "Fairly satisfied",          # [6,9] failry satisfied
+                                    census_data.5$feelings_life ==  10 ~ "Very satisfied"           # 10 satisfied
+                                   ))
+
+## now delete the original feeling col then rename the dummy col to the feeling col
+census_data.7 <- select(census_data.6, -3)
+names(census_data.7)[17] <- "feelings_life"
+
+
+
+## Age
+
+# we drop the decimal point to stay consistent with the survey
+
+census_data.7$age <- floor(census_data.7$age)
+          #https://stackoverflow.com/questions/40399255/remove-decimals-from-a-column-in-a-data-frame
+```
+
+
+#Dropping the columns in the census data which are not present in the survey data 
+```{r}
+census_data.8 <- census_data.7 %>%
+  select(sex, province, feelings_life, education, religion_participation, age, income_family)
+
+```
+
+
+
+#Grouping based on proviences
+```{r}
+# make them in groups by province
+alberta <- census_data.5 %>% group_by(province = "Alberta")
+british_columbia <- census_data.5 %>% group_by(province = "British Columbia")
+manitoba<- census_data.5 %>% group_by(province = "Manitoba")
+new_brunswick<- census_data.5 %>% group_by(province = "New Brunswick")
+newfoundland_labrador<- census_data.5 %>% group_by(province = "Newfoundland and Labrador")
+nova_scotia<- census_data.5 %>% group_by(province = "Nova Scotia")
+ontario <- census_data.5 %>% group_by(province = "Ontario")
+prince_edward_island<- census_data.5 %>% group_by(province = "Prince Edward Island")
+quebec<- census_data.5 %>% group_by(province = "Quebec")
+saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
+
+
+```
+
+
+
+#Survey data set
+```{r}
+# get the required cols as the census data 
+view(survey_data)
+
+
+# filter them in groups
+ 
+ # set the model 
+
+# apply the model for each group
+
+
+# get the results
+
+
+# using the results predict for the census
+
+```
+
+
+
+
+#Data analysis
+
+
+```{r}
+
+```
+
+
+
 ```{r, include = FALSE}
 
 #### You will need to update/clean the code below based off the variables you want to use in your post stratification.
-
+view(sen) 
 survey_data <- 
   survey_data %>% 
   mutate(age = 2019-q2,
@@ -180,6 +315,9 @@ census_data_counts %>%
 <Include an explanation/interpretation of the visualizations. Make sure to comment on the appropriateness of the assumptions/results.>
 
 ## Conclusions
+
+## Drawbacks
+                                                                      **relevant fields not found in the survey, provinces((11) Northwest Territories, (12) Yukon, (13) Nunavut)**
 
 <Here you should give a summary of the Hypotheses, Methods and Results>
 
