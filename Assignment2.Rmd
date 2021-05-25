@@ -15,6 +15,7 @@ library(broom)
 library(ggpubr)
 library(lme4)
 library(brms)
+library(survey)
 ```
 
 
@@ -260,10 +261,6 @@ Other_pred <- survey_data %>%
 n = length(survey_data$political_pref)
 N = 37.59 * 10^6
 
-
-
-#install.packages("survey")
-library(survey)
 ## Using the Survey Library
 fpc.srs = rep(N, n)
 
@@ -274,26 +271,29 @@ model.NDP <- svyglm( NDP_pref ~ as.factor(sex) + as.factor(feelings_life) + as.f
 #results
 summary(model.NDP)
 tidy(model.NDP) -> NDP_Res
+view(NDP_Res)
 
 # svglm WO as.factor                    ----The right way using 
 model.NDP.1 <- svyglm( NDP_pref ~ sex + feelings_life + education + religion_participation + age + income_family + province, design.NDP, family="binomial")
 #results
 summary(model.NDP.1)
 tidy(model.NDP.1) -> NDP_Res.1
+view(NDP_Res.1)
 
 
 # running logistic regression model         ----High p-values---
 glm_NDP_model.1<-glm(NDP_pref ~ sex + feelings_life + education + religion_participation + income_family + age + income_family + province, data=NDP_predic, family="binomial")
 summary(glm_NDP_model.1)
 tidy(glm_NDP_model.1) -> glm_NDP_res.1
+view(glm_NDP_res.1)
 
 
-# running multilevel logistic regression model                ------ +  age causing error, p-values
-glm_NDP_model.2<-glmer(NDP_pref ~ sex + feelings_life +religion_participation+ education  + (1|province), data=NDP_predic, family=binomial)
+# running multilevel logistic regression model                ------!!!! +  age !!!!!causing error, p-values -----
+glm_NDP_model.2<-glmer(NDP_pref ~ sex + feelings_life +religion_participation+ education +  age  + (1|province), data=NDP_predic, family=binomial)
                                                         # religion_participation + age + income_family
 summary(glm_NDP_model.2)
-tidy(glm_NDP_model.2) -> glm_NDP_res.2
-view(glm_NDP_res.2)
+#tidy(glm_NDP_model.2) -> glm_NDP_res.2
+#view(glm_NDP_res.2)
 
 ##Baysian how to know which model is much better?
                          
@@ -433,6 +433,10 @@ model <- lm(vote_liberal ~ age, data=survey_data)
 ```
 
 ```{r, include=FALSE}
+
+
+glm_NDP_model.22<-glmer(NDP_pref ~ sex + feelings_life +religion_participation+ education + (1|province), data=NDP_predic, family=binomial)
+  
 
 # Here I will perform the post-stratification calculation
 census_data_counts <- census_data %>% 
