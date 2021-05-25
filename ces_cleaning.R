@@ -208,7 +208,7 @@ survey_data.6$political_pref <- replace(survey_data.6$political_pref, survey_dat
 #(2) Conservatives (Tory, PCs, Conservative Party of Canada)
 survey_data.6$political_pref <- replace(survey_data.6$political_pref, survey_data.6$political_pref == "2", "Conservatives (Tory, PCs, Conservative Party of Canada)")
 #(3) NDP (New Democratic Party, New Democrats, NDPers)
-survey_data.6$political_pref <- replace(survey_data.6$political_pref, survey_data.6$political_pref == "3", "(3) NDP (New Democratic Party, New Democrats, NDPers)")
+survey_data.6$political_pref <- replace(survey_data.6$political_pref, survey_data.6$political_pref == "3", "NDP (New Democratic Party, New Democrats, NDPers)")
 #(4) Bloc Québécois (BQ, PQ, Bloc, Parti Québéc)
 survey_data.6$political_pref <- replace(survey_data.6$political_pref, survey_data.6$political_pref == "4", "Bloc Québécois (BQ, PQ, Bloc, Parti Québécois)")
 #(5) Green Party (Greens)

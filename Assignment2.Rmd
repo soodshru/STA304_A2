@@ -18,7 +18,6 @@ library(ggpubr)
 
 
 ```{r, include = FALSE}
-
 # Here we are just loading the data files
 census_data <- read_csv("gss_clean.csv")
 # Here you can load in the survey data
@@ -212,8 +211,8 @@ table(census_data.8$province)
 
 ## make the according data sets according to the Support
 NDP_predic <- survey_data %>%
-  mutate(NDP_pref = case_when( survey_data$political_pref == "(3) NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
-                              survey_data$political_pref != "(3) NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
+  mutate(NDP_pref = case_when( survey_data$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
+                              survey_data$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
 
 ## Bloc Québécois (BQ, PQ, Bloc, Parti Québécois)
 Bloc_predic <- survey_data %>%
