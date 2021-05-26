@@ -211,19 +211,8 @@ fpc.srs = rep(N, n)
 
 ## running estimated logistic regression model
 design.NDP <- svydesign(id=~1, data=NDP_predic, fpc=fpc.srs)
-# SVglm sampling regression with as.factor() 
-model.NDP <- svyglm( NDP_pref ~ as.factor(sex) + as.factor(education) + age + as.factor(income_family)+ as.factor(province), design.NDP, family="binomial")
-#results
-summary(model.NDP)
-tidy(model.NDP) -> NDP_Res
-view(NDP_Res)
 
-# svglm WO as.factor                    ----The right way using 
-model.NDP.1 <- svyglm( NDP_pref ~ sex + education + age + income_family + province, design.NDP, family="binomial")
-#results
-summary(model.NDP.1)
-tidy(model.NDP.1) -> NDP_Res.1
-view(NDP_Res.1)
+
 
 # running logistic regression model         ----High p-values---
 glm_NDP_model.1<-glm(NDP_pref ~ sex + education + age + income_family + province, data=NDP_predic, family="binomial")
@@ -232,11 +221,16 @@ tidy(glm_NDP_model.1) -> glm_NDP_res.1
 view(glm_NDP_res.1)
 
 # running multilevel logistic regression model                ------!!!! +  age !!!!!causing error, p-values -----
-glm_NDP_model.2<-glmer(NDP_pref ~ sex + education +  age  + (1|province), data=NDP_predic, family=binomial)
+glm_NDP_model.2<-glmer(NDP_pref ~ sex + education +  income_family +  age + (1|province), data=NDP_predic, family=binomial)
                                                         # religion_participation + age + income_family
 summary(glm_NDP_model.2)
 #tidy(glm_NDP_model.2) -> glm_NDP_res.2
 #view(glm_NDP_res.2)
+
+# just
+
+
+
 
 ##Baysian how to know which model is much better?
                          
@@ -248,6 +242,7 @@ summary(brm_NDP_model.1)
 brm_NDP_model.2 <- brm(NDP_pref ~ sex + education + age + income_family + (1|province), data=NDP_predic, family=bernoulli())
 summary(brm_NDP_model.2)
 
+
 ### to DO's
 ## need the population size for each provience
 ## Do post strat based on Provience
@@ -255,9 +250,30 @@ summary(brm_NDP_model.2)
 ## estimate the Y_hat for each party using log regression, repeat above for each party and see the leader
 ```
 
-#Final Models Prefrence **Uzi**
-We need to predict results for the 3 biggest parties in Canada ie. NDP
+##Estimate Calculation    
 ```{r}
+# predict
+
+X <- predict(glm_NDP_model.2, census_data.4)
+view(X)
+
+est_p <- function(sum){
+  return(exp(sum)/1+(exp(sum)))
+}
+
+
+
+
+# sum of estimate \log(p\1-p) = 
+sum <- function(x1,x2,x3,x4,x5,x6,x7){
+  estimate_sum = 0.203166 + -0.540797*x1 + -0.082159*x2 + -0.168995*x3 + -1.780165*x4 + 0.356030*x5 + 0.228831*x6 + -0.036131*x7
+  return(estimate_sum)
+}
+
+
+
+
+
 
 ```
 
@@ -266,8 +282,8 @@ We need to predict results for the 3 biggest parties in Canada ie. NDP
 #Grouping based on proviences
 ```{r}
 # make them in groups by province
-alberta <- census_data.5 %>% group_by(province = "Alberta")
-british_columbia <- census_data.5 %>% group_by(province = "British Columbia")
+alberta <- census_data.4 %>% group_by(province = "Alberta")
+british_columbia <- census_data.4 %>% group_by(province = "British Columbia")
 manitoba<- census_data.5 %>% group_by(province = "Manitoba")
 new_brunswick<- census_data.5 %>% group_by(province = "New Brunswick")
 newfoundland_labrador<- census_data.5 %>% group_by(province = "Newfoundland and Labrador")
@@ -285,7 +301,23 @@ saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 #Predicting results based on proviences
 ## NDPxAlberta
 ```{r}
+# calculating the log odds
+X <- predict(glm_NDP_model.2, alberta)
+view(alberta)
+
+# adding the log odds
+alberta$predictionXNDp <- tibble(X)
+
+# geeting the prediction results
+
+
+
+
+
+
 # get the model for the prediction for 
+
+
 
 ```
 
