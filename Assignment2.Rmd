@@ -1,6 +1,6 @@
 ---
 title: "Informative Title Name"
-author: "GROUP NUMBER: ADD YOUR NAMES HERE"
+author: "GROUP NUMBER:4 - Uzair Mirza, Krisha Selvakumar, Pranav Sethi, Shruti Sood"
 date: May 28, 2021
 subtitle: STA304 - Assignment 2
 output:
@@ -18,15 +18,12 @@ library(brms)
 library(survey)
 ```
 
-
-
 ```{r, include = FALSE}
 # Here we are just loading the data files
 census_data <- read_csv("gss_clean.csv")
 # Here you can load in the survey data
 survey_data <- read_csv("ces2019_clean.csv")
 ```
-
 
 ## Introduction
 
@@ -38,8 +35,6 @@ survey_data <- read_csv("ces2019_clean.csv")
 
 <Optional: You can also include a description of each section of this report as a last paragraph.>
 
-
-
 <Type here a paragraph introducing the data, its context and as much info about the data collection process that you know.>
 
 <Type here a summary of the cleaning process (**only add in stuff beyond my original gss_cleaning.R code**). You only need to describe additional cleaning that you and your group did.> ]
@@ -50,23 +45,18 @@ survey_data <- read_csv("ces2019_clean.csv")
 census_data.1 <- select(census_data, 2,12,16,17,19,28,47)
 #head(census_data.1)
 
-
 # adding the place of birth to our data set
 census_data.2 <- census_data.1 %>% mutate(place_birth = coalesce(place_birth_macro_region, place_birth_province ))
 
-     #[https://stackoverflow.com/questions/14563531/combine-column-to-remove-nas]
+#[https://stackoverflow.com/questions/14563531/combine-column-to-remove-nas]
 
 # removing the columns for place of birth
 census_data.3 <- select(census_data.2, -3,-4)
 view(census_data.3)
 
-
 # remove the NA
 census_data.4 <- na.omit(census_data.3)
-
-
 ```
-
 
 #Syncing data variables with Census data so that we only have the variables avalible to us
 ```{r}
@@ -86,9 +76,8 @@ census_data.4$education <- replace(census_data.4$education, census_data.4$educat
 # we drop the decimal point to stay consistent with the survey
 
 census_data.4$age <- floor(census_data.4$age)
-          #https://stackoverflow.com/questions/40399255/remove-decimals-from-a-column-in-a-data-frame
+#https://stackoverflow.com/questions/40399255/remove-decimals-from-a-column-in-a-data-frame
 ```
-
 
 #Dropping the columns in the census data which are not present in the survey data 
 ```{r}
@@ -96,9 +85,6 @@ census_data.4$age <- floor(census_data.4$age)
  # select(sex, province, feelings_life, education, religion_participation, age, income_family)
 
 ```
-
-
-
 
 ## Data Analysis
 ```{r}
@@ -130,7 +116,6 @@ ggplot(census_data.4, aes(x=sex))+
   ggtitle("Spread of Sex in Census"),
  ncol=2, nrow=1)
 
-
 # Spread of Province                          ##----FIX THE LABLES-----##
 ggarrange(
 ggplot(survey_data, aes(x=province ))+
@@ -141,7 +126,6 @@ ggplot(census_data.4, aes(x=province))+
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Province in Census"),
  ncol=2, nrow=1)
-
 
 # Spread of ages
 ggarrange(
@@ -165,15 +149,9 @@ ggplot(census_data.4, aes(x=income_family))+
   ggtitle("Spread of Family's incomes in Census"),
  ncol=2, nrow=1)
 
-
 # get the frequency for each variable using 
 table(census_data.4$province)
-
-
 ```
-
-
-
 
 #Model ideas
 
@@ -222,7 +200,6 @@ Other_pred <- survey_data %>%
 
 ```
 
-
 ###Possible Model
 ```{r}
 
@@ -248,13 +225,11 @@ summary(model.NDP.1)
 tidy(model.NDP.1) -> NDP_Res.1
 view(NDP_Res.1)
 
-
 # running logistic regression model         ----High p-values---
 glm_NDP_model.1<-glm(NDP_pref ~ sex + feelings_life + education + religion_participation + income_family + age + income_family + province, data=NDP_predic, family="binomial")
 summary(glm_NDP_model.1)
 tidy(glm_NDP_model.1) -> glm_NDP_res.1
 view(glm_NDP_res.1)
-
 
 # running multilevel logistic regression model                ------!!!! +  age !!!!!causing error, p-values -----
 glm_NDP_model.2<-glmer(NDP_pref ~ sex + feelings_life +religion_participation+ education +  age  + (1|province), data=NDP_predic, family=binomial)
@@ -269,7 +244,6 @@ summary(glm_NDP_model.2)
 brm_NDP_model.1 <- brm(NDP_pref ~ sex + feelings_life + education + religion_participation + income_family + age + income_family + province, data=NDP_predic, family=bernoulli())
 summary(brm_NDP_model.1)
 
-
 # running a baysian logestic multilevel regression model
 brm_NDP_model.2 <- brm(NDP_pref ~ sex + feelings_life + education + religion_participation + income_family + age + income_family + (1|province), data=NDP_predic, family=bernoulli())
 summary(brm_NDP_model.2)
@@ -280,7 +254,6 @@ summary(brm_NDP_model.2)
 
 ## estimate the Y_hat for each party using log regression, repeat above for each party and see the leader
 ```
-
 
 #Grouping based on proviences
 ```{r}
@@ -299,9 +272,6 @@ saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 
 ```
 
-
-
-
 ```{r, include = FALSE}
 
 #### You will need to update/clean the code below based off the variables you want to use in your post stratification.
@@ -318,7 +288,6 @@ census_data <- census_data %>%
 
 ```
 
-
 <Remember, you may want to use multiple datasets here, if you do end up using multiple data sets, or merging the data, be sure to describe this in the cleaning process and be sure to discuss important aspects of all the data that you used.>
 
 <Include a description of the important variables.> 
@@ -328,7 +297,6 @@ census_data <- census_data %>%
 # Use this to calculate some summary measures. 
 
 ```
-
 
 <Include a description of the numerical summaries. Remember you can use `r ` to use inline R code.>
 
@@ -340,11 +308,9 @@ census_data <- census_data %>%
 
 <Include a clear description of the plot(s). I would recommend one paragraph for each plot.> 
 
-
 ## Methods
 
 <Include some text introducing the methodology, maybe restating the problem/goal of this analysis.>
-
 
 ### Model Specifics
 <Here you can describe your regression model>
@@ -369,7 +335,6 @@ model <- lm(vote_liberal ~ age, data=survey_data)
 
 ```
 
-
 ## Post-Stratification 
 
 <Here you should explain the poststratification process>
@@ -381,11 +346,7 @@ model <- lm(vote_liberal ~ age, data=survey_data)
 <To put math on its own line use two sets of dollar signs:>
 
 $$ include.your.mathematical.model.here.if.you.have.some.math.to.show $$
-
-
 All analysis for this report was programmed using `R version 4.0.2`. 
-
-
 
 ## Results 
 
@@ -423,13 +384,9 @@ census_data_counts %>%
 
 <Here you present your results. You may want to put them into a well formatted table. Be sure that there is some text describing the results.>
 
-
 <Note: Alternatively you can use the `knitr::kable` function to create a well formatted table from your code. See here: [https://rmarkdown.rstudio.com/lesson-7.html](https://rmarkdown.rstudio.com/lesson-7.html).>
 
-
-
 <Remember you can use `r ` to use inline R code.>
-
 
 ```{r, include = FALSE}
 
@@ -456,7 +413,6 @@ census_data_counts %>%
 <Comment on Future Work/Next Steps>
 
 <End with a concluding paragraph to wrap up the report.>
-
 
 ## Bibliography
 
