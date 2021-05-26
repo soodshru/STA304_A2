@@ -156,10 +156,10 @@ table(census_data.4$province)
 
 #Model ideas
 
-## making the data sets
+## making the data sets to make models
 ```{r}
 
-## make the according data sets according to the Support
+## make the according data sets according to the Support of their party
 NDP_predic <- survey_data %>%
   mutate(NDP_pref = case_when( survey_data$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
@@ -256,6 +256,14 @@ summary(brm_NDP_model.2)
 ## estimate the Y_hat for each party using log regression, repeat above for each party and see the leader
 ```
 
+#Final Models Prefrence **Uzi**
+We need to predict results for the 3 biggest parties in Canada ie. NDP
+```{r}
+
+```
+
+
+
 #Grouping based on proviences
 ```{r}
 # make them in groups by province
@@ -272,6 +280,17 @@ saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 
 
 ```
+
+
+
+#Predicting results based on proviences
+## NDPxAlberta
+```{r}
+# get the model for the prediction for 
+
+```
+
+
 
 ```{r, include = FALSE}
 
