@@ -47,7 +47,7 @@ survey_data <- read_csv("ces2019_clean.csv")
 #Data cleaning
 ```{r}
 #filtering out the required columns
-census_data.1 <- select(census_data, 2,5,11,12,16,17,19,21,23,24,27,28,30,38,44,47,49, 64)
+census_data.1 <- select(census_data, 2,12,16,17,19,28,47)
 #head(census_data.1)
 
 
@@ -57,21 +57,14 @@ census_data.2 <- census_data.1 %>% mutate(place_birth = coalesce(place_birth_mac
      #[https://stackoverflow.com/questions/14563531/combine-column-to-remove-nas]
 
 # removing the columns for place of birth
-census_data.3 <- select(census_data.2, -5,-6)
-#view(census_data.3)
+census_data.3 <- select(census_data.2, -3,-4)
+view(census_data.3)
 
 
 # remove the NA
 census_data.4 <- na.omit(census_data.3)
 
 
-# remove don't know from the selected columns
-census_data.5 <- census_data.4[!grepl("Don't know", census_data.4$aboriginal), ]
-census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$vis_minority), ]
-census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$average_hours_worked), ]
-census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$regilion_importance), ]
-census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$average_hours_worked), ]
-census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$religion_participation), ]
 ```
 
 
@@ -82,50 +75,25 @@ census_data.5 <- census_data.5[!grepl("Don't know", census_data.5$religion_parti
 # combining the "Trade certificate or diploma" +"College, CEGEP or other non-university certificate or di..."
 # into "College, CEGEP, trade certificate or other non-university certificate or di..."
   # reason: to sync with the survey data categoery
-census_data.5$education <- replace(census_data.5$education, census_data.5$education ==
+census_data.4$education <- replace(census_data.4$education, census_data.4$education ==
                                      "College, CEGEP or other non-university certificate or di...",
                                    "College, CEGEP, trade certificate or other non-university certificate or di...")
-census_data.5$education <- replace(census_data.5$education, census_data.5$education ==
+census_data.4$education <- replace(census_data.4$education, census_data.4$education ==
                                      "Trade certificate or diploma", "College, CEGEP, trade certificate or other non-university certificate or di...")
-
-
-## Religion
-
-# combining "At least 3 times a year" and "Once or twice a year" into "At least once a year"
-census_data.5$religion_participation <- replace(census_data.5$religion_participation, census_data.5$religion_participation =="Once or twice a year", "At least once a year")
-census_data.5$religion_participation <- replace(census_data.5$religion_participation, census_data.5$religion_participation =="At least 3 times a year", "At least once a year")
-
-
-## Feelings life
-
-## make a range for the values to fit with the other frame of 4 vlaues for feeling life
-census_data.6 <- census_data.5 %>%
-  # making a dummy col for now
-  mutate(feelings_life_d = case_when(census_data.5$feelings_life < 2 ~ "Not satisfied at all",       # (0,1) not satisfied
-                                   census_data.5$feelings_life <  6 ~ "Not very satisfied",        # [1,5] not very satisfied
-                                   census_data.5$feelings_life <  10 ~ "Fairly satisfied",          # [6,9] failry satisfied
-                                    census_data.5$feelings_life ==  10 ~ "Very satisfied"           # 10 satisfied
-                                   ))
-
-## now delete the original feeling col then rename the dummy col to the feeling col
-census_data.7 <- select(census_data.6, -3)
-names(census_data.7)[17] <- "feelings_life"
-
-
 
 ## Age
 
 # we drop the decimal point to stay consistent with the survey
 
-census_data.7$age <- floor(census_data.7$age)
+census_data.4$age <- floor(census_data.4$age)
           #https://stackoverflow.com/questions/40399255/remove-decimals-from-a-column-in-a-data-frame
 ```
 
 
 #Dropping the columns in the census data which are not present in the survey data 
 ```{r}
-census_data.8 <- census_data.7 %>%
-  select(sex, province, feelings_life, education, religion_participation, age, income_family)
+#census_data.8 <- census_data.7 %>%
+ # select(sex, province, feelings_life, education, religion_participation, age, income_family)
 
 ```
 
@@ -143,13 +111,13 @@ lbls.2 <- paste(names(mytable.2), "\n", mytable.2, sep="")
 
 # Pie Chart from data frame with Appended Sample Sizes                              [https://www.statmethods.net/graphs/pie.html]
 # spreads of Sex, pie chart
-ggarrange(
+#ggarrange(
   
-pie(mytable.1, labels = lbls.1,
-   main="Sex in Survey"),
-pie(mytable.2, labels = lbls.2,
-   main="Sex in Census"), ncol=2, nrow=1
-)
+#pie(mytable.1, labels = lbls.1,
+  # main="Sex in Survey"),
+#pie(mytable.2, labels = lbls.2,
+  # main="Sex in Census"), ncol=2, nrow=1
+#)
 
 # Spreads of Sex
 ggarrange(
@@ -157,7 +125,7 @@ ggplot(survey_data, aes(x=sex ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Sex in Survey"),
 
-ggplot(census_data.8, aes(x=sex))+
+ggplot(census_data.4, aes(x=sex))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Sex in Census"),
  ncol=2, nrow=1)
@@ -169,7 +137,7 @@ ggplot(survey_data, aes(x=province ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Province in Survey"),
 
-ggplot(census_data.8, aes(x=province))+
+ggplot(census_data.4, aes(x=province))+
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Province in Census"),
  ncol=2, nrow=1)
@@ -181,7 +149,7 @@ ggplot(survey_data, aes(x=age ))+
   geom_histogram(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Ages in Survey"),
 
-ggplot(census_data.8, aes(x=age))+
+ggplot(census_data.4, aes(x=age))+
   geom_histogram(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Ages in Census"),
  ncol=2, nrow=1)
@@ -192,14 +160,14 @@ ggplot(survey_data, aes(x=income_family ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Family's incomes in Survey"),
 
-ggplot(census_data.8, aes(x=income_family))+
+ggplot(census_data.4, aes(x=income_family))+
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Family's incomes in Census"),
  ncol=2, nrow=1)
 
 
 # get the frequency for each variable using 
-table(census_data.8$province)
+table(census_data.4$province)
 
 
 ```
