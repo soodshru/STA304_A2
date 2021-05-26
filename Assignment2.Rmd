@@ -18,6 +18,7 @@ library(brms)
 library(survey)
 ```
 
+
 ```{r, include = FALSE}
 # Here we are just loading the data files
 census_data <- read_csv("gss_clean.csv")
