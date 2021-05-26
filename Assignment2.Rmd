@@ -213,27 +213,27 @@ fpc.srs = rep(N, n)
 ## running estimated logistic regression model
 design.NDP <- svydesign(id=~1, data=NDP_predic, fpc=fpc.srs)
 # SVglm sampling regression with as.factor() 
-model.NDP <- svyglm( NDP_pref ~ as.factor(sex) + as.factor(feelings_life) + as.factor(education) + as.factor(religion_participation) + age + as.factor(income_family)+ as.factor(province), design.NDP, family="binomial")
+model.NDP <- svyglm( NDP_pref ~ as.factor(sex) + as.factor(education) + age + as.factor(income_family)+ as.factor(province), design.NDP, family="binomial")
 #results
 summary(model.NDP)
 tidy(model.NDP) -> NDP_Res
 view(NDP_Res)
 
 # svglm WO as.factor                    ----The right way using 
-model.NDP.1 <- svyglm( NDP_pref ~ sex + feelings_life + education + religion_participation + age + income_family + province, design.NDP, family="binomial")
+model.NDP.1 <- svyglm( NDP_pref ~ sex + education + age + income_family + province, design.NDP, family="binomial")
 #results
 summary(model.NDP.1)
 tidy(model.NDP.1) -> NDP_Res.1
 view(NDP_Res.1)
 
 # running logistic regression model         ----High p-values---
-glm_NDP_model.1<-glm(NDP_pref ~ sex + feelings_life + education + religion_participation + income_family + age + income_family + province, data=NDP_predic, family="binomial")
+glm_NDP_model.1<-glm(NDP_pref ~ sex + education + age + income_family + province, data=NDP_predic, family="binomial")
 summary(glm_NDP_model.1)
 tidy(glm_NDP_model.1) -> glm_NDP_res.1
 view(glm_NDP_res.1)
 
 # running multilevel logistic regression model                ------!!!! +  age !!!!!causing error, p-values -----
-glm_NDP_model.2<-glmer(NDP_pref ~ sex + feelings_life +religion_participation+ education +  age  + (1|province), data=NDP_predic, family=binomial)
+glm_NDP_model.2<-glmer(NDP_pref ~ sex + education +  age  + (1|province), data=NDP_predic, family=binomial)
                                                         # religion_participation + age + income_family
 summary(glm_NDP_model.2)
 #tidy(glm_NDP_model.2) -> glm_NDP_res.2
@@ -242,11 +242,11 @@ summary(glm_NDP_model.2)
 ##Baysian how to know which model is much better?
                          
 # running a baysian logestic regression model
-brm_NDP_model.1 <- brm(NDP_pref ~ sex + feelings_life + education + religion_participation + income_family + age + income_family + province, data=NDP_predic, family=bernoulli())
+brm_NDP_model.1 <- brm(NDP_pref ~ sex + education + age + income_family + province, data=NDP_predic, family=bernoulli())
 summary(brm_NDP_model.1)
 
 # running a baysian logestic multilevel regression model
-brm_NDP_model.2 <- brm(NDP_pref ~ sex + feelings_life + education + religion_participation + income_family + age + income_family + (1|province), data=NDP_predic, family=bernoulli())
+brm_NDP_model.2 <- brm(NDP_pref ~ sex + education + age + income_family + (1|province), data=NDP_predic, family=bernoulli())
 summary(brm_NDP_model.2)
 
 ### to DO's
