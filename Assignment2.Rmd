@@ -18,7 +18,6 @@ library(brms)
 library(survey)
 ```
 
-
 ```{r, include = FALSE}
 # Here we are just loading the data files
 census_data <- read_csv("gss_clean.csv")
@@ -364,10 +363,8 @@ model <- lm(vote_liberal ~ age, data=survey_data)
 
 ```{r, include=FALSE}
 
-
 glm_NDP_model.22<-glmer(NDP_pref ~ sex + feelings_life +religion_participation+ education + (1|province), data=NDP_predic, family=binomial)
   
-
 # Here I will perform the post-stratification calculation
 census_data_counts <- census_data %>% 
   group_by(age) %>% 
@@ -380,7 +377,6 @@ census_data_counts$estimate <-
 census_data_counts %>% 
   mutate(liberal_predict_prop = estimate*n) %>%
   summarise(liberal_predict = sum(liberal_predict_prop)/sum(n))
-
 ```
 
 <Here you present your results. You may want to put them into a well formatted table. Be sure that there is some text describing the results.>
@@ -392,8 +388,6 @@ census_data_counts %>%
 ```{r, include = FALSE}
 
 # Here you can include some relevant visualizations.
-
-
 ```
 
 <Include an explanation/interpretation of the visualizations. Make sure to comment on the appropriateness of the assumptions/results.>
