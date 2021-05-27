@@ -52,7 +52,7 @@ census_data.2 <- census_data.1 %>% mutate(place_birth = coalesce(place_birth_mac
 
 # removing the columns for place of birth
 census_data.3 <- select(census_data.2, -3,-4)
-view(census_data.3)
+#view(census_data.3)
 
 # remove the NA
 census_data.4 <- na.omit(census_data.3)
@@ -158,7 +158,7 @@ table(census_data.4$province)
 ## making the data sets to make models
 ```{r}
 
-## make the according data sets according to the Support of their party
+## make the according data sets according to the Support of their party               ---WITH AGE GROUPS
 NDP_predic <- survey_data %>%
   mutate(NDP_pref = case_when( survey_data$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
@@ -272,6 +272,72 @@ sum <- function(x1,x2,x3,x4,x5,x6,x7){
 
 
 
+```
+
+
+# grouping based on age 
+```{r}
+
+# age group for census data
+census_data.5 <- census_data.4 %>%
+ mutate(age_group = case_when(census_data.4$age <18 ~ "Under 18",
+                              census_data.4$age <25 ~ "18 to 24 years",
+                              census_data.4$age <45 ~ "25 to 44 years",
+                              census_data.4$age <65 ~ "45 to 64 years",
+                              census_data.4$age >64 ~ "Over 65",
+                              ))
+
+census_data.6 <- select(census_data.5, -6, -1)
+
+
+# survey data grouping based on age
+survey_data.1 <- survey_data %>%
+ mutate(age_group = case_when(survey_data$age <18 ~ "Under 18",
+                              survey_data$age <25 ~ "18 to 24 years",
+                              survey_data$age <45 ~ "25 to 44 years",
+                              survey_data$age <65 ~ "45 to 64 years",
+                              survey_data$age >64 ~ "Over 65",
+                              ))
+
+survey_data.2 <- select(survey_data.1, -3, -6)
+survey_data.2 <- select(survey_data.2, -5)
+
+
+
+
+# catoger the age groups for model
+NDP_predic.1 <- survey_data.2 %>%
+  mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
+                              survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
+
+
+# make the modle based on the new data catogeries
+glm_NDP_model.2<-glmer(NDP_pref ~ sex+ (1|province)+ education+ income_family+age_group , data=NDP_predic.1, family=binomial)
+summary(glm_NDP_model.2)
+
+
+ 
+
+##S3 assign bins
+
+# assign bins and get the counts
+census_data.7 <- census_data.6 %>%
+  count(sex, province, education,  income_family, age_group)
+
+
+# now predict for each bin
+X <- predict(glm_NDP_model.2, census_data.7)
+view(X)
+
+
+
+
+# filter based on provience
+
+#
+
+  group_by(age_group = , )
+
 
 
 
@@ -301,6 +367,9 @@ saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 #Predicting results based on proviences
 ## NDPxAlberta
 ```{r}
+#people who support NDP in Alberta
+
+
 # calculating the log odds
 X <- predict(glm_NDP_model.2, alberta)
 view(alberta)
