@@ -277,16 +277,19 @@ sum <- function(x1,x2,x3,x4,x5,x6,x7){
 
 # grouping based on age 
 ```{r}
+#removing ppl less than 18
+ census_data.44 <- subset(census_data.4, age >18)
+  #census_data.4[census_data.4$age > 18, ]
 
 # age group for census data
-census_data.5 <- census_data.4 %>%
- mutate(age_group = case_when(census_data.4$age <18 ~ "Under 18",
-                              census_data.4$age <25 ~ "18 to 24 years",
-                              census_data.4$age <45 ~ "25 to 44 years",
-                              census_data.4$age <65 ~ "45 to 64 years",
-                              census_data.4$age >64 ~ "Over 65",
+census_data.5 <- census_data.44 %>%
+ mutate(age_group = case_when(census_data.44$age <18 ~ "Under 18",
+                              census_data.44$age <25 ~ "18 to 24 years",
+                              census_data.44$age <45 ~ "25 to 44 years",
+                              census_data.44$age <65 ~ "45 to 64 years",
+                              census_data.44$age >64 ~ "Over 65",
                               ))
-
+# dropping place of birth and their age
 census_data.6 <- select(census_data.5, -6, -1)
 
 
@@ -299,16 +302,57 @@ survey_data.1 <- survey_data %>%
                               survey_data$age >64 ~ "Over 65",
                               ))
 
+# removing feeling life, religion participation, age
 survey_data.2 <- select(survey_data.1, -3, -6)
 survey_data.2 <- select(survey_data.2, -5)
-
-
-
 
 # catoger the age groups for model
 NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
+
+# group the survey data by the provience filter out Alberta ppl
+AlbertaXsurveyXNDP <- NDP_predic.1 %>% group_by(province = "Alberta")
+# make the model
+glm_NDP_model.2<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=AlbertaXsurveyXNDP, family=binomial)
+#results
+summary(glm_NDP_model.2)
+
+## assign bins and get the counts for the census data
+# filter out for Alberta
+albertaXcensus <- census_data.5 %>% group_by(province = "Alberta")
+# get the bin count
+albertaXcensus.1 <- albertaXcensus %>%
+  count(sex, education,  income_family, age_group)
+
+# make the prediction
+X <- predict(glm_NDP_model.2, albertaXcensus.1)
+view(X)
+
+
+# prob function
+est_p <- function(sum){
+  return(exp(sum)/(1+(exp(sum))))
+}
+
+# getting the probability of ppl voting for NDPxAlberta
+albertaXcensus.1$NDP_odds <- X
+
+#albertaXcensus.11 <- select(albertaXcensus.1, -1)
+
+# getting the probability for each group
+albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_NDP = est_p(NDP_odds))
+
+
+# post-strart stuff
+## sum of N
+N <- sum(albertaXcensus.1$n)
+
+# prediction for NDPxAlberta
+test <- albertaXcensus.1 %>% summarise(est = (sum(n*prob_NDP)/N))
+
+
+
 
 
 # make the modle based on the new data catogeries
