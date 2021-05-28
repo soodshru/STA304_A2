@@ -255,12 +255,6 @@ summary(brm_NDP_model.2)
 X <- predict(glm_NDP_model.2, census_data.4)
 view(X)
 
-est_p <- function(sum){
-  return(exp(sum)/1+(exp(sum)))
-}
-
-
-
 
 # sum of estimate \log(p\1-p) = 
 sum <- function(x1,x2,x3,x4,x5,x6,x7){
@@ -863,23 +857,365 @@ Lib_Vote_percen_Mn <- MnXcensus.1 %>% summarise(Lib_est_Mn = (sum(n*prob_Lib)/N)
 Lib_Vote_percen_Mn
 ```
 
-#Quebec
+#Quebec                                     Limitation---No data on (Coalition Avenir Québec or the CAQ) and (Quebec Liberal Party) <- biggest parties in Quebec 
+##Bloc Quebecois X Quebec
+```{r}
+## Making the model and the predictions
+
+# getting the NDP survey data to make the models                            
+Quebecois_predic <- survey_data.2 %>%
+  mutate(Qb_pref = case_when(survey_data.2$political_pref == "Bloc Québécois (BQ, PQ, Bloc, Parti Québécois)" ~ 1,
+                              survey_data.2$political_pref != "Bloc Québécois (BQ, PQ, Bloc, Parti Québécois)" ~ 0))
+
+# filter out based on Quebec
+# group the survey data by the province filter out Quebec ppl       --Filtering out the Liberal survey data for the province to make model
+QuXsurveyXQb <- Quebecois_predic[Quebecois_predic$province == "Quebec",]
+# make the model for predicting the results on Quebec,              
+glm_Qb_model_Qb <-glmer(Qb_pref ~ sex + education + (1|income_family) + age_group, data=QuXsurveyXQb, family=binomial)
+summary(glm_Qb_model_Qb)
+
+## now assign bins and make the prdicitons
+# filter out for Quebec in the census data
+QbXcensus <- census_data.5[census_data.5$province == "Quebec",]    #### Can remove this line##
+# get the bin count corresdonidng to the model we make
+QbXcensus.1 <- QbXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the logg odds for the regression model
+X <- predict(glm_Qb_model_Qb, QbXcensus.1)
+#view(X)
+# appending the log odds to the  NDPxQuebec
+QbXcensus.1$Qb_odds <- X
+# getting the probability for each group 
+QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Qb = est_p(Qb_odds))
+
+## post-strart for the QuebecX_Qb
+
+## sum of N                             --- add this in the model---
+N <- sum(QbXcensus.1$n)
+# prediction for NDPxManitoba
+Qb_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Qb_est_Qb = (sum(n*prob_Qb)/N))
+Qb_Vote_percen_Qb
+```
+
+##Conservatives X Quebec
+```{r}
+# getting the Conservative survey data to make the models                            
+Conservatives_predic.1 <- survey_data.2 %>%
+  mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
+                              survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
+
+# filter out based on Quebec
+# group the survey data by the provience filter out Quebec ppl       --Filtering out the Conservative survey data for the provience to make model
+QbXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Quebec",] 
+# make the model for predicting the results on Quebec,              
+glm_Consv_model_Qb<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=QbXsurveyXConsv, family=binomial)
+#results
+summary(glm_Consv_model_Qb)
+
+## now assign bins and make the predicitons
+# filter out for Ontario in the census data
+QbXcensus <- census_data.5[census_data.5$province == "Quebec",]    #### Can remove this line##
+# get the bin count corresdonidng to the model we make
+QbXcensus.1 <- QbXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the logg odds for the regression model
+X <- predict(glm_Consv_model_Qb, QbXcensus.1)
+#view(X)
+# appending the log odds 
+QbXcensus.1$Consv_odds <- X
+# getting the probability for each group 
+QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Consv_Qb = est_p(Consv_odds))
+
+## post-strart for the QuebecX_Consv
+
+## sum of N                             --- add this in the model---
+N <- sum(QbXcensus.1$n)
+# prediction for ConsxQuebec
+Cons_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Consv_est_Qb = (sum(n*prob_Consv_Qb)/N))
+Cons_Vote_percen_Qb
+```
+
+##Liberal X Quebec
+```{r}
+## Making the model and the predictions
+
+# getting the NDP survey data to make the models                            
+Liberal_predic.1 <- survey_data.2 %>%
+  mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
+                              survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
+
+# filter out based on Quebec
+# group the survey data by the province filter out Quebec ppl       --Filtering out the Liberal survey data for the province to make model
+QbXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Quebec",]
+# make the model for predicting the results on Quebec,              
+glm_Lib_model_Qb <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=QbXsurveyXLib, family=binomial)
+summary(glm_Lib_model_Qb)
+
+## now assign bins and make the predictions
+# filter out for Quebec in the census data
+QbXcensus <- census_data.5[census_data.5$province == "Quebec",]    #### Can remove this line##
+# get the bin count corresdonidng to the model we make
+QbXcensus.1 <- QbXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the logg odds for the regression model
+X <- predict(glm_Lib_model_Qb, QbXcensus.1)
+#view(X)
+# appending the log odds to the  NDPxManitoba
+QbXcensus.1$Lib_odds <- X
+# getting the probability for each group 
+QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
+
+## post-strart for the Quebec_X_Liberal
+
+## sum of N                             --- add this in the model---
+N <- sum(QbXcensus.1$n)
+# prediction for LiberalxQuebec
+Lib_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Lib_est_Qb = (sum(n*prob_Lib)/N))
+Lib_Vote_percen_Qb
+```
 
 
 
+#New Brunswick                        LIMITATION no one BW age 18-24 in survey
+##New BrunswickXLiberal                   
+```{r}
+## Making the model and the predictions
 
+# getting the NDP survey data to make the models                            
+Liberal_predic.1 <- survey_data.2 %>%
+  mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
+                              survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
+# filter out based on New Brunswick
+# group the survey data by the province filter out New Brunswick ppl       --Filtering out the Liberal survey data for the province to make model
+NbXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "New Brunswick",]
 
+# make the model for predicting the results on New Brunswick,              
+glm_Lib_model_Nb <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=NbXsurveyXLib, family=binomial)
+summary(glm_Lib_model_Nb)
 
-#New Brunswick
+## now assign bins and make the predictions
+# filter out for New Brunswick in the census data
+NbXcensus <- census_data.5[census_data.5$province == "New Brunswick",]    #### Can remove this line##
+## removing the bin of ppl less than 18 because not in the survey bin
+NbXcensus <- NbXcensus[NbXcensus$age_group != "18 to 24 years",]
+# get the bin count corresdonidng to the model we make
+NbXcensus.1 <- NbXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the logg odds for the regression model
+X <- predict(glm_Lib_model_Nb, NbXcensus.1)
+#view(X)
+# appending the log odds to the  NDPxManitoba
+NbXcensus.1$Lib_odds <- X
+# getting the probability for each group 
+NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
+
+## post-strart for the New Brunswick_X_Liberal
+
+## sum of N                             --- add this in the model---
+N <- sum(NbXcensus.1$n)
+# prediction for LiberalxNb
+Lib_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Lib_est_Nb = (sum(n*prob_Lib)/N))
+Lib_Vote_percen_Nb
+```
+
+##New BrunswickXConservative
+```{r}
+# getting the Conservative survey data to make the models                            
+Conservatives_predic.1 <- survey_data.2 %>%
+  mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
+                              survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
+
+# filter out based on New Brunswick
+# group the survey data by the provience filter out New Brunswick ppl       --Filtering out the Conservative survey data for the provience to make model
+NbXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "New Brunswick",] 
+# make the model for predicting the results on New Brunswick,              
+glm_Consv_model_Nb<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=NbXsurveyXConsv, family=binomial)
+#results
+summary(glm_Consv_model_Nb)
+
+## now assign bins and make the predicitons
+# filter out for Ontario in the census data
+NbXcensus <- census_data.5[census_data.5$province == "New Brunswick",]    #### Can remove this line##
+# get the bin count corresdonidng to the model we make
+## removing the bin of ppl less than 18 because not in the survey bin
+NbXcensus <- NbXcensus[NbXcensus$age_group != "18 to 24 years",]
+NbXcensus.1 <- NbXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the logg odds for the regression model
+X <- predict(glm_Consv_model_Nb, NbXcensus.1)
+#view(X)
+# appending the log odds 
+NbXcensus.1$Consv_odds <- X
+# getting the probability for each group 
+NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Consv_Nb = est_p(Consv_odds))
+
+## post-strart for the New BrunswickX_Consv
+
+## sum of N                             --- add this in the model---
+N <- sum(NbXcensus.1$n)
+# prediction for ConsxNew Brunswick
+Cons_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Consv_est_Nb = (sum(n*prob_Consv_Nb)/N))
+Cons_Vote_percen_Nb
+```
+
+##New BrunswickXGreen
+```{r}
+# getting the Conservative survey data to make the models                            
+Green_predic.1 <- survey_data.2 %>%
+  mutate(Green_pref = case_when(survey_data.2$political_pref == "Green Party (Greens)" ~ 1,
+                              survey_data.2$political_pref != "Green Party (Greens)" ~ 0))
+
+# filter out based on New Brunswick
+# group the survey data by the provience filter out New Brunswick ppl       --Filtering out the Green survey data for the provience to make model
+NbXsurveyXGreen <- Green_predic.1[Green_predic.1$province == "New Brunswick",] 
+# make the model for predicting the results on New Brunswick,              
+glm_Green_model_Nb<-glmer(Green_pref ~ sex + education + (1|income_family) + age_group, data=NbXsurveyXGreen, family=binomial)
+#results
+summary(glm_Green_model_Nb)
+
+## now assign bins and make the predicitons
+# filter out for New Brunsw in the census data
+NbXcensus <- census_data.5[census_data.5$province == "New Brunswick",]    #### Can remove this line##
+# get the bin count corresdonidng to the model we make
+## removing the bin of ppl less than 18 because not in the survey bin
+NbXcensus <- NbXcensus[NbXcensus$age_group != "18 to 24 years",]
+NbXcensus.1 <- NbXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the logg odds for the regression model
+X <- predict(glm_Green_model_Nb, NbXcensus.1)
+#view(X)
+# appending the log odds 
+NbXcensus.1$Green_odds <- X
+# getting the probability for each group 
+NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Green_Nb = est_p(Green_odds))
+
+## post-strart for the New BrunswickX_Consv
+
+## sum of N                             --- add this in the model---
+N <- sum(NbXcensus.1$n)
+# prediction for ConsxNew Brunswick
+Green_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Green_est_Nb = (sum(n*prob_Green_Nb)/N))
+Green_Vote_percen_Nb
+```
 
 #Saskatchewan
+##Cons
+```{r}
+# getting the NDP survey data to make the models                            
+Conservatives_predic.1 <- survey_data.2 %>%
+  mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
+                              survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
-#Saskatchewan
+# filter out based on Saskatchewan
+# group the survey data by the provience filter out Saskatchewan ppl       --Filtering out the NDP survey data for the provience to make model
+SaXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Saskatchewan",] 
+# make the model for predicting the results on Saskatchewan,              
+glm_Consv_model_Sa<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=SaXsurveyXConsv, family=binomial)
+#results
+summary(glm_Consv_model_Sa)
+
+## now assign bins and make the predicitons
+# filter out for Saskatchwan in the census data
+SaXcensus <- census_data.5[census_data.5$province == "Saskatchewan",]    #### Can remove this line##
+# get the bin count corresdonidng to the model we make
+SaXcensus.1 <- SaXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the logg odds for the regression model
+X <- predict(glm_Consv_model_Sa, SaXcensus.1)
+#view(X)
+# appending the log odds to the  NDPxSaskatchewan
+SaXcensus.1$Consv_odds <- X
+# getting the probability for each group 
+SaXcensus.1 <- SaXcensus.1 %>% mutate(prob_Consv_Sa = est_p(Consv_odds))
+
+## post-strart for the SaskatchewanX_Consv
+
+## sum of N                             --- add this in the model---
+N <- sum(SaXcensus.1$n)
+# prediction for NDPxSaskatchewan
+Consv_Vote_percen_Sa <- SaXcensus.1 %>% summarise(Consv_est_Sa = (sum(n*prob_Consv_Sa)/N))
+Consv_Vote_percen_Sa
+
+```
+##Liberal
+```{r}
+## Making the model and the predictions
+
+# getting the NDP survey data to make the models                            
+Liberal_predic.1 <- survey_data.2 %>%
+  mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
+                              survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
+
+# filter out based on Saskatchewan
+# group the survey data by the province filter out Saskatchewan ppl       --Filtering out the Liberal survey data for the province to make model
+SaXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Saskatchewan",]
+# make the model for predicting the results on Saskatchewan,              
+glm_Lib_model_Sa <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=SaXsurveyXLib, family=binomial)
+summary(glm_Lib_model_Sa)
+
+## now assign bins and make the prdicitons
+# filter out for Saskatchewan in the census data
+SaXcensus <- census_data.5[census_data.5$province == "Saskatchewan",]    #### Can remove this line##
+# get the bin count corresdonidng to the model we make
+SaXcensus.1 <- SaXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the logg odds for the regression model
+X <- predict(glm_Lib_model_Sa, SaXcensus.1)
+#view(X)
+# appending the log odds to the  NDPxSaskatchewan
+SaXcensus.1$Lib_odds <- X
+# getting the probability for each group 
+SaXcensus.1 <- SaXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
+
+## post-strart for the SaskatchewanX_Consv
+
+## sum of N                             --- add this in the model---
+N <- sum(SaXcensus.1$n)
+# prediction for NDPxSaskatchewan
+Lib_Vote_percen_Sa <- SaXcensus.1 %>% summarise(Lib_est_Sa = (sum(n*prob_Lib)/N))
+Lib_Vote_percen_Sa
+```
+##NDP
+```{r}
+
+
+```
+
 
 #Nova Scotia
+##Cons
+```{r}
 
-#
+```
+##Liberal
+```{r}
+
+```
+##NDP
+```{r}
+
+```
+
+
+#Newfoundland and Labrador
+##NDP
+```{r}
+
+```
+##Liberal
+```{r}
+
+```
+
 
 
 #Grouping based on proviences
