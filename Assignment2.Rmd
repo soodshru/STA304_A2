@@ -1,10 +1,12 @@
 ---
-title: "Informative Title Name"
+title: \vspace{5cm} \General Election Prediction Using Survey Data
 author: "GROUP NUMBER:4 - Uzair Mirza, Krisha Selvakumar, Pranav Sethi, Shruti Sood"
-date: May 28, 2021
-subtitle: STA304 - Assignment 2
+date: "May 28, 2021"
 output:
+  html_document:
+    df_print: paged
   pdf_document: default
+subtitle: STA304 - Assignment 2
 ---
 
 ```{r, include=FALSE, warning=FALSE}
@@ -198,76 +200,8 @@ Other_pred <- survey_data %>%
                               survey_data$political_pref != "Other"  ~ 0))
 ```
 
-###Possible Model
-```{r}
 
-n = length(survey_data$political_pref)
-N = 37.59 * 10^6
-
-## Using the Survey Library
-fpc.srs = rep(N, n)
-
-## running estimated logistic regression model
-design.NDP <- svydesign(id=~1, data=NDP_predic, fpc=fpc.srs)
-
-
-
-# running logistic regression model         ----High p-values---
-glm_NDP_model.1<-glm(NDP_pref ~ sex + education + age + income_family + province, data=NDP_predic, family="binomial")
-summary(glm_NDP_model.1)
-tidy(glm_NDP_model.1) -> glm_NDP_res.1
-view(glm_NDP_res.1)
-
-# running multilevel logistic regression model                ------!!!! +  age !!!!!causing error, p-values -----
-glm_NDP_model.2<-glmer(NDP_pref ~ sex + education +  income_family +  age + (1|province), data=NDP_predic, family=binomial)
-                                                        # religion_participation + age + income_family
-summary(glm_NDP_model.2)
-#tidy(glm_NDP_model.2) -> glm_NDP_res.2
-#view(glm_NDP_res.2)
-
-# just
-
-
-
-
-##Baysian how to know which model is much better?                       
-                         
-# running a baysian logestic regression model
-brm_NDP_model.1 <- brm(NDP_pref ~ sex + education + age + income_family + province, data=NDP_predic, family=bernoulli())
-summary(brm_NDP_model.1)
-
-# running a baysian logestic multilevel regression model
-brm_NDP_model.2 <- brm(NDP_pref ~ sex + education + age + income_family + (1|province), data=NDP_predic, family=bernoulli())
-summary(brm_NDP_model.2)
-
-
-### to DO's
-## need the population size for each provience
-## Do post strat based on Provience
-
-## estimate the Y_hat for each party using log regression, repeat above for each party and see the leader
-```
-
-##Estimate Calculation    
-```{r}
-# predict
-
-X <- predict(glm_NDP_model.2, census_data.4)
-view(X)
-
-
-# sum of estimate \log(p\1-p) = 
-sum <- function(x1,x2,x3,x4,x5,x6,x7){
-  estimate_sum = 0.203166 + -0.540797*x1 + -0.082159*x2 + -0.168995*x3 + -1.780165*x4 + 0.356030*x5 + 0.228831*x6 + -0.036131*x7
-  return(estimate_sum)
-}
-
-
-
-```
-
-
-# grouping based on age 
+# grouping based on age for bin size
 ```{r}
 #removing ppl less than 18 to match with                                ---Move to data cleaning--- **Limitation**
  census_data.44 <- subset(census_data.4, age >18)
@@ -298,81 +232,14 @@ survey_data.1 <- survey_data %>%
 survey_data.2 <- select(survey_data.1, -3, -6)
 survey_data.2 <- select(survey_data.2, -5)
 
-# getting the NDP survey data to make the models                            
-NDP_predic.1 <- survey_data.2 %>%
-  mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
-                              survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
-
-
-# group the survey data by the provience filter out Alberta ppl       --Filtering out the NDP survey data for the provience to make model
-AlbertaXsurveyXNDP <- NDP_predic.1 %>% group_by(province = "Alberta")
-# make the model for predicting the results on Alberta,              
-glm_NDP_model.2<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=AlbertaXsurveyXNDP, family=binomial)
-#results
-summary(glm_NDP_model.2)
-
-## assign bins and get the counts for the census data
-
-# filter out for Alberta in the census data
-albertaXcensus <- census_data.5 %>% group_by(province = "Alberta")
-# get the bin count corresdonidng to the model we make
-albertaXcensus.1 <- albertaXcensus %>%
-  count(sex, education,  income_family, age_group)
-
-# make the logg odds for the regression model
-X <- predict(glm_NDP_model.2, albertaXcensus.1)
-view(X)
-
 
 # prob function                           --add this in the model---
 est_p <- function(sum){
   return(exp(sum)/(1+(exp(sum))))
 }
 
-# appending the log odds to the  NDPxAlberta
-albertaXcensus.1$NDP_odds <- X
-# getting the probability for each group 
-albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_NDP = est_p(NDP_odds))
-
-## post-strart for the albertaX_NDP
-
-## sum of N                             --- add this in the model---
-N <- sum(albertaXcensus.1$n)
-# prediction for NDPxAlberta
-NDP_Vote_percen_Alberta <- albertaXcensus.1 %>% summarise(est = (sum(n*prob_NDP)/N))
 
 
-
-
-###############################
-
-# make the modle based on the new data catogeries
-glm_NDP_model.2<-glmer(NDP_pref ~ sex+ (1|province)+ education+ income_family+age_group , data=NDP_predic.1, family=binomial)
-summary(glm_NDP_model.2)
-
-
- 
-
-##S3 assign bins
-
-# assign bins and get the counts
-census_data.7 <- census_data.6 %>%
-  count(sex, province, education,  income_family, age_group)
-
-
-# now predict for each bin
-X <- predict(glm_NDP_model.2, census_data.7)
-view(X)
-
-
-
-
-# filter based on provience
-
-#
-
-  group_by(age_group = , )
-##############################
 ```
 
 
@@ -1491,16 +1358,6 @@ saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 ```{r, include = FALSE}
 
 #### You will need to update/clean the code below based off the variables you want to use in your post stratification.
-view(sen) 
-survey_data <- 
-  survey_data %>% 
-  mutate(age = 2019-q2,
-         vote_liberal = ifelse(q11==1, 1, 0)) %>% 
-  select(age, vote_liberal)
-
-census_data <- census_data %>% 
-  mutate(age=round(age)) %>% 
-  select(age)
 
 ```
 
@@ -1540,7 +1397,6 @@ $$ y = \beta_0+\beta_1  x_{age} + \epsilon$$
 ```{r, include=FALSE}
 
 # Creating the Model
-model <- lm(vote_liberal ~ age, data=survey_data)
 
 # Model Results (to Report in Results section)
 # summary(model)
@@ -1569,7 +1425,6 @@ All analysis for this report was programmed using `R version 4.0.2`.
 ```{r, include=FALSE}
 
 # Creating the Model
-model <- lm(vote_liberal ~ age, data=survey_data)
 
 # Model Results (to Report in Results section)
 # summary(model)
@@ -1579,20 +1434,6 @@ model <- lm(vote_liberal ~ age, data=survey_data)
 
 ```{r, include=FALSE}
 
-glm_NDP_model.22<-glmer(NDP_pref ~ sex + feelings_life +religion_participation+ education + (1|province), data=NDP_predic, family=binomial)
-  
-# Here I will perform the post-stratification calculation
-census_data_counts <- census_data %>% 
-  group_by(age) %>% 
-  summarise(n=n())
-
-census_data_counts$estimate <-
-  model %>%
-  predict(newdata = census_data_counts)
-
-census_data_counts %>% 
-  mutate(liberal_predict_prop = estimate*n) %>%
-  summarise(liberal_predict = sum(liberal_predict_prop)/sum(n))
 ```
 
 <Here you present your results. You may want to put them into a well formatted table. Be sure that there is some text describing the results.>
