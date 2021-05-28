@@ -1,11 +1,16 @@
 ---
 title: \vspace{5cm} \General Election Prediction Using Survey Data
-author: "GROUP NUMBER:4 - Uzair Mirza, Krisha Selvakumar, Pranav Sethi, Shruti Sood"
+author:  
+- Krisha Selvakumar,
+- Uzair Mirza,
+- Pranav Sethi, 
+- Shruti Sood
+- GROUP NUMBER:4
 date: "May 28, 2021"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 subtitle: STA304 - Assignment 2
 ---
 
@@ -1330,7 +1335,7 @@ NLXcensus.1 <- NLXcensus.1 %>% mutate(prob_Consv_NL = est_p(Consv_odds))
 N <- sum(NLXcensus.1$n)
 # prediction for ConsxNewfoundland and Labrador
 Cons_Vote_percen_NL <- NLXcensus.1 %>% summarise(Consv_est_NL = (sum(n*prob_Consv_NL)/N))
-Cons_Vote_percen_NL
+# Cons_Vote_percen_NL
 ```
 ^Due to such a small percentage * n NaN = 0/N
 
