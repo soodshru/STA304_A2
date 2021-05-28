@@ -8,6 +8,11 @@ output:
 subtitle: STA304 - Assignment 2
 ---
 
+```{Latex}
+\beta{\alpha}
+```
+
+
 ```{r, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 #library(openintro)
