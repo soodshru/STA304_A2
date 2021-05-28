@@ -1,16 +1,10 @@
 ---
-title: \vspace{5cm} \General Election Prediction Using Survey Data
-author:  
-- Krisha Selvakumar,
-- Uzair Mirza,
-- Pranav Sethi, 
-- Shruti Sood
-- GROUP NUMBER:4
+title: 
+author:
 date: "May 28, 2021"
 output:
-  pdf_document: default
-  html_document:
-    df_print: paged
+  pdf_document:
+    latex_engine: xelatex
 subtitle: STA304 - Assignment 2
 ---
 
@@ -32,8 +26,15 @@ census_data <- read_csv("gss_clean.csv")
 survey_data <- read_csv("ces2019_clean.csv")
 ```
 
-## Introduction
+# Introduction
 
+## Problems
+-Election results changing, identifying the right shift. The effects it has, [CAMBRIDGE ANALYTICA] russia, US ellection
+
+##Basic Goal 
+-To Identify and predict the next winner of the General Election
+- How this Goal helps solve the problem
+##Significance
 <Here you should have a few paragraphs of text introducing the problem, getting the reader interested/ready for the rest of the report.>
 
 <Introduce terminology.>
