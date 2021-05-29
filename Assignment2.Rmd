@@ -8,9 +8,6 @@ output:
 subtitle: STA304 - Assignment 2
 ---
 
-```{Latex}
-\beta{\alpha}
-```
 
 
 ```{r, include=FALSE, warning=FALSE}
