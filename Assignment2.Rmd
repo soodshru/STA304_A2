@@ -120,7 +120,7 @@ census_data.4$age <- floor(census_data.4$age)
 ```
 
 ## Data Analysis
-```{r}
+```{r, fig.height=20, fig.width=40}
 
 mytable.1 <- table(survey_data$sex)
 lbls.1 <- paste(names(mytable.1), "\n", mytable.1, sep="")
@@ -138,7 +138,6 @@ lbls.2 <- paste(names(mytable.2), "\n", mytable.2, sep="")
   # main="Sex in Census"), ncol=2, nrow=1
 #)
 
-# Spreads of Sex
 ggarrange(
 ggplot(survey_data, aes(x=sex ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
@@ -147,10 +146,7 @@ ggplot(survey_data, aes(x=sex ))+
 ggplot(census_data.4, aes(x=sex))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Sex in Census"),
- ncol=2, nrow=1)
 
-# Spread of Province                          ##----FIX THE LABLES-----##
-ggarrange(
 ggplot(survey_data, aes(x=province ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Province in Survey"),
@@ -158,10 +154,7 @@ ggplot(survey_data, aes(x=province ))+
 ggplot(census_data.4, aes(x=province))+
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Province in Census"),
- ncol=2, nrow=1)
 
-# Spread of ages
-ggarrange(
 ggplot(survey_data, aes(x=age ))+
   geom_histogram(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Ages in Survey"),
@@ -169,10 +162,7 @@ ggplot(survey_data, aes(x=age ))+
 ggplot(census_data.4, aes(x=age))+
   geom_histogram(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Ages in Census"),
- ncol=2, nrow=1)
 
-# Spread of family income                      ----FIX AXIS or Pie Chart----
-ggarrange(
 ggplot(survey_data, aes(x=income_family ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Family's incomes in Survey"),
@@ -180,7 +170,7 @@ ggplot(survey_data, aes(x=income_family ))+
 ggplot(census_data.4, aes(x=income_family))+
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Family's incomes in Census"),
- ncol=2, nrow=1)
+ ncol=2, nrow=4)
 
 # get the frequency for each variable using 
 table(census_data.4$province)
@@ -225,11 +215,15 @@ Based on this table we can see how the distribution of the seats is not even acr
 Having established how the distribution of seats are not even and how the voting preference differs across the provinces, to account for this we will be running our regression models for each province to get better results.\
 Another thing to note is that within each province there how voting preference shifts across different income levels**[https://pdf.sciencedirectassets.com/277811/1-s2.0-S1877042814X00030/1-s2.0-S1877042813052051/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFw2TxwYvifcSORdKy1tY9jMLmNeRIsnynssW9hoT%2F70AiAjxJZy9H%2F8mu7WLmtusZ%2FXaRQ6xFe7Fac9nvRp0vJs%2FSr6Awh8EAQaDDA1OTAwMzU0Njg2NSIMzcSBCYNH0vSlNNkCKtcD%2BQ1kTcvjGoEvFHERhB9C5YKrB8%2BEba4%2FE63KiZjmclrZcskNo92tUSc8IbkM169P24Dpuw3k2ZAHWUNrnCMg91RZL0TzAuDL8R28VXFGBaLyiUKSI1HtaSjNfYaPK2b8d7puFdrAawTPMPQQvkgIrFwg0V5GZBaNYj2wafxGewUYB5%2B9TBiyBnRCzHIsj7p82YexO8vI315YyQMTrGTcgfriOqKwxXBMiAb858IDCNPKG%2FD7f8Bf3wJSBGDsUlou2eyjLwN3bBso1Lv5gMXMautKRjuAn6cX2XUefGmjySP2LLSaEVBwGyLL3cv8n2psZYpm%2FYXDWjWJsdz7TQ8E%2BLO6hefSrCUEztKUKtYj42Psj2%2Fx2bScowFnBBt4beFowD2zLnLPvdEBwqmGED%2FeQh14a9SmxjW9kYFxwRS6adCrhctb9JAwrJlFiuv%2Fwxb40LaCcdGKayloT1QElFct8buxL%2F0Xj462Q1dYwlGkCrz9nY%2BwJEHqJdXwy%2BFzDl%2FFMWid%2Bfxqs34SkAHjyeajwtsLqTrBTb%2Fhz6cQC0uoQXJtVmgwTv%2FbEMi8RKj0khUNIcM8Wr5qCGpfnyciR7I7TwAsTXvIlafOc26F%2FYbNFjCqGjql%2BQYbMJaSyoUGOqYBWFxwr1c68ArKcOHYp70uWO2KLaI%2BIsODpeqLYoq2vQU9FFZ%2BIeQwesN7QUzagoSkyKZqf7vVnv8ZI64w3glYvGJ%2BWIKmAk6QtGQxefGS6mil5VIaoAxN7QXxLjpVzEgSQp%2BhSj%2Fu5LHI6RemwXF4IIO1X2Uqqq0mHV4KrblzuDQfE45m4ACvjRvN38jdlVNp74oPcH4R%2Btfu%2Fe9DHiNmFECl0n78kw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210529T184210Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTYRNLVCUDN%2F20210529%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=cfcf9f5534d9712b8f6bf183ffb373b9c483ebb2b8ed9f89da7f8c4e349d002a&hash=1d974ebb4e50b2b09c568f2da77736c59e4508311cc941cae68af32d42eea57a&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1877042813052051&tid=spdf-fa89cf0e-a1e8-40fb-a1f4-73f8badd3c0f&sid=6f95b77b8646a9423a3b81965227e41d1f0bgxrqa&type=client]**. To account for this we will be using **Multilevel Regression**. Multilevel regression differs from normal regression on the way that in normal regression not accounting for the different levels which effect our data would have an offset in our regression line. The intercept of the line needs to be adjusted to account for the different levels. **NOTE** here in our case "level" refers to the groups within each province, which is ***family income level*** which we expect to have similar effects on the variable of interest. \
 Lastly another important aspect about the past elections has been that they have been dominated by particular parties. These political parties also happen to dominate and have majority number of seats in each province, hence estimating and predicting whether they win their particular provinces will acts as an estimate as to whether they will win the general election and form the government**[https://en.wikipedia.org/wiki/Politics_of_Canada#:~:text=The%20two%20dominant%20political%20parties,well%20as%20its%20numerous%20predecessors).]**.\
-To make this estimate we are going to hypothesise and setup our model using the *survey data* and train it to estimate whether someone **will be voting for a particular party or not**. To do this we will be using **Multilevel Logistic Regression**, logistic regression is used when we are dealing with a **binary response variable**. In our case the result of running this model on our **CENSUS DATA** will generate **log odds** of the particular person voting in favour of our hypothesised party. \
+To make this estimate we are going to hypothesise and setup our model using the *survey data* and train it to estimate whether someone **will be voting for a particular party or not**. To do this we will be using **Multilevel Logistic Regression**, logistic regression is used when we are dealing with a **binary response variable**. \
+
+## Post stratatification and Estimation
+Now in our case we will be first dicinde our **CENSUS DATA** for each provience then then into different **bins**. The concept of bins here is based on grouping the data into different groups and these are the variables which are present in our regression model.
+Now running this data set on the generated model for each popular party in each province will generate **log odds** of the particular group voting in favour of our hypothesised party. \
 
 Now in general the log odds generated from the regression model will look like:
- $$\log(\frac{p_{h_{0}}}{1-p_{h_{0}}}) = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} + ... + \beta_{k}x_{k} \qquad i \subset [1,k]$$ 
-Here $\beta{0}$ is the measure for the level is random intercept which accounts for the different income levels and $\beta_{i}, i \subset[1,k] $ are the other factors which effect our model. \
+ $$\log(\frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}}) = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} + ... + \beta_{k}x_{k} \qquad i \subset [1,k]$$ 
+Here $\beta_{0}$ is the measure for the level is random intercept which accounts for the different income levels and $\beta_{i}, i \subset[1,k] $ are the other factors which effect our model. \
 
 Although as previously mentioned that there are many variables which effect someone's voting preference but due to the limitation of data we will be dividing our data set in different proviences and then for each provience we will be making our model on **family income level**, **sex**, **education level** and **age group**. So the resulting $\beta_{i}$ will be the following:
 ```{=latex}
@@ -251,15 +245,84 @@ $\beta_{3}$ & Age group \\[1ex] % [1ex] adds vertical space
 \end{table}
 ```
 
+### From log Odds to Estimating Probability
+Now after generating the model and running the model on our test data to get the log odds we would need to extract the probability of that particular person voting for in favour of the party. To do this we would need to follow these 4 steps: \
+**STEP 1:**
+$$\log(\frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}}) = \beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i} \quad{} \Longrightarrow \frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}} =  \exp({\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i})}$$
+**STEP 2:**
+$$\hat p_{h_{0}} = (1 - \hat p_{h_{0}})( \exp{(\beta_{0} +\Sigma^{k}_{i = 1} \beta_{i}x_{i}})) \quad{} \Longrightarrow \hat p_{h_{0}} = ( \exp{(\beta_{0} +\Sigma^{k}_{i = 1} \beta_{i}x_{i}})) - \hat p_{h_{0}} (\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}}))$$
+**STEP 3:**
+$$\hat p_{h_{0}} +  \hat p_{h_{0}} (\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}}))  = \exp(\beta_{0} +{\Sigma^{k}_{i = 1} \beta_{i}x_{i}}) \quad{} \Longrightarrow \hat p_{h_{0}} (1+(\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}})) = \exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})$$
+**STEP 4:**
+$$\hat p_{h_{0}} (1+(\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}})) = \exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}) \quad \Longrightarrow \hat p_{h_{0}} = \frac{\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})}{(1+  (\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}))}$$
+**So we have:**
+$$\hat p_{h_{0}} = \frac{\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})}{(1+  (\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}))}$$
+### Getting the final results **Post Stratification**
+Now note by grouping the data, some bins might have a higher weight that it more number of entries compared to the other bins. Hence we need to account for this, we do this using this general formula:
+$$\hat y^{PS} = \frac{\Sigma_{i =1}^{n}N_{i}\hat{y_{i}}}{\Sigma_{i =1}^{n}N_{i}} \quad n \subset[2,k]\quad \hat y^{PS}, \hat y_{i} \subset [0,1] $$
+Here $\hat y^{PS}$ in our case would be the **expected probability** of the total province sample voting in favor of the political party being tested now. $N_{i}$ is the size of the bin and $\hat{y_{i}}$ is the probability assigned to the bin and finally $k$ is the number of bins generated in our sample data. 
 
-## From log Odds to Probability
-Now after generating the model and running the 
+# Results
+As mentioned we are generating results for every province, so here we need to first outline the popular political parties in each province.
+Here is a table of the popular parties in each province[]:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular political parties} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Provience & Seats \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+        & NDP (New Democratic Party, New Democrats, NDPers)  \\ % inserting body of the table
+Alberta & Conservatives (Tory, PCs, Conservative Party of Canada)  \\
+        & Liberal (Grits) \\ \hline
+                 & NDP (New Democratic Party, New Democrats, NDPers) \\
+British Columbia & Conservatives (Tory, PCs, Conservative Party of Canada) \\
+                 & Liberal (Grits) \\ \hline
+        & NDP (New Democratic Party, New Democrats, NDPers) \\
+Ontario & Conservatives (Tory, PCs, Conservative Party of Canada) \\
+        & Liberal (Grits) \\
+         & NDP (New Democratic Party, New Democrats, NDPers) \\ \hline
+Manitoba & Conservatives (Tory, PCs, Conservative Party of Canada) \\
+         & Liberal (Grits) \\ \hline
+        & (Coalition Avenir Québec or the CAQ)* \\ 
+Quebec  & (Quebec Liberal Party)* \\
+        & Bloc Québécois (BQ, PQ, Bloc, Parti Québéc \\ \hline
+              & Conservatives (Tory, PCs, Conservative Party of Canada) \\ 
+New Brunswick & Liberal (Grits) \\
+              & NDP (New Democratic Party, New Democrats, NDPers) \\ \hline
+              
+              & Conservatives (Tory, PCs, Conservative Party of Canada) \\ 
+Saskatchewan  & Liberal (Grits) \\
+              & NDP (New Democratic Party, New Democrats, NDPers) \\ \hline
+              
+            & Conservatives (Tory, PCs, Conservative Party of Canada) \\ 
+Nova Scotia & Liberal (Grits) \\
+            & NDP (New Democratic Party, New Democrats, NDPers) \\ \hline
+              
+              & NDP (New Democratic Party, New Democrats, NDPers) \\ 
+New Brunswick & Liberal (Grits) \\
+              & Conservatives (Tory, PCs, Conservative Party of Canada) \\ \hline  
+               \\[1ex] % [1ex] adds vertical space
+ %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
+*Note the given data was not available so we choose the overall popular parties in the region which are Liberals and Conservatives.
+\newpage
+Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with age group as follows
+
+## Alberta
+### NDP (New Democratic Party, New Democrats, NDPers)
+Based on the 
 
 
-## Post stratatification and Estimation
+
+
 
 ```{r, echo= F}
-
 ## make the according data sets according to the Support of their party               ---WITH AGE GROUPS
 NDP_predic <- survey_data %>%
   mutate(NDP_pref = case_when(survey_data$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
@@ -302,6 +365,7 @@ Other_pred <- survey_data %>%
 ```
 
 
+
 # grouping based on age for bin size
 ```{r}
 #removing ppl less than 18 to match with                                ---Move to data cleaning--- **Limitation**
@@ -338,8 +402,6 @@ survey_data.2 <- select(survey_data.2, -5)
 est_p <- function(sum){
   return(exp(sum)/(1+(exp(sum))))
 }
-
-
 
 ```
 
