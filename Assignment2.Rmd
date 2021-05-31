@@ -300,7 +300,8 @@ $$\hat p_{h_{0}} = \frac{\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})}{(1
 ### Getting the final results **Post Stratification**
 Now note by grouping the data, some bins might have a higher weight that it more number of entries compared to the other bins. Hence we need to account for this, we do this using this general formula:
 $$\hat y^{PS} = \frac{\Sigma_{i =1}^{n}N_{i}\hat{y_{i}}}{\Sigma_{i =1}^{n}N_{i}} \quad n \subset[2,k]\quad \hat y^{PS}, \hat y_{i} \subset [0,1] $$
-Here $\hat y^{PS}$ in our case would be the **expected probability** of the total province sample voting in favor of the political party being tested now. $N_{i}$ is the size of the bin and $\hat{y_{i}}$ is the probability assigned to the bin and finally $k$ is the number of bins generated in our sample data. 
+Here $\hat y^{PS}$ in our case would be the **expected probability** of the total province sample voting in favor of the political party being tested now. $N_{i}$ is the size of the bin and $\hat{y_{i}}$ is the probability assigned to the bin, this is the same as $\hat p_{h_{0}}$ when calculating teh probability for bins instead of individuals. Finally $k$ is the number of bins generated in our sample data.\
+Note the reason for the assumption for $n \subset [2,k]$ is because we assume there to be more than 1 different group as without that condition, usisng this techinique is of not much significance.
 
 # Results
 As mentioned we are generating results for every province, so here we need to first outline the popular political parties in each province.
@@ -354,12 +355,73 @@ New Brunswick & Liberal (Grits) \\
 *Note the given data was not available so we chose the overall popular parties in the region which are Liberals and Conservatives.
 
 \newpage
+
 Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in Canada these are as follows.**[18]**
 The age groups were, People under 18; "Under 18", people between 18 and 24; "18 to 24 years", people between 25 to 44; "25 to 44 years", people between 45 and 64; "45 to 64 years" and people over; "Over 65". \
 
 **Removing for this feeling life, religion participation...**
 
 #### POST STRAT Function used
+Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in Canada these are as follows :**[https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/]**
+
+```{=latex}
+\begin{table}[ht]
+\caption{Age group and corresponding categoery} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Age group & Categoery  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+People under 18 & Under 18 \\ % inserting body of the table
+people between 18 and 24 & 18 to 24 years \\
+people between 25 to 44 & 25 to 44 years \\
+people between 45 and 64 & 45 to 64 years \\ % inserting body of the table
+people over 65 & Over 65 \\[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
+
+The last thing we did was we had to drop two of our categories which were **feeling_life** and **religion_participation** the reason for doing so was to get a better much more reliable model.
+
+#### R-Functions used in calculating results
+Lastly for our study the we used built in R functions for our calculations. To calculate log odds we used **predict(model, data.frame)**, the estimated probability we used a function we made named **est_p** as displayed below. Note the **input** "sum" are the log odds calculated using the predict() funciton.
+```{r, Probility Function}
+# probability function                 
+est_p <- function(sum){
+  return(exp(sum)/(1+(exp(sum))))
+}
+```
+
+And finally the estimate for our hypothesis is done using this following lines of R-code displayed in the code chuck below.
+```{r, eval=FALSE}
+Output <- data_frame %>% summarise(estimate = (sum(n*probability_bin)/N))
+```
+Here is a table detailing what everything stands for in the above code chunk:
+```{=latex}
+\begin{table}[ht]
+\caption{R-code breakdown} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+R-code & Breakdown  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+n & Bin size \\ % inserting body of the table
+probability_bin & Probability of the group \\
+N & sum of all "n"/Bins  \\
+sum(...) & Sums the "..." \\ % inserting body of the table
+summarise(...) & Generates  \\[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+
+```
+
+
 
 ## Alberta
 ### NDP (New Democratic Party, New Democrats, NDPers)
