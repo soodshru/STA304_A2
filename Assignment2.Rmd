@@ -1742,30 +1742,27 @@ All analysis for this report was programmed using `R version 4.0.2`.
 
 6. Despite global concerns about democracy, more than half of countries are democratic. (n.d.). Pew Research Center. https://www.pewresearch.org/fact-tank/2019/05/14/more-than-half-of-countries-are-democratic/
 
-7.  Functions of elections. (n.d.). Britannica. Retrieved May 30, 2021, from https://www.britannica.com/topic/election-political-science/Functions-of-elections
+7. Functions of elections. (n.d.). Britannica. Retrieved May 30, 2021, from https://www.britannica.com/topic/election-political-science/Functions-of-elections
 
 8. Welcome to the 2019 Canadian Election Study. (n.d.). Canadian Election Study. Retrieved May 30, 2021, from http://www.ces-eec.ca/
 
 9. General Social Survey. (2017, September). https://sda-artsci-utoronto-ca.myaccess.library.utoronto.ca/sdaweb/dli2/gss/gss31/gss31/more_doc/GSS31_User_Guide.pdf
 
-10. https://www.macleans.ca/politics/ottawa/the-biggest-divide-in-canadian-politics-men-vs-women/
+10. Fournier, P. J. (2020, June 28). The biggest divide in Canadian politics? Men vs. Women. Macleans. https://www.macleans.ca/politics/ottawa/the-biggest-divide-in-canadian-politics-men-vs-women/
 
-11. https://research.libraries.wsu.edu/xmlui/handle/2376/4982 
+11. Holland, J. L. (2014, March 7). Age Gap? The Influence of Age on Voting Behavior and Political Preferences in the American Electorate. Washington State University. https://research.libraries.wsu.edu/xmlui/handle/2376/4982
 
-12. https://www150.statcan.gc.ca/n1/pub/75-001-x/2012001/article/11629-eng.html 
+12. Factors associated with voting. (2012, February 24). Statistics Canada. https://www150.statcan.gc.ca/n1/pub/75-001-x/2012001/article/11629-eng.htm
 
-13. https://econofact.org/voting-and-income#:~:text=Voter%20participation%20increases%20with%20family%20income.&text=The%20ratio%20of%20differences%20across,be%20more%20likely%20to%20vote.
+13. Akee, R. (2020, September 24). Voting and Income | Econofact. Econofact | Key Facts and Incisive Analysis to the National Debate on Economic and Social Policies. https://econofact.org/voting-and-income
 
-14. https://www.jstor.org/stable/2146812?seq=1
+14. Foladare, I. S. (1986, December). The Effect of Neighborhood on Voting Behavior on JSTOR. JSTOR. https://www.jstor.org/stable/2146812?seq=1
 
-15. https://pdf.sciencedirectassets.com/277811/1-s2.0-S1877042814X00030/1-s2.0-S1877042813052051/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFw2TxwYvifcSORdKy1tY9jMLmNeRIsnynssW9hoT%2F70AiAjxJZy9H%2F8mu7WLmtusZ%2FXaRQ6xFe7Fac9nvRp0vJs%2FSr6Awh8EAQaDDA1OTAwMzU0Njg2NSIMzcSBCYNH0vSlNNkCKtcD%2BQ1kTcvjGoEvFHERhB9C5YKrB8%2BEba4%2FE63KiZjmclrZcskNo92tUSc8IbkM169P24Dpuw3k2ZAHWUNrnCMg91RZL0TzAuDL8R28VXFGBaLyiUKSI1HtaSjNfYaPK2b8d7puFdrAawTPMPQQvkgIrFwg0V5GZBaNYj2wafxGewUYB5%2B9TBiyBnRCzHIsj7p82YexO8vI315YyQMTrGTcgfriOqKwxXBMiAb858IDCNPKG%2FD7f8Bf3wJSBGDsUlou2eyjLwN3bBso1Lv5gMXMautKRjuAn6cX2XUefGmjySP2LLSaEVBwGyLL3cv8n2psZYpm%2FYXDWjWJsdz7TQ8E%2BLO6hefSrCUEztKUKtYj42Psj2%2Fx2bScowFnBBt4beFowD2zLnLPvdEBwqmGED%2FeQh14a9SmxjW9kYFxwRS6adCrhctb9JAwrJlFiuv%2Fwxb40LaCcdGKayloT1QElFct8buxL%2F0Xj462Q1dYwlGkCrz9nY%2BwJEHqJdXwy%2BFzDl%2FFMWid%2Bfxqs34SkAHjyeajwtsLqTrBTb%2Fhz6cQC0uoQXJtVmgwTv%2FbEMi8RKj0khUNIcM8Wr5qCGpfnyciR7I7TwAsTXvIlafOc26F%2FYbNFjCqGjql%2BQYbMJaSyoUGOqYBWFxwr1c68ArKcOHYp70uWO2KLaI%2BIsODpeqLYoq2vQU9FFZ%2BIeQwesN7QUzagoSkyKZqf7vVnv8ZI64w3glYvGJ%2BWIKmAk6QtGQxefGS6mil5VIaoAxN7QXxLjpVzEgSQp%2BhSj%2Fu5LHI6RemwXF4IIO1X2Uqqq0mHV4KrblzuDQfE45m4ACvjRvN38jdlVNp74oPcH4R%2Btfu%2Fe9DHiNmFECl0n78kw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210529T184210Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTYRNLVCUDN%2F20210529%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=cfcf9f5534d9712b8f6bf183ffb373b9c483ebb2b8ed9f89da7f8c4e349d002a&hash=1d974ebb4e50b2b09c568f2da77736c59e4508311cc941cae68af32d42eea57a&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1877042813052051&tid=spdf-fa89cf0e-a1e8-40fb-a1f4-73f8badd3c0f&sid=6f95b77b8646a9423a3b81965227e41d1f0bgxrqa&type=client
+15. H.Y.A.E.M.M. (2014, January 8). The Relationship Between Income Level and Political Preferences for University Academic Staff: The Case of Hakkari. ScienceDirect. https://www.sciencedirect.com/science/article/pii/S1877042813052051
 
-16.https://www.elections.ca/content.aspx?section=res&dir=cir/red/allo&document=index&lang=e
+16.House of Commons Seat Allocation by Province – Elections Canada. (n.d.). Elections Canada. Retrieved May 31, 2021, from https://www.elections.ca/content.aspx?section=res&dir=cir/red/allo&document=index&lang=e
 
-17.https://en.wikipedia.org/wiki/Politics_of_Canada#:~:text=The%20two%20dominant%20political%20parties,well%20as%20its%20numerous%20predecessors).
+17. Wikipedia contributors. (2021, May 24). Politics of Canada. Wikipedia. https://en.wikipedia.org/wiki/Politics_of_Canada#:%7E:text=The%20two%20dominant%20political%20parties,well%20as%20its%20numerous%20predecessors).
 
-18.https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/
+18. Statista. (2021, March 9). Canada - resident population, by gender and age group 2020. https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/
 
-19.
-
-20.
