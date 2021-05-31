@@ -4,7 +4,7 @@ author:
   - Uzair Mirza
   - Shruti Sood
   - Pranav Sethi
-  - Krisha Selva
+  - Krisha Selvakumar
 date: "May 28, 2021"
 output:
   pdf_document:
@@ -26,7 +26,7 @@ library(survey)
 ```
 
 ```{r, include = FALSE}
-# Here we are just loading the data files
+# Here you can load in the census data 
 census_data <- read_csv("gss_clean.csv")
 # Here you can load in the survey data
 survey_data <- read_csv("ces2019_clean.csv")
@@ -34,66 +34,57 @@ survey_data <- read_csv("ces2019_clean.csv")
 
 # Introduction
 ## Goal
-Canada has always been a vibrant democracy which is solely to the people, for the people, and by the people. Canada’s Egalitarian approach to Democracy has particularly made sure that during any form of decision making in the government at any level, the above statement is given the utmost importance. At the heart of Canadian Democracy and, more specifically, Canadian decision making lies the Federal election during which a general vote is held to elect the people who will make decisions for Canada’s future: the members of Parliament. Under the Canadian law, the federal elections are scheduled every four years during which election races are held in electoral districts to represent the people living in that area. There are a total of 338 electoral districts with the most being present in Ontario. \
+Canada has always been a vibrant democracy which is solely for the people, of the people and by the people. Canada’s Egalitarian approach to Democracy has particularly made sure that during any form of decision making in the government at any level, the above statement is given the utmost importance. At the heart of Canadian Democracy, Canadian decision making lies in the Federal election during which a general vote is held to elect the people who will make decisions for Canada’s future: the members of Parliament. Under the Canadian law, the federal elections are scheduled every four years during which election races are held in electoral districts to represent the people living in that area. There are a total of 338 electoral districts with the most being present in Ontario. \
 The goal of this study will be to predict the overall popular vote of the next Federal elections which are scheduled to take place on or before October 16 2023. This was done using regression models with post-stratification, both of which will be described in depth in later sections. The models were built using the Canadian Election Study of 2019 which was treated as Survey Data, and predictions were performed using General Social Survey from 2017 which was treated as census data. \
 
+
 ## Background
-The first Canadian federal election was held in 1867, and after Bill C-16 was proclaimed into the law, federal elections have been regularly occuring every four years in most provinces**[1][2]**. Elections Canada hires nearly 250,000 people all over Canada during the federal elections making it the largest employer in Canada on election day **[3]**. \
+The first Canadian federal election was held in 1867, and after Bill C-16 was proclaimed into the law, federal elections have been regularly occurring every four years in most provinces**[1][2]**. Elections Canada hires nearly 250,000 people all over Canada during the federal elections making it the largest employer in Canada on election day **[3]**. \
 
 
 ## Hypothesis
 For the past three federal elections that were held in Canada, the top three parties have been Liberal, Conservative and New Democratic Party where the Liberal Party had the most popular vote for the last two elections **[4]**.Naturally one would be curious about the future election that is to take place in 2023 as the party with the most popular vote will be ruling our country for the next couple of years. This leads to our analysis of forecasting the popular vote for the upcoming federal election and we are expecting the overall popular vote to be Liberal based on patterns from the past election results.**[4]**. \
 
 
-
-## Significane
-As touched upon earlier, the federal election lies at the heart of Canadian democracy and decision making. Once the votes are counted, Canadians, essentially, learn who their government will be**[5]**.
-Being such an important event for all residents of Canada and also to people outside Canada to a certain degree, it is of prime importance to have quality research done on the federal elections for the continued  functioning of a healthy democracy. Research done on federal elections can not only reveal existing traits about the political preferences, but also future political preferences of Canadians, which is what this study is aimed at answering. Results of this study can be used by political parties to get an estimate of their standing in the future to plan upcoming campaigns and common Canadians can use this study to get a greater understanding of the popular political parties and their policies. \
+## Significance
+As touched upon earlier, the federal election lies at the heart of Canadian democracy and decision making. Once the votes are counted Canadians learn who their government will be**[5]**.
+Being such an important event for all residents of Canada and also to people outside Canada to a certain degree, it is of prime importance to have quality research done on the federal elections for the continued  functioning of a healthy democracy. Research done on federal elections can not only reveal existing traits about the political preferences, but also future political preferences of Canadians, which is what this study is aimed at answering. Results of this study can be used by political parties to get an estimate of their standing in the future to plan upcoming campaigns and Canadians can use this study to get a greater understanding of the popular political parties. \
 
 
 ## Global Significance 
 In 2017, 96 out of 167 (57%) of countries in the world with populations of 500,000 or more were democracies of some kind. Since the mid-1970’s, the world has seen an increase in the number of countries becoming democratic.**[6]** \
-Elections are one of the most important parts of a domocratic state. In today’s world, a direct-democracy, where all political decisions are made by all the citizens of the country is impractical. Hence, democracy is conducted through representatives. These representatives are nominated through elections during which the citizens choose their leaders and hold them accountable for their performance in the office. Elections give the citizens an opportunity to have a say and express their opinions and feel a sense of belonging to a community and work for its betterment. Every vote is important. Credible Elections indirectly lead to a feeling of personal fulfillment in the citizens. Thus, the findings of this study can not only be studied in Canada but also in electoral democracies throughout the world to get a sense of understanding of the pros & cons of their own electoral system when compared to the Canadian electoral system. For instance, the findings of this study can be used by political analysts in the United States of America, which has historically been a two party system, to understand the effects a multiparty system has on the distribution of votes**[7]**. \
+Elections are one of the most important parts of a democratic state. In today’s world, a direct-democracy where all political decisions are made by all the citizens of the country is impractical. Hence, democracy is conducted through representatives. These representatives are nominated through elections during which the citizens choose their leaders and hold them accountable for their performance in the office. Elections give the citizens an opportunity to have a say and express their opinions and feel a sense of belonging to a community and work for its betterment. Every vote is important. Credible Elections indirectly lead to a feeling of personal fulfillment in the citizens. Thus, the findings of this study can not only be studied in Canada but also in electoral democracies throughout the world to get a sense of understanding of the pros & cons of their own electoral system when compared to the Canadian electoral system. For instance, the findings of this study can be used by political analysts in the United States of America, which has historically been a two party system, to understand the effects a multiparty system has on the distribution of votes**[7]**. \
 
 ## Terminology for the study
-Regression is used to determine the relationship between variables. More specifically, it is used to analyse how certain explanatory variables influence a predictor variable. In our analysis, we will be using logistic regression as this statistical method is used when the predictor is a binary variable and in our case we are building multiple models to predict whether or not an individual will vote for a specific party or not in an effort to use these results to forecast the popular vote in the next federal election. \
-
+Regression is used to determine the relationship between variables. More specifically, it is used to analyze how certain explanatory variables influence a predictor variable. In our analysis, we will be using logistic regression as this statistical method is used when the predictor is a binary variable and in our case we are building multiple models to predict whether or not an individual will vote for a specific party or not in an effort to use these results to forecast the popular vote in the next federal election. \
 Post stratification is a process that involves grouping units with similar characteristics into bins and adjusting the weights of these bins as necessary in order to compare survey results to a census data or any other data set that already exists. We will be performing this method on the Canadian Election Study of 2019 data which will act as our survey results and compare it to the General Social Survey from 2017 data which will be used as our census data.
 
 
 ## Drawbacks
 The biggest potential drawback that needs to be considered is the use of data from 2017 & 2019 to predict the outcome of the 2023 federal election. This drawback will most likely have an even greater effect on the findings due to the fact that the data was collected a year before the start of Covid-19 pandemic which has caused unprecedented changes in government policies and spending that has had a significant impact on the political views of Canadians. Apart from that, another potential drawback could be false answers being put by the participants of the survey for the geography and demographic characteristics part of the survey which did not get detected during data cleaning because of them following the correct format but not being the accurate answer for that respective participant. \
 
+
 # Data
 ## Dataset description
 As mentioned in the Intro, the models were built using the Canadian Election Study of 2019 which was treated as Survey Data, and predictions were performed using General Social Survey from 2017 which was treated as census data. The Canadian election study since 1965 has been a rich source of data on Canadians’ political behavior and attitude. The 2019 iteration of the CES was conducted online with the target population being all Canadian citizens and permanent residents who are 18 years or older. **[8]** An online sample of the participants to be contacted was created from the members of Canadian general population using qualtrics, a survey software tool, with targets stratified by region which were 7 in total. Additionally, within each region, provincial quotas were split evenly. Lastly, the online sample was created with the several aims such as having a 50-50 male & female ratio, 80-20 French & English ratio in Quebec. \
-The GSS program established in 1985 has been a rich source of data for monitoring changes in living conditions and providing information on social policy issues in Canada. The 2017 iteration of the GSS was conducted through the phone via computer assisted telephone interviews (CATI) with the target population being all people 15 years or older in Canada excluding residents of Yukon, Northwest Territories, Nunavut, and full-time residents of institutions. Each of the 10 Provinces were divided into strata using geographic areas and the survey frame was created using 2 elements: the list of telephone numbers in use that are available to Statistics Canada, and the address register which contained a list of all dwellings in each of the Provinces. Next, a simple random sample without replacement of records was performed in each stratum to select the household to be contacted
+The GSS program established in 1985 has been a rich source of data for monitoring changes in living conditions and providing information on social policy issues in Canada. The 2017 iteration of the GSS was conducted through the phone via computer assisted telephone interviews (CATI) with the target population being all people 15 years or older in Canada excluding residents of Yukon, Northwest Territories, Nunavut, and full-time residents of institutions. Each of the 10 Provinces were divided into strata using geographic areas and the survey frame was created using 2 elements: the list of telephone numbers in use that are available to Statistics Canada, and the address register which contained a list of all dwellings in each of the Provinces. Next, a simple random sample without replacement of records was performed in each stratum to select the household to be contacted.
 **[9]**. \
 
 ## Data manipulation and cleaning
-The journey of Data cleaning started by reducing the number of columns in GCC from 50 to 7 to only include the ones that are needed for the model building. These variables of interest are discussed in the section “description of important variables” which is right below. The reduction of columns was achieved through using the select() function. 
+The journey of Data cleaning started by reducing the number of columns in GSS from 50 to 7 to only include the ones that are needed for the model building. These variables of interest are discussed in the section “description of important variables” which is right below. The reduction of columns was achieved through using the select() function. 
 Next, it was decided to merge \
 \tab column # 3: place_birth_macro_region which contained birthplace regions of participants born outside Canada \
 \tab column # 4: place_birth_province which contained the Province the participants were born in. \
 The decision to merge these columns was made to reduce the number of parameters for our model and the ease of the reader as both the columns essentially reveal the same characteristic about the participant and each row for these columns had an “NA” whenever the other column didn’t have an “NA”. All the Inputs for both these columns were merged and inserted in a new column labeled place_birth. The inputs for these columns were merged using the coalesce() function and the new column was created using the mutate() function over the coalesce function i.e. mutate(coalesce()) Naturally, column # 3 and # 4 were then deleted using the select() function. \
-Lastly, all the NAs were then dropped from our modified GCC using the na.omit() function.
-
-## Data                          ##### to be combined 
-For the people who were not born in Canada, we put in the country they were born in as their place of birth instead of the province as we did for Candian born residents. 
-We approximated the age of the residents to the nearest decimal point so as to keep the data consistent with the survey data.
-Education -> Trade certificate
-
+Lastly, all the NAs' were then dropped from our modified GSS using the na.omit() function.
 
 
 ## Dataset Syncing
-Since two different surveys were being used for the study, syncing had to be performed between the GCC and the CES dataset to move forward. The syncing process began with re-categorising answers from the column containing the education level of the participant in our modified GCC so that it matched the categories of the column containing the level of education of the participant in the CES dataset. This was done using the replace() function (add more about how replaced was used). Next, all the decimal points from age in our modified GCC were dropped to match the format of age in CES. This was done through inserting the column containing age inside the floor() function. Lastly, all the columns in our modified GCC for which we couldn’t find equivalent columns in CES were dropped using the select() function. \
-
-
+Since two different surveys were being used for the study, syncing had to be performed between the GSS and the CES data set to move forward. The syncing process began with re-categorizing answers from the column containing the education level of the participant in our modified GSS so that it matched the categories of the column containing the level of education of the participant in the CES data set. This was done using the replace() function. Next, all the decimal points from age in our modified GSS were dropped to match the format of age in CES. This was done through inserting the column containing age inside the floor() function. Lastly, all the columns in our modified GSS for which we couldn’t find equivalent columns in CES were dropped using the select() function. \
 
 ```{r, Data cleaning, echo = FALSE}
 #filtering out the required columns
 census_data.1 <- select(census_data, 2,12,16,17,19,28,47)
-#head(census_data.1)
 
 # adding the place of birth to our data set
 census_data.2 <- census_data.1 %>% mutate(place_birth = coalesce(place_birth_macro_region, place_birth_province ))
@@ -101,9 +92,8 @@ census_data.2 <- census_data.1 %>% mutate(place_birth = coalesce(place_birth_mac
 
 # removing the columns for place of birth
 census_data.3 <- select(census_data.2, -3,-4)
-#view(census_data.3)
 
-# remove the NA
+# removing the NA
 census_data.4 <- na.omit(census_data.3)
 ```
 
@@ -112,7 +102,7 @@ census_data.4 <- na.omit(census_data.3)
 
 # combining the "Trade certificate or diploma" +"College, CEGEP or other non-university certificate or di..."
 # into "College, CEGEP, trade certificate or other non-university certificate or di..."
-  # reason: to sync with the survey data categoery
+# reason: to sync with the survey data category
 census_data.4$education <- replace(census_data.4$education, census_data.4$education ==
                                      "College, CEGEP or other non-university certificate or di...",
                                    "College, CEGEP, trade certificate or other non-university certificate or di...")
@@ -120,32 +110,24 @@ census_data.4$education <- replace(census_data.4$education, census_data.4$educat
                                      "Trade certificate or diploma", "College, CEGEP, trade certificate or other non-university certificate or di...")
 
 ## Age
-
-# we drop the decimal point to stay consistent with the survey
-
+# We drop the decimal point to stay consistent with the survey
 census_data.4$age <- floor(census_data.4$age)
-#https://stackoverflow.com/questions/40399255/remove-decimals-from-a-column-in-a-data-frame
 ```
 
 ## Description of Important Variables
-As previously mentioned, we will be using the survey data to predict the popular vote among the country based on the individuals that are present in the census data.  To conduct our analysis, we need to ensure that the variables in both the survey and census were in the same manner for obvious reasons. Initially we had begun with 81 variables in the data, however after narrowing down the variables we ended up giving importance to 6 main variables which include sex, province, education, political preference, family’s income and age. \
-
+As previously mentioned, we will be using the survey data to predict the popular vote among the country based on the individuals that are present in the census data. To conduct our analysis, we need to ensure that the variables in both the survey and census were in the same manner for obvious reasons. Initially we had begun with 81 variables in the data, however after narrowing down the variables we ended up giving importance to 6 main variables which include sex, province, education, political preference, family’s income and age. \
 Once again, our goal is to forecast the outcome of the next federal election by using political preference and province as our response variables which are two very important variables as it would be extremely challenging and nearly impossible to conduct a realistic analysis without knowing these details. \
-
-Ekos Research Associates is a Canadian research company that measured males are almost equally inclined to vote for Liberal as they are for Conservatives. More specifically, 37% of males have intended to vote for Conservatives and 35% had intentions to vote Liberal [same url below]. This is to say that if the voting population consisted of just Males there would be a tie between the Liberal and Conservatives. On the other hand, Ekos reported that 47% of females were in favour of Liberals and only 23% were in favor of the Conservatives
-**[https://www.macleans.ca/politics/ottawa/the-biggest-divide-in-canadian-politics-men-vs-women/]**.  Thus, it can be seen that sex definitely has a huge impact on voting behaviour as male and females differ between their political preferences. \
-The age of the electoral population matters a great deal as it has been hypothesized that younger people are more likely to vote for liberal in comparison to older people **[ https://research.libraries.wsu.edu/xmlui/handle/2376/4982 ]**.  Accordingly, the prediction of the popular vote can be greatly influenced by age depending on the size of the different age groups.
-Similarly, the education level of the voters can impact the voter turnout as those with a university degree are 78% likely to vote whereas the voting rate for those with high school education or less is 60%**[ https://www150.statcan.gc.ca/n1/pub/75-001-x/2012001/article/11629-eng.htm ]**. \
-Additionally, it has been recorded that families with higher income levels have a greater voter turnout in comparison to those who come from families with a lower income[ same as below]. A possible reason for this is due to how costly an activity voting may be as it requires time, information, transportation, and other things that may be inconvenient for lower income families [ same as below].  Furthermore, higher income could be associated with higher education and once again this would influence voting results as mentioned previously **[ https://econofact.org/voting-and-income#:~:text=Voter%20participation%20increases%20with%20family%20income.&text=The%20ratio%20of%20differences%20across,be%20more%20likely%20to%20vote. ]**. \
+Ekos Research Associates is a Canadian research company that measured males are almost equally inclined to vote for Liberal as they are for Conservatives **[10]**. More specifically, 37% of males have intended to vote for Conservatives and 35% had intentions to vote Liberal **[10]**. This is to say that if the voting population consisted of just Males there would be a tie between the Liberal and Conservatives. On the other hand, Ekos reported that 47% of females were in favor of Liberals and only 23% were in favor of the Conservatives **[10]**. Thus, it can be seen that sex definitely has a huge impact on voting behavior as male and females differ between their political preferences. \
+The age of the electoral population matters a great deal as it has been hypothesized that younger people are more likely to vote for liberal in comparison to older people **[11]**. Accordingly, the prediction of the popular vote can be greatly influenced by age depending on the size of the different age groups.
+Similarly, the education level of the voters can impact the voter turnout as those with a university degree are 78% likely to vote whereas the voting rate for those with high school education or less is 60% **[12]**. \
+Additionally, it has been recorded that families with higher income levels have a greater voter turnout in comparison to those who come from families with a lower income **[13]**. A possible reason for this is due to how costly an activity voting may be as it requires time, information, transportation, and other things that may be inconvenient for lower income families **[13]**. Furthermore, higher income could be associated with higher education and once again this would influence voting results as mentioned previously **[13]**. \
 
 **TABLE**
 
-
 ## Data Drawbacks                 ---COME BACK TO IT__ 
 Some of the issues we can see in the data are that the gender does not have the same category as the other data set. Also, we feel there is not enough data from each region, and some of the assumptions we made may affect our results. 
-##SHOW THE NUMBER FOR EACH PROVIENCE##
 
-
+##SHOW THE NUMBER FOR EACH province##
 ```{r, Data Analysis, fig.height=60, fig.width=40, echo = FALSE}
 
 mytable.1 <- table(survey_data$sex)
@@ -207,16 +189,16 @@ ggplot(census_data.4, aes(x=income_family))+
 # get the frequency for each variable using 
 table(census_data.4$province)
 ```
-## Plot Description
 
-Bar Chart 1: Spread of Sex in Survey
+## Plot Description
+**Bar Chart 1:** Spread of Sex in Survey
 There is a greater percentage of Male voters in the electoral population of the survey data. More precisely, around 63% of the population consists of Male voters.
 
-Bar Chart 2: Spread of Sex in Census
+**Bar Chart 2:** Spread of Sex in Census
 Unlike the survey data, the electoral population in the census data consists of more females than males as roughly 46%  of the population consists of Male voters.
 
 **Bar Chart 3:** Spread of Province in Survey:
-The bar chart shows the current province the voters of the survey data resides in. The top three provinces that make up the electoral population are British Columbia, Ontario and Quebec as there are over 200 voters from each of these provinces which cover around 61% of the population. Meanwhile, 11% of the population consists of voters in New Brunswick, Newfoundland Labrador and Prince Edward Island with just under 50 voters from each of these provinces. The remaining 28% of the population resides in Alberta, Manitoba, Nova Scotia and Saskatchewan.
+The bar chart shows the current province the voters of the survey data reside in. The top three provinces that make up the electoral population are British Columbia, Ontario and Quebec as there are over 200 voters from each of these provinces which cover around 61% of the population. Meanwhile, 11% of the population consists of voters in New Brunswick, Newfoundland Labrador and Prince Edward Island with just under 50 voters from each of these provinces. The remaining 28% of the population resides in Alberta, Manitoba, Nova Scotia and Saskatchewan.
 
 **Bar Chart 4:** Spread of Province in Census
 Similar to  the bar chart about the spread of provinces in the survey, most of the population resides in British Columbia, Ontario and Quebec. More exactly, roughly 58% of the voters belong to these provinces. Unlike the survey data which had 20% of voters from British Columbia, the census data records only 12% of voters from this province. Manitoba,New Brunswick, Newfoundland and Labrador, Nova Scotia, and Saskatchewan all have 1000 to 1400 individuals from their province. Least amount of voters are from Prince Edward Island as expected since it is the smallest province in Canada.\
@@ -234,24 +216,19 @@ This histogram is close to a left skewed distribution. (FIX GRAPH). In this data
 This histogram is close to a right skewed distribution. FIX GRAPH. In the census data too, the maximum amount of the voters have an income of $125,000 and above. All other groups are decreasing, but there is not as much of a difference as there was in the previous graph.
 
 
-
-
-
-
-
 # Methods
 ## Regression Model Choice and Setup
-The goal is to make the prediction for the upcoming election. There are alot of factors which effect someone's voting preference such as their area of residence, their place of birth, income levels, age, sex and many more. \
+The goal is to make the prediction for the upcoming election. There are a lot of factors which effect someone's voting preference such as their area of residence, their place of birth, income levels, age, sex and many more. \
 Now in order to account for and see how all these factors effect someone's decision in choosing a party to vote for we will be using **Regression**. Regression is a statistical technique which measures the relationship as to how the changes in different quantities(independent variable) effect the quantity of interest(dependent variable). \
-In Canada the party which forms the government is the party which wins majority of the 338 available seats. These sectors are divided and belong to different provinces, the distribution of these seats across the provinces are as follows**[https://www.elections.ca/content.aspx?section=res&dir=cir/red/allo&document=index&lang=e]**:
+In Canada the party which forms the government is the party which wins majority of the 338 available seats. These sectors are divided and belong to different provinces, the distribution of these seats across the provinces are as follows**[16]**:
 
 ```{=latex}
 \begin{table}[ht]
-\caption{Seat distribution across proviences} % title of Table
+\caption{Seat distribution across provinces} % title of Table
 \centering % used for centering table
 \begin{tabular}{c c} % centered columns (4 columns)
 \hline\hline %inserts double horizontal lines
-Provience & Seats \\ [0.5ex] % inserts table
+province & Seats \\ [0.5ex] % inserts table
 %heading
 \hline % inserts single horizontal line
 British Columbia & 42 \\ % inserting body of the table
@@ -274,21 +251,21 @@ Total & 338 \\[1ex] % [1ex] adds vertical space
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
 ```
-Based on this table we can see how the distribution of the seats is not even across the provinces, hence we need to account for this. Furthermore another thing to note is how political preference has a really high correlation with which province a person belongs to.**[https://www.jstor.org/stable/2146812?seq=1]** \
+Based on this table we can see how the distribution of the seats is not even across the provinces, hence we need to account for this. Furthermore another thing to note is how political preference has a really high correlation with which province a person belongs to.**[14]** \
 Having established how the distribution of seats are not even and how the voting preference differs across the provinces, to account for this we will be running our regression models for each province to get better results.\
-Another thing to note is that within each province voting preference shifts across different income levels**[https://pdf.sciencedirectassets.com/277811/1-s2.0-S1877042814X00030/1-s2.0-S1877042813052051/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFw2TxwYvifcSORdKy1tY9jMLmNeRIsnynssW9hoT%2F70AiAjxJZy9H%2F8mu7WLmtusZ%2FXaRQ6xFe7Fac9nvRp0vJs%2FSr6Awh8EAQaDDA1OTAwMzU0Njg2NSIMzcSBCYNH0vSlNNkCKtcD%2BQ1kTcvjGoEvFHERhB9C5YKrB8%2BEba4%2FE63KiZjmclrZcskNo92tUSc8IbkM169P24Dpuw3k2ZAHWUNrnCMg91RZL0TzAuDL8R28VXFGBaLyiUKSI1HtaSjNfYaPK2b8d7puFdrAawTPMPQQvkgIrFwg0V5GZBaNYj2wafxGewUYB5%2B9TBiyBnRCzHIsj7p82YexO8vI315YyQMTrGTcgfriOqKwxXBMiAb858IDCNPKG%2FD7f8Bf3wJSBGDsUlou2eyjLwN3bBso1Lv5gMXMautKRjuAn6cX2XUefGmjySP2LLSaEVBwGyLL3cv8n2psZYpm%2FYXDWjWJsdz7TQ8E%2BLO6hefSrCUEztKUKtYj42Psj2%2Fx2bScowFnBBt4beFowD2zLnLPvdEBwqmGED%2FeQh14a9SmxjW9kYFxwRS6adCrhctb9JAwrJlFiuv%2Fwxb40LaCcdGKayloT1QElFct8buxL%2F0Xj462Q1dYwlGkCrz9nY%2BwJEHqJdXwy%2BFzDl%2FFMWid%2Bfxqs34SkAHjyeajwtsLqTrBTb%2Fhz6cQC0uoQXJtVmgwTv%2FbEMi8RKj0khUNIcM8Wr5qCGpfnyciR7I7TwAsTXvIlafOc26F%2FYbNFjCqGjql%2BQYbMJaSyoUGOqYBWFxwr1c68ArKcOHYp70uWO2KLaI%2BIsODpeqLYoq2vQU9FFZ%2BIeQwesN7QUzagoSkyKZqf7vVnv8ZI64w3glYvGJ%2BWIKmAk6QtGQxefGS6mil5VIaoAxN7QXxLjpVzEgSQp%2BhSj%2Fu5LHI6RemwXF4IIO1X2Uqqq0mHV4KrblzuDQfE45m4ACvjRvN38jdlVNp74oPcH4R%2Btfu%2Fe9DHiNmFECl0n78kw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210529T184210Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTYRNLVCUDN%2F20210529%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=cfcf9f5534d9712b8f6bf183ffb373b9c483ebb2b8ed9f89da7f8c4e349d002a&hash=1d974ebb4e50b2b09c568f2da77736c59e4508311cc941cae68af32d42eea57a&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1877042813052051&tid=spdf-fa89cf0e-a1e8-40fb-a1f4-73f8badd3c0f&sid=6f95b77b8646a9423a3b81965227e41d1f0bgxrqa&type=client]**. To account for this we will be using **Multilevel Regression**. Multilevel regression differs from normal regression on the way that in normal regression not accounting for the different levels which effect our data would have an offset in our regression line. The intercept of the line needs to be adjusted to account for the different levels. **NOTE** here in our case "level" refers to the groups within each province, which is ***family income level*** which we expect to have similar effects on the variable of interest. \
-Lastly another important aspect about the past elections has been that they have been dominated by particular parties. These political parties also happen to dominate and have majority number of seats in each province, hence estimating and predicting whether they win their particular provinces will acts as an estimate as to whether they will win the general election and form the government**[https://en.wikipedia.org/wiki/Politics_of_Canada#:~:text=The%20two%20dominant%20political%20parties,well%20as%20its%20numerous%20predecessors).]**.\
-To make this estimate we are going to hypothesise and setup our model using the *survey data* and train it to estimate whether someone **will be voting for a particular party or not**. To do this we will be using **Multilevel Logistic Regression**, logistic regression is used when we are dealing with a **binary response variable**. \
+Another thing to note is that within each province voting preference shifts across different income levels **[15]**. To account for this we will be using **Multilevel Regression**. Multilevel regression differs from normal regression on the way that in normal regression not accounting for the different levels which effect our data would have an offset in our regression line. The intercept of the line needs to be adjusted to account for the different levels. **NOTE** here in our case "level" refers to the groups within each province, which is ***family income level*** which we expect to have similar effects on the variable of interest. \
+Lastly another important aspect about the past elections has been that they have been dominated by particular parties. These political parties also happen to dominate and have majority number of seats in each province, hence estimating and predicting whether they win their particular provinces will acts as an estimate as to whether they will win the general election and form the government**[17]**.\
+To make this estimate we are going to hypothesize and setup our model using the *survey data* and train it to estimate whether someone **will be voting for a particular party or not**. To do this we will be using **Multilevel Logistic Regression**, logistic regression is used when we are dealing with a **binary response variable**. \
 
 ## Post stratatification and Estimation
 Now in our case we will be first divide our **CENSUS DATA** for each province then then into different **bins**. The concept of bins here is based on grouping the data into different groups and these are the variables which are present in our regression model.
-Now running this data set on the generated model for each popular party in each province will generate **log odds** of the particular group voting in favour of our hypothesised party. \
+Now running this data set on the generated model for each popular party in each province will generate **log odds** of the particular group voting in favor of our hypothesized party. \
 
 Now in general the log odds generated from the regression model will look like:
  $$\log(\frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}}) = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} + ... + \beta_{k}x_{k} \qquad i \subset [1,k]$$ 
 Here $\beta_{0}$ is the measure for the level is random intercept which accounts for the different income levels and $\beta_{i}, i \subset[1,k] $ are the other factors which effect our model. \
 
-Although as previously mentioned that there are many variables which effect someone's voting preference but due to the limitation of data we will be dividing our data set in different proviences and then for each provience we will be making our model on **family income level**, **sex**, **education level** and **age group**. So the resulting $\beta_{i}$ will be the following:
+Although as previously mentioned that there are many variables which effect someone's voting preference but due to the limitation of data we will be dividing our data set in different provinces and then for each province we will be making our model on **family income level**, **sex**, **education level** and **age group**. So the resulting $\beta_{i}$ will be the following:
 ```{=latex}
 \begin{table}[ht]
 \caption{$\beta_{i}$ and the corresponding measure} % title of Table
@@ -334,7 +311,7 @@ Here is a table of the popular parties in each province[]:
 \centering % used for centering table
 \begin{tabular}{c c} % centered columns (4 columns)
 \hline\hline %inserts double horizontal lines
-Provience & Seats \\ [0.5ex] % inserts table
+province & Seats \\ [0.5ex] % inserts table
 %heading
 \hline % inserts single horizontal line
         & NDP (New Democratic Party, New Democrats, NDPers)  \\ % inserting body of the table
@@ -373,26 +350,19 @@ New Brunswick & Liberal (Grits) \\
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
 ```
-*Note the given data was not available so we choose the overall popular parties in the region which are Liberals and Conservatives.
+
+*Note the given data was not available so we chose the overall popular parties in the region which are Liberals and Conservatives.
+
 \newpage
-Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in canada these are as follows.**[https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/]**
+Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in Canada these are as follows.**[18]**
 The age groups were, People under 18; "Under 18", people between 18 and 24; "18 to 24 years", people between 25 to 44; "25 to 44 years", people between 45 and 64; "45 to 64 years" and people over; "Over 65". \
 
-
 **Removing for this feeling life, religion participation...**
-
-
 
 #### POST STRAT Function used
 
 ## Alberta
 ### NDP (New Democratic Party, New Democrats, NDPers)
-Based on this we
-
-
-
-
-
 ```{r, echo= F}
 ## make the according data sets according to the Support of their party               ---WITH AGE GROUPS
 NDP_predic <- survey_data %>%
@@ -435,11 +405,9 @@ Other_pred <- survey_data %>%
                               survey_data$political_pref != "Other"  ~ 0))
 ```
 
-
-
 # grouping based on age for bin size
 ```{r}
-#removing ppl less than 18 to match with                                ---Move to data cleaning--- **Limitation**
+#removing people less than 18 to match with                                ---Move to data cleaning--- **Limitation**
  census_data.44 <- subset(census_data.4, age >18)
   #census_data.4[census_data.4$age > 18, ]
 
@@ -473,9 +441,7 @@ survey_data.2 <- select(survey_data.2, -5)
 est_p <- function(sum){
   return(exp(sum)/(1+(exp(sum))))
 }
-
 ```
-
 
 #Alberta 
 ##NDPxAlberta
@@ -485,7 +451,7 @@ NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
 
-# group the survey data by the provience filter out Alberta ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Alberta people       --Filtering out the NDP survey data for the province to make model
 AlbertaXsurveyXNDP <- NDP_predic.1[NDP_predic.1$province == "Alberta",] 
 # make the model for predicting the results on Alberta,              
 glm_NDP_model.2<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=AlbertaXsurveyXNDP, family=binomial)
@@ -496,11 +462,11 @@ glm_NDP_model.2<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_grou
 
 # filter out for Alberta in the census data
 albertaXcensus <- census_data.5[census_data.5$province =="Alberta",]
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 albertaXcensus.1 <- albertaXcensus %>%
   count(sex, education,  income_family, age_group)
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_NDP_model.2, albertaXcensus.1)
 #view(X)
 # appending the log odds to the  NDPxAlberta
@@ -508,7 +474,7 @@ albertaXcensus.1$NDP_odds <- X
 # getting the probability for each group 
 albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_NDP = est_p(NDP_odds))
 
-## post-strart for the albertaX_NDP
+## post-stratification for the albertaX_NDP
 
 ## sum of N                             --- add this in the model---
 N <- sum(albertaXcensus.1$n)
@@ -521,39 +487,39 @@ NDP_Vote_percen_Alberta
 ```{r, warning=FALSE}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
 # filter out based on Alberta
-# group the survey data by the provience filter out Alberta ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Alberta people       --Filtering out the NDP survey data for the province to make model
 AlbertaXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Alberta",] 
 # make the model for predicting the results on Alberta,              
 glm_Consv_model<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=AlbertaXsurveyXConsv, family=binomial)
 #results
 #summary(glm_Consv_model)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Alberta in the census data
 albertaXcensus <- census_data.5[census_data.5$province == "Alberta",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 albertaXcensus.1 <- albertaXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model, albertaXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxAlberta
+# appending the log odds to the  ConservativexAlberta
 albertaXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_Consv = est_p(Consv_odds))
 
-## post-strart for the albertaX_Consv
+## post-stratification for the albertaX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(albertaXcensus.1$n)
-# prediction for NDPxAlberta
+# prediction for ConservativexAlberta
 Consv_Vote_percen_Alberta <- albertaXcensus.1 %>% summarise(Consv_est_Alberta = (sum(n*prob_Consv)/N))
 Consv_Vote_percen_Alberta
 ```
@@ -562,44 +528,43 @@ Consv_Vote_percen_Alberta
 ```{r, warning=FALSE}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on Alberta
-# group the survey data by the province filter out Alberta ppl       --Filtering out the NDP survey data for the province to make model
+# group the survey data by the province filter out Alberta people       --Filtering out the liberal survey data for the province to make model
 AlbertaXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Alberta",] 
 # make the model for predicting the results on Alberta,              
 glm_Lib_model<-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=AlbertaXsurveyXLib, family=binomial)
 #results
 #summary(glm_Lib_model)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Alberta in the census data
 albertaXcensus <- census_data.5[census_data.5$province == "Alberta",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 albertaXcensus.1 <- albertaXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model, albertaXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxAlberta
+# appending the log odds to the  LiberalxAlberta
 albertaXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the albertaX_Consv
+## post-stratification for the albertaXLiberal
 
 ## sum of N                             --- add this in the model---
 N <- sum(albertaXcensus.1$n)
-# prediction for NDPxAlberta
+# prediction for LiberalxAlberta
 Lib_Vote_percen_Alberta <- albertaXcensus.1 %>% summarise(Lib_est_Alberta = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Alberta
 ```
 BASED on the result we can see that Majority of the people in Alberta .... 
-
 
 #British Columbia 
 ##NDPxBritish Columbia
@@ -609,9 +574,9 @@ NDP_predic.2 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
 
-# group the survey data by the province filter out British Columbia ppl       --Filtering out the NDP survey data for the province to make model
+# group the survey data by the province filter out British Columbia people       --Filtering out the NDP survey data for the province to make model
 BcXsurveyXNDP <- NDP_predic.2[NDP_predic.2$province == "British Columbia",]
-# make the model for predicting the results on Alberta,              
+# make the model for predicting the results on British Columbia,              
 glm_NDP_model.1<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=BcXsurveyXNDP, family=binomial)
 #results
 #summary(glm_NDP_model.1)
@@ -620,11 +585,11 @@ glm_NDP_model.1<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_grou
 
 # filter out for British Columbia in the census data
 BcXcensus <- census_data.5[census_data.5$province == "British Columbia",]
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 BcXcensus.1 <- albertaXcensus %>%
   count(sex, education,  income_family, age_group)
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_NDP_model.1, BcXcensus.1)
 #view(X)
 # appending the log odds to the  NDPxBritish Columbia
@@ -632,11 +597,11 @@ albertaXcensus.1$NDP_odds <- X
 # getting the probability for each group 
 albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_NDP = est_p(NDP_odds))
 
-## post-strart for the albertaX_NDP
+## post-stratification for the British ColumbiaX_NDP
 
 ## sum of N                             --- add this in the model---
 N <- sum(BcXcensus.1$n)
-# prediction for NDPxAlberta
+# prediction for NDPxBritish Columbia
 NDP_Vote_percen_BC <- albertaXcensus.1 %>% summarise(NDP_est_BC = (sum(n*prob_NDP)/N))
 NDP_Vote_percen_BC
 ```
@@ -649,7 +614,7 @@ Conservatives_predic.1 <- survey_data.2 %>%
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
 # filter out based on Alberta
-# group the survey data by the provience filter out British Columbia ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out British Columbia people       --Filtering out the NDP survey data for the province to make model
 BcXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "British Columbia",] 
 # make the model for predicting the results on British Columbia,              
 glm_Consv_model_Bc<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=BcXsurveyXConsv, family=binomial)
@@ -659,11 +624,11 @@ glm_Consv_model_Bc<-glmer(Consv_pref ~ sex + education + (1|income_family) + age
 ## now assign bins and make the predicitons
 # filter out for Alberta in the census data
 BcXcensus <- census_data.5[census_data.5$province == "British Columbia",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 BcXcensus.1 <- BcXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model_Bc, BcXcensus.1)
 #view(X)
 # appending the log odds to the  NDPxBritish Columbia
@@ -671,7 +636,7 @@ BcXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 BcXcensus.1 <- BcXcensus.1 %>% mutate(prob_Consv_Bc = est_p(Consv_odds))
 
-## post-strart for the albertaX_Consv
+## post-stratification for the albertaX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(BcXcensus.1$n)
@@ -680,42 +645,42 @@ Consv_Vote_percen_Bc <- BcXcensus.1 %>% summarise(Consv_est_Bc = (sum(n*prob_Con
 Consv_Vote_percen_Bc
 ```
 
-##LiberalXBc
+##LiberalXBritish Columbia
 ```{r, warning=FALSE}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on BC
-# group the survey data by the province filter out Bc ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out Bc people       --Filtering out the Liberal survey data for the province to make model
 BcXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "British Columbia",]
 # make the model for predicting the results on Alberta,              
 glm_Lib_model_Bc <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=BcXsurveyXLib, family=binomial)
 #summary(glm_Lib_model_Bc)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Bc in the census data
 BcXcensus <- census_data.5[census_data.5$province == "British Columbia",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 BcXcensus.1 <- BcXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model_Bc, BcXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxBc
+# appending the log odds to the  LiberalxBc
 BcXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 BcXcensus.1 <- BcXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the BcX_Consv
+## post-stratification for the BcX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(BcXcensus.1$n)
-# prediction for NDPxBc
+# prediction for LiberalxBc
 Lib_Vote_percen_Bc <- BcXcensus.1 %>% summarise(Lib_est_Bc = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Bc
 ```
@@ -728,7 +693,7 @@ NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
 
-# group the survey data by the provience filter out Ontario ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Ontario people       --Filtering out the NDP survey data for the province to make model
 OntarioXsurveyXNDP <- NDP_predic.1[NDP_predic.1$province == "Ontario",] 
 # make the model for predicting the results on Ontario,              
 glm_NDP_model.2<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=OntarioXsurveyXNDP, family=binomial)
@@ -739,11 +704,11 @@ glm_NDP_model.2<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_grou
 
 # filter out for Ontario in the census data
 ontarioXcensus <- census_data.5[census_data.5$province =="Ontario",]
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 ontarioXcensus.1 <- ontarioXcensus %>%
   count(sex, education,  income_family, age_group)
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_NDP_model.2, ontarioXcensus.1)
 #view(X)
 # appending the log odds to the  NDPxOntario 
@@ -751,7 +716,7 @@ ontarioXcensus.1$NDP_odds <- X
 # getting the probability for each group 
 ontarioXcensus.1 <- ontarioXcensus.1 %>% mutate(prob_NDP_Ontario = est_p(NDP_odds))
 
-## post-strart for the albertaX_NDP
+## post-stratification for the OntarioX_NDP
 
 ## sum of N                             --- add this in the model---
 N <- sum(ontarioXcensus.1$n)
@@ -762,27 +727,27 @@ NDP_Vote_percen_Ontario
 
 ##Conservatives x Ontario
 ```{r, warning=FALSE}
-# getting the NDP survey data to make the models                            
+# getting the Conservatives survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
 # filter out based on Ontario
-# group the survey data by the provience filter out Ontario ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Ontario people       --Filtering out the NDP survey data for the province to make model
 OnXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Ontario",] 
 # make the model for predicting the results on Ontario,              
 glm_Consv_model_On<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=OnXsurveyXConsv, family=binomial)
 #results
 #summary(glm_Consv_model_On)
 
-## now assign bins and make the predicitons
+## now assign bins and make the predictions
 # filter out for Ontario in the census data
 OnXcensus <- census_data.5[census_data.5$province == "Ontario",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 OnXcensus.1 <- OnXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model_Bc, OnXcensus.1)
 #view(X)
 # appending the log odds to the  ConsxOntario
@@ -790,7 +755,7 @@ OnXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 OnXcensus.1 <- OnXcensus.1 %>% mutate(prob_Consv_On = est_p(Consv_odds))
 
-## post-strart for the OntarioX_Consv
+## post-stratification for the OntarioX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(OnXcensus.1$n)
@@ -803,38 +768,38 @@ Cons_Vote_percen_Bc
 ```{r, warning=FALSE}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on Ontario
-# group the survey data by the province filter out Bc ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out Ontario people       --Filtering out the Liberal survey data for the province to make model
 OnXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Ontario",]
 # make the model for predicting the results on Ontario,              
 glm_Lib_model_On <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=OnXsurveyXLib, family=binomial)
 #summary(glm_Lib_model_On)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Ontario in the census data
 OnXcensus <- census_data.5[census_data.5$province == "Ontario",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 OnXcensus.1 <- OnXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model_Bc, OnXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxOntario
+# appending the log odds to the  LiberalxOntario
 OnXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 OnXcensus.1 <- OnXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the OntarioX_Consv
+## post-stratification for the OntarioX_Lib
 
 ## sum of N                             --- add this in the model---
 N <- sum(OnXcensus.1$n)
-# prediction for NDPxOntario
+# prediction for LiberalxOntario
 Lib_Vote_percen_On <- OnXcensus.1 %>% summarise(Lib_est_On = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_On
 ```
@@ -847,7 +812,7 @@ NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
 
-# group the survey data by the provience filter out Manitoba ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Manitoba people       --Filtering out the NDP survey data for the province to make model
 MnXsurveyXNDP <- NDP_predic.1[NDP_predic.1$province == "Manitoba",] 
 # make the model for predicting the results on Manitoba,              
 glm_NDP_model.Mn<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=MnXsurveyXNDP, family=binomial)
@@ -862,7 +827,7 @@ MnXcensus <- census_data.5[census_data.5$province =="Manitoba",]
 MnXcensus.1 <- MnXcensus %>%
   count(sex, education,  income_family, age_group)
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_NDP_model.Mn, MnXcensus.1)
 #view(X)
 # appending the log odds to the  NDPxManitoba 
@@ -870,7 +835,7 @@ MnXcensus.1$NDP_odds <- X
 # getting the probability for each group
 MnXcensus.1 <- MnXcensus.1 %>% mutate(prob_NDP_Manitoba = est_p(NDP_odds))
 
-## post-strart for the ManitobaX_NDP
+## post-stratification for the ManitobaX_NDP
 
 ## sum of N                             --- add this in the model---
 N <- sum(MnXcensus.1$n)
@@ -881,39 +846,39 @@ NDP_Vote_percen_Manitoba
 
 ##Conservatives x Manitoba
 ```{r, warning=FALSE}
-# getting the NDP survey data to make the models                            
+# getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
 # filter out based on Manitoba
-# group the survey data by the provience filter out Manitoba ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Manitoba people       --Filtering out the NDP survey data for the province to make model
 MnXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Manitoba",] 
 # make the model for predicting the results on Manitoba,              
 glm_Consv_model_Mn<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=MnXsurveyXConsv, family=binomial)
 #results
 #summary(glm_Consv_model_Mn)
 
-## now assign bins and make the predicitons
+## now assign bins and make the predictions
 # filter out for Ontario in the census data
 MnXcensus <- census_data.5[census_data.5$province == "Manitoba",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 MnXcensus.1 <- MnXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model_Bc, MnXcensus.1)
 #view(X)
-# appending the log odds to the  ConsxOntario
+# appending the log odds to the  ConsxManitoba
 MnXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 MnXcensus.1 <- MnXcensus.1 %>% mutate(prob_Consv_Mn = est_p(Consv_odds))
 
-## post-strart for the OntarioX_Consv
+## post-stratification for the ManitobaX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(MnXcensus.1$n)
-# prediction for ConsxOntario
+# prediction for ConsXManitoba
 Cons_Vote_percen_Mn <- MnXcensus.1 %>% summarise(Consv_est_Mn = (sum(n*prob_Consv_Mn)/N))
 Cons_Vote_percen_Mn
 ```
@@ -922,38 +887,38 @@ Cons_Vote_percen_Mn
 ```{r, warning=FALSE}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on Manitoba
-# group the survey data by the province filter out Manitoba ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out Manitoba people       --Filtering out the Liberal survey data for the province to make model
 MnXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Manitoba",]
 # make the model for predicting the results on Manitoba,              
 glm_Lib_model_Mn <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=MnXsurveyXLib, family=binomial)
 #summary(glm_Lib_model_Mn)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Manitoba in the census data
 MnXcensus <- census_data.5[census_data.5$province == "Manitoba",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 MnXcensus.1 <- MnXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model_Mn, MnXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxManitoba
+# appending the log odds to the  LiberalxManitoba
 MnXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 MnXcensus.1 <- MnXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the ManitobaX_Consv
+## post-stratification for the ManitobaX_Lib
 
 ## sum of N                             --- add this in the model---
 N <- sum(MnXcensus.1$n)
-# prediction for NDPxManitoba
+# prediction for LibxManitoba
 Lib_Vote_percen_Mn <- MnXcensus.1 %>% summarise(Lib_est_Mn = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Mn
 ```
@@ -963,38 +928,38 @@ Lib_Vote_percen_Mn
 ```{r, warning=FALSE}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Bloc Quebecois survey data to make the models                            
 Quebecois_predic <- survey_data.2 %>%
   mutate(Qb_pref = case_when(survey_data.2$political_pref == "Bloc Québécois (BQ, PQ, Bloc, Parti Québécois)" ~ 1,
                               survey_data.2$political_pref != "Bloc Québécois (BQ, PQ, Bloc, Parti Québécois)" ~ 0))
 
 # filter out based on Quebec
-# group the survey data by the province filter out Quebec ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out Quebec people       --Filtering out the Bloc Quebecois survey data for the province to make model
 QuXsurveyXQb <- Quebecois_predic[Quebecois_predic$province == "Quebec",]
 # make the model for predicting the results on Quebec,              
 glm_Qb_model_Qb <-glmer(Qb_pref ~ sex + education + (1|income_family) + age_group, data=QuXsurveyXQb, family=binomial)
 #summary(glm_Qb_model_Qb)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Quebec in the census data
 QbXcensus <- census_data.5[census_data.5$province == "Quebec",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 QbXcensus.1 <- QbXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Qb_model_Qb, QbXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxQuebec
+# appending the log odds to the  Bloc QuebecoisxQuebec
 QbXcensus.1$Qb_odds <- X
 # getting the probability for each group 
 QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Qb = est_p(Qb_odds))
 
-## post-strart for the QuebecX_Qb
+## post-stratification for the QuebecX_Qb
 
 ## sum of N                             --- add this in the model---
 N <- sum(QbXcensus.1$n)
-# prediction for NDPxManitoba
+# prediction for QuebecX_Qb
 Qb_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Qb_est_Qb = (sum(n*prob_Qb)/N))
 Qb_Vote_percen_Qb
 ```
@@ -1007,21 +972,21 @@ Conservatives_predic.1 <- survey_data.2 %>%
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
 # filter out based on Quebec
-# group the survey data by the provience filter out Quebec ppl       --Filtering out the Conservative survey data for the provience to make model
+# group the survey data by the province filter out Quebec people       --Filtering out the Conservative survey data for the province to make model
 QbXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Quebec",] 
 # make the model for predicting the results on Quebec,              
 glm_Consv_model_Qb<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=QbXsurveyXConsv, family=binomial)
 #results
 #summary(glm_Consv_model_Qb)
 
-## now assign bins and make the predicitons
+## now assign bins and make the predictions
 # filter out for Ontario in the census data
 QbXcensus <- census_data.5[census_data.5$province == "Quebec",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 QbXcensus.1 <- QbXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model_Qb, QbXcensus.1)
 #view(X)
 # appending the log odds 
@@ -1029,7 +994,7 @@ QbXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Consv_Qb = est_p(Consv_odds))
 
-## post-strart for the QuebecX_Consv
+## post-stratification for the QuebecX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(QbXcensus.1$n)
@@ -1042,13 +1007,13 @@ Cons_Vote_percen_Qb
 ```{r, warning=FALSE}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on Quebec
-# group the survey data by the province filter out Quebec ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out Quebec people       --Filtering out the Liberal survey data for the province to make model
 QbXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Quebec",]
 # make the model for predicting the results on Quebec,              
 glm_Lib_model_Qb <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=QbXsurveyXLib, family=binomial)
@@ -1057,19 +1022,19 @@ glm_Lib_model_Qb <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_gr
 ## now assign bins and make the predictions
 # filter out for Quebec in the census data
 QbXcensus <- census_data.5[census_data.5$province == "Quebec",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 QbXcensus.1 <- QbXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model_Qb, QbXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxManitoba
+# appending the log odds to the  LiberalXQuebec
 QbXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the Quebec_X_Liberal
+## post-stratification for the Quebec_X_Liberal
 
 ## sum of N                             --- add this in the model---
 N <- sum(QbXcensus.1$n)
@@ -1078,20 +1043,18 @@ Lib_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Lib_est_Qb = (sum(n*prob_Lib)/N)
 Lib_Vote_percen_Qb
 ```
 
-
-
 #New Brunswick                        LIMITATION no one BW age 18-24 in survey
 ##New BrunswickXLiberal                   
 ```{r, warning=FALSE}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on New Brunswick
-# group the survey data by the province filter out New Brunswick ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out New Brunswick people       --Filtering out the Liberal survey data for the province to make model
 NbXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "New Brunswick",]
 
 # make the model for predicting the results on New Brunswick,              
@@ -1101,21 +1064,21 @@ glm_Lib_model_Nb <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_gr
 ## now assign bins and make the predictions
 # filter out for New Brunswick in the census data
 NbXcensus <- census_data.5[census_data.5$province == "New Brunswick",]    #### Can remove this line##
-## removing the bin of ppl less than 18 because not in the survey bin
+## removing the bin of people less than 18 because not in the survey bin
 NbXcensus <- NbXcensus[NbXcensus$age_group != "18 to 24 years",]
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 NbXcensus.1 <- NbXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model_Nb, NbXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxManitoba
+# appending the log odds to the  LiberalXNb
 NbXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the New Brunswick_X_Liberal
+## post-stratification for the New Brunswick_X_Liberal
 
 ## sum of N                             --- add this in the model---
 N <- sum(NbXcensus.1$n)
@@ -1132,23 +1095,23 @@ Conservatives_predic.1 <- survey_data.2 %>%
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
 # filter out based on New Brunswick
-# group the survey data by the provience filter out New Brunswick ppl       --Filtering out the Conservative survey data for the provience to make model
+# group the survey data by the province filter out New Brunswick people       --Filtering out the Conservative survey data for the province to make model
 NbXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "New Brunswick",] 
 # make the model for predicting the results on New Brunswick,              
 glm_Consv_model_Nb<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=NbXsurveyXConsv, family=binomial)
 #results
 #summary(glm_Consv_model_Nb)
 
-## now assign bins and make the predicitons
-# filter out for Ontario in the census data
+## now assign bins and make the predictions
+# filter out for Nb in the census data
 NbXcensus <- census_data.5[census_data.5$province == "New Brunswick",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
-## removing the bin of ppl less than 18 because not in the survey bin
+# get the bin count corresponding to the model we make
+## removing the bin of people less than 18 because not in the survey bin
 NbXcensus <- NbXcensus[NbXcensus$age_group != "18 to 24 years",]
 NbXcensus.1 <- NbXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model_Nb, NbXcensus.1)
 #view(X)
 # appending the log odds 
@@ -1156,7 +1119,7 @@ NbXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Consv_Nb = est_p(Consv_odds))
 
-## post-strart for the New BrunswickX_Consv
+## post-stratification for the New BrunswickX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(NbXcensus.1$n)
@@ -1173,23 +1136,23 @@ Green_predic.1 <- survey_data.2 %>%
                               survey_data.2$political_pref != "Green Party (Greens)" ~ 0))
 
 # filter out based on New Brunswick
-# group the survey data by the provience filter out New Brunswick ppl       --Filtering out the Green survey data for the provience to make model
+# group the survey data by the province filter out New Brunswick people       --Filtering out the Green survey data for the province to make model
 NbXsurveyXGreen <- Green_predic.1[Green_predic.1$province == "New Brunswick",] 
 # make the model for predicting the results on New Brunswick,              
 glm_Green_model_Nb<-glmer(Green_pref ~ sex + education + (1|income_family) + age_group, data=NbXsurveyXGreen, family=binomial)
 #results
 #summary(glm_Green_model_Nb)
 
-## now assign bins and make the predicitons
-# filter out for New Brunsw in the census data
+## now assign bins and make the predictions
+# filter out for New Brunswick in the census data
 NbXcensus <- census_data.5[census_data.5$province == "New Brunswick",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
-## removing the bin of ppl less than 18 because not in the survey bin
+# get the bin count corresponding to the model we make
+## removing the bin of people less than 18 because not in the survey bin
 NbXcensus <- NbXcensus[NbXcensus$age_group != "18 to 24 years",]
 NbXcensus.1 <- NbXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Green_model_Nb, NbXcensus.1)
 #view(X)
 # appending the log odds 
@@ -1197,93 +1160,96 @@ NbXcensus.1$Green_odds <- X
 # getting the probability for each group 
 NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Green_Nb = est_p(Green_odds))
 
-## post-strart for the New BrunswickX_Consv
+## post-stratification for the New BrunswickXGreens
 
 ## sum of N                             --- add this in the model---
 N <- sum(NbXcensus.1$n)
-# prediction for ConsxNew Brunswick
+# prediction for GreensxNew Brunswick
 Green_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Green_est_Nb = (sum(n*prob_Green_Nb)/N))
 Green_Vote_percen_Nb
 ```
 
 #Saskatchewan
-##Cons
+
+##Conservative
 ```{r, warning=FALSE}
-# getting the NDP survey data to make the models                            
+# getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0,))
 
 # filter out based on Saskatchewan
-# group the survey data by the provience filter out Saskatchewan ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Saskatchewan people       --Filtering out the Conservative survey data for the province to make model
 SaXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Saskatchewan",] 
 # make the model for predicting the results on Saskatchewan,              
 glm_Consv_model_Sa<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=SaXsurveyXConsv, family=binomial)
 #results
 #summary(glm_Consv_model_Sa)
 
-## now assign bins and make the predicitons
-# filter out for Saskatchwan in the census data
+## now assign bins and make the predictions
+# filter out for Saskatchewan in the census data
 SaXcensus <- census_data.5[census_data.5$province == "Saskatchewan",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 SaXcensus.1 <- SaXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model_Sa, SaXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxSaskatchewan
+# appending the log odds to the  ConservativexSaskatchewan
 SaXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 SaXcensus.1 <- SaXcensus.1 %>% mutate(prob_Consv_Sa = est_p(Consv_odds))
 
-## post-strart for the SaskatchewanX_Consv
+## post-stratification for the Saskatchewan_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(SaXcensus.1$n)
-# prediction for NDPxSaskatchewan
+# prediction for ConservativexSaskatchewan
 Consv_Vote_percen_Sa <- SaXcensus.1 %>% summarise(Consv_est_Sa = (sum(n*prob_Consv_Sa)/N))
 Consv_Vote_percen_Sa
 ```
+
 ##Liberal
 ```{r}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on Saskatchewan
-# group the survey data by the province filter out Saskatchewan ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out Saskatchewan people       --Filtering out the Liberal survey data for the province to make model
 SaXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Saskatchewan",]
 # make the model for predicting the results on Saskatchewan,              
 glm_Lib_model_Sa <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=SaXsurveyXLib, family=binomial)
 #summary(glm_Lib_model_Sa)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Saskatchewan in the census data
 SaXcensus <- census_data.5[census_data.5$province == "Saskatchewan",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 SaXcensus.1 <- SaXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model_Sa, SaXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxSaskatchewan
+# appending the log odds to the   LiberalxSaskatchewan
 SaXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 SaXcensus.1 <- SaXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the SaskatchewanX_Consv
+## post-stratification for the SaskatchewanXLiberal
 
 ## sum of N                             --- add this in the model---
 N <- sum(SaXcensus.1$n)
-# prediction for NDPxSaskatchewan
+# prediction for  LiberalxSaskatchewan
 Lib_Vote_percen_Sa <- SaXcensus.1 %>% summarise(Lib_est_Sa = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Sa
 ```
+
 ##NDP
 ```{r, warning=FALSE}
 # getting the NDP survey data to make the models                            
@@ -1291,7 +1257,7 @@ NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
 
-# group the survey data by the provience filter out Saskatchewan ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Saskatchewan people       --Filtering out the NDP survey data for the province to make model
 SaXsurveyXNDP <- NDP_predic.1[NDP_predic.1$province == "Saskatchewan",] 
 # make the model for predicting the results on Saskatchewan,              
 glm_NDP_model.Sa<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=SaXsurveyXNDP, family=binomial)
@@ -1306,7 +1272,7 @@ SaXcensus <- census_data.5[census_data.5$province =="Saskatchewan",]
 SaXcensus.1 <- SaXcensus %>%
   count(sex, education,  income_family, age_group)
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_NDP_model.Sa, SaXcensus.1)
 #view(X)
 # appending the log odds to the  NDPxSaskatchewan 
@@ -1314,7 +1280,7 @@ SaXcensus.1$NDP_odds <- X
 # getting the probability for each group
 SaXcensus.1 <- SaXcensus.1 %>% mutate(prob_NDP_Manitoba = est_p(NDP_odds))
 
-## post-strart for the SaskatchewanX_NDP
+## post-stratification for the SaskatchewanX_NDP
 
 ## sum of N                             --- add this in the model---
 N <- sum(SaXcensus.1$n)
@@ -1323,70 +1289,70 @@ NDP_Vote_percen_Saskatchewan <- SaXcensus.1 %>% summarise(NDP_est_Saskatchewan =
 NDP_Vote_percen_Saskatchewan
 ```
 
-
 #Nova Scotia
-##Cons
+##Conservative
 ```{r, warning=FALSE}
-# getting the NDP survey data to make the models                            
+# getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
 # filter out based on Nova Scotia
-# group the survey data by the provience filter out Nova Scotia ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Nova Scotia people       --Filtering out the Conservative survey data for the province to make model
 NsXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Nova Scotia",] 
 # make the model for predicting the results on Nova Scotia,              
 glm_Consv_model_Ns<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=NsXsurveyXConsv, family=binomial)
 #results
 #summary(glm_Consv_model_Ns)
 
-## now assign bins and make the predicitons
+## now assign bins and make the predictions
 # filter out for Nova Scotia in the census data
 NsXcensus <- census_data.5[census_data.5$province == "Nova Scotia",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 NsXcensus.1 <- NsXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model_Ns, NsXcensus.1)
 #view(X)
-# appending the log odds to the  NDPxNova Scotia
+# appending the log odds to the  ConservativexNova Scotia
 NsXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_Consv_Sa = est_p(Consv_odds))
 
-## post-strart for the Nova ScotiaX_Consv
+## post-stratification for the Nova ScotiaX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(SaXcensus.1$n)
-# prediction for NDPxNova Scotia
+# prediction for ConservativexNova Scotia
 Consv_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Consv_est_Ns = (sum(n*prob_Consv_Sa)/N))
 Consv_Vote_percen_Ns
 ```
+
 ##Liberal
 ```{r}
 ## Making the model and the predictions
 
-# getting the NDP survey data to make the models                            
+# getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on Nova Scotia
-# group the survey data by the province filter out Nova Scotia ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out Nova Scotia people       --Filtering out the Liberal survey data for the province to make model
 NsXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Nova Scotia",]
 # make the model for predicting the results on Nova Scotia,              
 glm_Lib_model_Ns <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=NsXsurveyXLib, family=binomial)
 #summary(glm_Lib_model_Ns)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Nova Scotia in the census data
 NsXcensus <- census_data.5[census_data.5$province == "Nova Scotia",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 NsXcensus.1 <- NsXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model_Ns, NsXcensus.1)
 #view(X)
 # appending the log odds to the  LiberalxNova Scotia
@@ -1394,14 +1360,15 @@ NsXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the Nova ScotiaX_Consv
+## post-stratification for the Nova ScotiaXLiberal
 
 ## sum of N                             --- add this in the model---
 N <- sum(NsXcensus.1$n)
-# prediction for NDPxSaskatchewan
+# prediction for LiberalxNova Scotia
 Lib_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Lib_est_Ns = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Ns
 ```
+
 ##NDP
 ```{r, warning=FALSE}
 # getting the NDP survey data to make the models                            
@@ -1409,7 +1376,7 @@ NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
 
-# group the survey data by the provience filter out Nova Scotia ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Nova Scotia people       --Filtering out the NDP survey data for the province to make model
 NsXsurveyXNDP <- NDP_predic.1[NDP_predic.1$province == "Nova Scotia",] 
 # make the model for predicting the results on Nova Scotia,              
 glm_NDP_model.Ns<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=NsXsurveyXNDP, family=binomial)
@@ -1424,7 +1391,7 @@ NsXcensus <- census_data.5[census_data.5$province =="Nova Scotia",]
 NsXcensus.1 <- NsXcensus %>%
   count(sex, education,  income_family, age_group)
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_NDP_model.Ns, NsXcensus.1)
 #view(X)
 # appending the log odds to the  NDPxNova Scotia
@@ -1432,7 +1399,7 @@ NsXcensus.1$NDP_odds <- X
 # getting the probability for each group
 NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_NDP_Ns = est_p(NDP_odds))
 
-## post-strart for the Nova ScotiaX_NDP
+## post-stratification for the Nova ScotiaX_NDP
 
 ## sum of N                             --- add this in the model---
 N <- sum(NsXcensus.1$n)
@@ -1440,7 +1407,6 @@ N <- sum(NsXcensus.1$n)
 NDP_Vote_percen_Ns <- NsXcensus.1 %>% summarise(NDP_est_Ns = (sum(n*prob_NDP_Ns)/N))
 NDP_Vote_percen_Ns
 ```
-
 
 #Newfoundland and Labrador           ----AGE GROUP 18-24 limitation
 ##NDP
@@ -1450,7 +1416,7 @@ NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
                               survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
 
-# group the survey data by the provience filter out Newfoundland and Labrador ppl       --Filtering out the NDP survey data for the provience to make model
+# group the survey data by the province filter out Newfoundland and Labrador people       --Filtering out the NDP survey data for the province to make model
 NLXsurveyXNDP <- NDP_predic.1[NDP_predic.1$province == "Newfoundland and Labrador",] 
 # make the model for predicting the results on Newfoundland and Labrador,              
 glm_NDP_model.NL<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=NLXsurveyXNDP, family=binomial)
@@ -1461,13 +1427,13 @@ glm_NDP_model.NL<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_gro
 
 # filter out for Newfoundland and Labrador in the census data
 NLXcensus <- census_data.5[census_data.5$province =="Newfoundland and Labrador",]
-## removing the bin of ppl less than 18 because not in the survey bin
+## removing the bin of people less than 18 because not in the survey bin
 NLXcensus <- NLXcensus[NLXcensus$age_group != "18 to 24 years",]
 # get the bin count corresponding to the model we make
 NLXcensus.1 <- NLXcensus %>%
   count(sex, education,  income_family, age_group)
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_NDP_model.NL, NLXcensus.1)
 #view(X)
 # appending the log odds to the  NDPxNewfoundland and Labrador
@@ -1475,7 +1441,7 @@ NLXcensus.1$NDP_odds <- X
 # getting the probability for each group
 NLXcensus.1 <- NLXcensus.1 %>% mutate(prob_NDP_NL = est_p(NDP_odds))
 
-## post-strart for the Newfoundland and LabradorX_NDP
+## post-stratification for the Newfoundland and LabradorX_NDP
 
 ## sum of N                             --- add this in the model---
 N <- sum(NLXcensus.1$n)
@@ -1494,22 +1460,22 @@ Liberal_predic.1 <- survey_data.2 %>%
                               survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
 
 # filter out based on Newfoundland and Labrador
-# group the survey data by the province filter out Newfoundland and Labrador ppl       --Filtering out the Liberal survey data for the province to make model
+# group the survey data by the province filter out Newfoundland and Labrador people       --Filtering out the Liberal survey data for the province to make model
 NLXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Newfoundland and Labrador",]
 # make the model for predicting the results on Newfoundland and Labrador,              
 glm_Lib_model_NL <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=NLXsurveyXLib, family=binomial)
 #summary(glm_Lib_model_NL)
 
-## now assign bins and make the prdicitons
+## now assign bins and make the predictions
 # filter out for Newfoundland and Labrador in the census data
 NLXcensus <- census_data.5[census_data.5$province == "Newfoundland and Labrador",]    #### Can remove this line##
-## removing the bin of ppl less than 18 because not in the survey bin
+## removing the bin of people less than 18 because not in the survey bin
 NLXcensus <- NLXcensus[NLXcensus$age_group != "18 to 24 years",]
-# get the bin count corresdonidng to the model we make
+# get the bin count corresponding to the model we make
 NLXcensus.1 <- NLXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Lib_model_NL, NLXcensus.1)
 #view(X)
 # appending the log odds to the  LiberalxNewfoundland and Labrador
@@ -1517,7 +1483,7 @@ NLXcensus.1$Lib_odds <- X
 # getting the probability for each group 
 NLXcensus.1 <- NLXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 
-## post-strart for the Newfoundland and LabradorX_Consv
+## post-stratification for the Newfoundland and LabradorX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(NsXcensus.1$n)
@@ -1534,23 +1500,23 @@ Conservatives_predic.1 <- survey_data.2 %>%
                               survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
 
 # filter out based on Newfoundland and Labrador
-# group the survey data by the provience filter out Newfoundland and Labrador ppl       --Filtering out the Conservative survey data for the provience to make model
+# group the survey data by the province filter out Newfoundland and Labrador people       --Filtering out the Conservative survey data for the province to make model
 NLXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Newfoundland and Labrador",] 
 # make the model for predicting the results on Newfoundland and Labrador,              
 glm_Consv_model_NL<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=NLXsurveyXConsv, family=binomial)
 #results
 #summary(glm_Consv_model_NL)
 
-## now assign bins and make the predicitons
+## now assign bins and make the predictions
 # filter out for Newfoundland and Labrador in the census data
 NLXcensus <- census_data.5[census_data.5$province == "Newfoundland and Labrador",]    #### Can remove this line##
-# get the bin count corresdonidng to the model we make
-## removing the bin of ppl less than 18 because not in the survey bin
+# get the bin count corresponding to the model we make
+## removing the bin of people less than 18 because not in the survey bin
 NLXcensus <- NLXcensus[NLXcensus$age_group != "18 to 24 years",]
 NLXcensus.1 <- NLXcensus %>%
   count(sex, education,  income_family, age_group)        #### Can remove this line##
 
-# make the logg odds for the regression model
+# make the log odds for the regression model
 X <- predict(glm_Consv_model_NL, NLXcensus.1)
 #view(X)
 # appending the log odds 
@@ -1558,7 +1524,7 @@ NLXcensus.1$Consv_odds <- X
 # getting the probability for each group 
 NLXcensus.1 <- NLXcensus.1 %>% mutate(prob_Consv_NL = est_p(Consv_odds))
 
-## post-strart for the Newfoundland and LabradorX_Consv
+## post-stratification for the Newfoundland and LabradorX_Consv
 
 ## sum of N                             --- add this in the model---
 N <- sum(NLXcensus.1$n)
@@ -1573,9 +1539,7 @@ Cons_Vote_percen_NL <- NLXcensus.1 %>% summarise(Consv_est_NL = (sum(n*prob_Cons
 
 ```
 
-
-
-#Grouping based on proviences
+#Grouping based on provinces
 ```{r, warning=FALSE}
 # make them in groups by province
 alberta <- census_data.4 %>% group_by(province = "Alberta")
@@ -1588,10 +1552,7 @@ ontario <- census_data.5 %>% group_by(province = "Ontario")
 prince_edward_island<- census_data.5 %>% group_by(province = "Prince Edward Island")
 quebec<- census_data.5 %>% group_by(province = "Quebec")
 saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
-
-
 ```
-
 
 
 ```{r, include = FALSE}
@@ -1600,7 +1561,7 @@ saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 
 ```
 
-<Remember, you may want to use multiple datasets here, if you do end up using multiple data sets, or merging the data, be sure to describe this in the cleaning process and be sure to discuss important aspects of all the data that you used.>
+<Remember, you may want to use multiple data sets here, if you do end up using multiple data sets, or merging the data, be sure to describe this in the cleaning process and be sure to discuss important aspects of all the data that you used.>
 
 <Include a description of the important variables.> 
 
@@ -1725,6 +1686,24 @@ All analysis for this report was programmed using `R version 4.0.2`.
 
 9. General Social Survey. (2017, September). https://sda-artsci-utoronto-ca.myaccess.library.utoronto.ca/sdaweb/dli2/gss/gss31/gss31/more_doc/GSS31_User_Guide.pdf
 
-10.
+10. https://www.macleans.ca/politics/ottawa/the-biggest-divide-in-canadian-politics-men-vs-women/
 
-11.
+11. https://research.libraries.wsu.edu/xmlui/handle/2376/4982 
+
+12. https://www150.statcan.gc.ca/n1/pub/75-001-x/2012001/article/11629-eng.html 
+
+13. https://econofact.org/voting-and-income#:~:text=Voter%20participation%20increases%20with%20family%20income.&text=The%20ratio%20of%20differences%20across,be%20more%20likely%20to%20vote.
+
+14. https://www.jstor.org/stable/2146812?seq=1
+
+15. https://pdf.sciencedirectassets.com/277811/1-s2.0-S1877042814X00030/1-s2.0-S1877042813052051/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFw2TxwYvifcSORdKy1tY9jMLmNeRIsnynssW9hoT%2F70AiAjxJZy9H%2F8mu7WLmtusZ%2FXaRQ6xFe7Fac9nvRp0vJs%2FSr6Awh8EAQaDDA1OTAwMzU0Njg2NSIMzcSBCYNH0vSlNNkCKtcD%2BQ1kTcvjGoEvFHERhB9C5YKrB8%2BEba4%2FE63KiZjmclrZcskNo92tUSc8IbkM169P24Dpuw3k2ZAHWUNrnCMg91RZL0TzAuDL8R28VXFGBaLyiUKSI1HtaSjNfYaPK2b8d7puFdrAawTPMPQQvkgIrFwg0V5GZBaNYj2wafxGewUYB5%2B9TBiyBnRCzHIsj7p82YexO8vI315YyQMTrGTcgfriOqKwxXBMiAb858IDCNPKG%2FD7f8Bf3wJSBGDsUlou2eyjLwN3bBso1Lv5gMXMautKRjuAn6cX2XUefGmjySP2LLSaEVBwGyLL3cv8n2psZYpm%2FYXDWjWJsdz7TQ8E%2BLO6hefSrCUEztKUKtYj42Psj2%2Fx2bScowFnBBt4beFowD2zLnLPvdEBwqmGED%2FeQh14a9SmxjW9kYFxwRS6adCrhctb9JAwrJlFiuv%2Fwxb40LaCcdGKayloT1QElFct8buxL%2F0Xj462Q1dYwlGkCrz9nY%2BwJEHqJdXwy%2BFzDl%2FFMWid%2Bfxqs34SkAHjyeajwtsLqTrBTb%2Fhz6cQC0uoQXJtVmgwTv%2FbEMi8RKj0khUNIcM8Wr5qCGpfnyciR7I7TwAsTXvIlafOc26F%2FYbNFjCqGjql%2BQYbMJaSyoUGOqYBWFxwr1c68ArKcOHYp70uWO2KLaI%2BIsODpeqLYoq2vQU9FFZ%2BIeQwesN7QUzagoSkyKZqf7vVnv8ZI64w3glYvGJ%2BWIKmAk6QtGQxefGS6mil5VIaoAxN7QXxLjpVzEgSQp%2BhSj%2Fu5LHI6RemwXF4IIO1X2Uqqq0mHV4KrblzuDQfE45m4ACvjRvN38jdlVNp74oPcH4R%2Btfu%2Fe9DHiNmFECl0n78kw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210529T184210Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTYRNLVCUDN%2F20210529%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=cfcf9f5534d9712b8f6bf183ffb373b9c483ebb2b8ed9f89da7f8c4e349d002a&hash=1d974ebb4e50b2b09c568f2da77736c59e4508311cc941cae68af32d42eea57a&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1877042813052051&tid=spdf-fa89cf0e-a1e8-40fb-a1f4-73f8badd3c0f&sid=6f95b77b8646a9423a3b81965227e41d1f0bgxrqa&type=client
+
+16.https://www.elections.ca/content.aspx?section=res&dir=cir/red/allo&document=index&lang=e
+
+17.https://en.wikipedia.org/wiki/Politics_of_Canada#:~:text=The%20two%20dominant%20political%20parties,well%20as%20its%20numerous%20predecessors).
+
+18.https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/
+
+19.
+
+20.
