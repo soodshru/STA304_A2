@@ -1661,7 +1661,7 @@ The top 3 poplar political parties in Newfoundland and Labrador are **Conservati
 Here are the results for the top 2 parties:
 ```{=latex}
 \begin{table}[ht]
-\caption{Popular Political Vote in Nova Scotia} % title of Table
+\caption{Popular Political Vote in Newfoundland and Labrador} % title of Table
 \centering % used for centering table
 \begin{tabular}{c c} % centered columns (4 columns)
 \hline\hline %inserts double horizontal lines
