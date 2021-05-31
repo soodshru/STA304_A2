@@ -33,48 +33,64 @@ survey_data <- read_csv("ces2019_clean.csv")
 ```
 
 # Introduction
+## Goal
+Canada has always been a vibrant democracy which is solely to the people, for the people, and by the people. Canada’s Egalitarian approach to Democracy has particularly made sure that during any form of decision making in the government at any level, the above statement is given the utmost importance. At the heart of Canadian Democracy and, more specifically, Canadian decision making lies the Federal election during which a general vote is held to elect the people who will make decisions for Canada’s future: the members of Parliament. Under the Canadian law, the federal elections are scheduled every four years during which election races are held in electoral districts to represent the people living in that area. There are a total of 338 electoral districts with the most being present in Ontario. \
+The goal of this study will be to predict the overall popular vote of the next Federal elections which are scheduled to take place on or before October 16 2023. This was done using regression models with post-stratification, both of which will be described in depth in later sections. The models were built using the Canadian Election Study of 2019 which was treated as Survey Data, and predictions were performed using General Social Survey from 2017 which was treated as census data. \
+
+## Background
+The first Canadian federal election was held in 1867, and after Bill C-16 was proclaimed into the law, federal elections have been regularly occuring every four years in most provinces**[1][2]**. Elections Canada hires nearly 250,000 people all over Canada during the federal elections making it the largest employer in Canada on election day **[3]**. \
 
 
-```{=latex}
-\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|p{3cm}|  }
- \hline
- \multicolumn{4}{|c|}{Country List} \\
- \hline
- Country Name     or Area Name& ISO ALPHA 2 Code &ISO ALPHA 3 Code&ISO numeric Code\\
- \hline
- Afghanistan   & AF    &AFG&   004\\
- Aland Islands&   AX  & ALA   &248\\
- Albania &AL & ALB&  008\\
- Algeria    &DZ & DZA&  012\\
- American Samoa&   AS  & ASM&016\\
- Andorra& AD  & AND   &020\\
- Angola& AO  & AGO&024\\
- \hline
-\end{tabular}
-```
+## Hypothesis
+For the past three federal elections that were held in Canada, the top three parties have been Liberal, Conservative and New Democratic Party where the Liberal Party had the most popular vote for the last two elections **[4]**.Naturally one would be curious about the future election that is to take place in 2023 as the party with the most popular vote will be ruling our country for the next couple of years. This leads to our analysis of forecasting the popular vote for the upcoming federal election and we are expecting the overall popular vote to be Liberal based on patterns from the past election results.**[4]**. \
 
 
-## Problems
--Election results changing, identifying the right shift. The effects it has, [CAMBRIDGE ANALYTICA] russia, US ellection
 
-##Basic Goal 
--To Identify and predict the next winner of the General Election
-- How this Goal helps solve the problem
-##Significance
-<Here you should have a few paragraphs of text introducing the problem, getting the reader interested/ready for the rest of the report.>
+## Significane
+As touched upon earlier, the federal election lies at the heart of Canadian democracy and decision making. Once the votes are counted, Canadians, essentially, learn who their government will be**[5]**.
+Being such an important event for all residents of Canada and also to people outside Canada to a certain degree, it is of prime importance to have quality research done on the federal elections for the continued  functioning of a healthy democracy. Research done on federal elections can not only reveal existing traits about the political preferences, but also future political preferences of Canadians, which is what this study is aimed at answering. Results of this study can be used by political parties to get an estimate of their standing in the future to plan upcoming campaigns and common Canadians can use this study to get a greater understanding of the popular political parties and their policies. \
 
-<Introduce terminology.>
 
-<Highlight hypotheses.>
+## Global Significance 
+In 2017, 96 out of 167 (57%) of countries in the world with populations of 500,000 or more were democracies of some kind. Since the mid-1970’s, the world has seen an increase in the number of countries becoming democratic.**[6]** \
+Elections are one of the most important parts of a domocratic state. In today’s world, a direct-democracy, where all political decisions are made by all the citizens of the country is impractical. Hence, democracy is conducted through representatives. These representatives are nominated through elections during which the citizens choose their leaders and hold them accountable for their performance in the office. Elections give the citizens an opportunity to have a say and express their opinions and feel a sense of belonging to a community and work for its betterment. Every vote is important. Credible Elections indirectly lead to a feeling of personal fulfillment in the citizens. Thus, the findings of this study can not only be studied in Canada but also in electoral democracies throughout the world to get a sense of understanding of the pros & cons of their own electoral system when compared to the Canadian electoral system. For instance, the findings of this study can be used by political analysts in the United States of America, which has historically been a two party system, to understand the effects a multiparty system has on the distribution of votes**[7]**. \
 
-<Optional: You can also include a description of each section of this report as a last paragraph.>
+## Terminology for the study
+Regression is used to determine the relationship between variables. More specifically, it is used to analyse how certain explanatory variables influence a predictor variable. In our analysis, we will be using logistic regression as this statistical method is used when the predictor is a binary variable and in our case we are building multiple models to predict whether or not an individual will vote for a specific party or not in an effort to use these results to forecast the popular vote in the next federal election. \
 
-<Type here a paragraph introducing the data, its context and as much info about the data collection process that you know.>
+Post stratification is a process that involves grouping units with similar characteristics into bins and adjusting the weights of these bins as necessary in order to compare survey results to a census data or any other data set that already exists. We will be performing this method on the Canadian Election Study of 2019 data which will act as our survey results and compare it to the General Social Survey from 2017 data which will be used as our census data.
 
-<Type here a summary of the cleaning process (**only add in stuff beyond my original gss_cleaning.R code**). You only need to describe additional cleaning that you and your group did.> ]
 
-#Data cleaning
-```{r}
+## Drawbacks
+The biggest potential drawback that needs to be considered is the use of data from 2017 & 2019 to predict the outcome of the 2023 federal election. This drawback will most likely have an even greater effect on the findings due to the fact that the data was collected a year before the start of Covid-19 pandemic which has caused unprecedented changes in government policies and spending that has had a significant impact on the political views of Canadians. Apart from that, another potential drawback could be false answers being put by the participants of the survey for the geography and demographic characteristics part of the survey which did not get detected during data cleaning because of them following the correct format but not being the accurate answer for that respective participant. \
+
+# Data
+## Dataset description
+As mentioned in the Intro, the models were built using the Canadian Election Study of 2019 which was treated as Survey Data, and predictions were performed using General Social Survey from 2017 which was treated as census data. The Canadian election study since 1965 has been a rich source of data on Canadians’ political behavior and attitude. The 2019 iteration of the CES was conducted online with the target population being all Canadian citizens and permanent residents who are 18 years or older. **[8]** An online sample of the participants to be contacted was created from the members of Canadian general population using qualtrics, a survey software tool, with targets stratified by region which were 7 in total. Additionally, within each region, provincial quotas were split evenly. Lastly, the online sample was created with the several aims such as having a 50-50 male & female ratio, 80-20 French & English ratio in Quebec. \
+The GSS program established in 1985 has been a rich source of data for monitoring changes in living conditions and providing information on social policy issues in Canada. The 2017 iteration of the GSS was conducted through the phone via computer assisted telephone interviews (CATI) with the target population being all people 15 years or older in Canada excluding residents of Yukon, Northwest Territories, Nunavut, and full-time residents of institutions. Each of the 10 Provinces were divided into strata using geographic areas and the survey frame was created using 2 elements: the list of telephone numbers in use that are available to Statistics Canada, and the address register which contained a list of all dwellings in each of the Provinces. Next, a simple random sample without replacement of records was performed in each stratum to select the household to be contacted
+**[9]**. \
+
+## Data manipulation and cleaning
+The journey of Data cleaning started by reducing the number of columns in GCC from 50 to 7 to only include the ones that are needed for the model building. These variables of interest are discussed in the section “description of important variables” which is right below. The reduction of columns was achieved through using the select() function. 
+Next, it was decided to merge \
+\tab column # 3: place_birth_macro_region which contained birthplace regions of participants born outside Canada \
+\tab column # 4: place_birth_province which contained the Province the participants were born in. \
+The decision to merge these columns was made to reduce the number of parameters for our model and the ease of the reader as both the columns essentially reveal the same characteristic about the participant and each row for these columns had an “NA” whenever the other column didn’t have an “NA”. All the Inputs for both these columns were merged and inserted in a new column labeled place_birth. The inputs for these columns were merged using the coalesce() function and the new column was created using the mutate() function over the coalesce function i.e. mutate(coalesce()) Naturally, column # 3 and # 4 were then deleted using the select() function. \
+Lastly, all the NAs were then dropped from our modified GCC using the na.omit() function.
+
+## Data                          ##### to be combined 
+For the people who were not born in Canada, we put in the country they were born in as their place of birth instead of the province as we did for Candian born residents. 
+We approximated the age of the residents to the nearest decimal point so as to keep the data consistent with the survey data.
+Education -> Trade certificate
+
+
+
+## Dataset Syncing
+Since two different surveys were being used for the study, syncing had to be performed between the GCC and the CES dataset to move forward. The syncing process began with re-categorising answers from the column containing the education level of the participant in our modified GCC so that it matched the categories of the column containing the level of education of the participant in the CES dataset. This was done using the replace() function (add more about how replaced was used). Next, all the decimal points from age in our modified GCC were dropped to match the format of age in CES. This was done through inserting the column containing age inside the floor() function. Lastly, all the columns in our modified GCC for which we couldn’t find equivalent columns in CES were dropped using the select() function. \
+
+
+
+```{r, Data cleaning, echo = FALSE}
 #filtering out the required columns
 census_data.1 <- select(census_data, 2,12,16,17,19,28,47)
 #head(census_data.1)
@@ -91,8 +107,7 @@ census_data.3 <- select(census_data.2, -3,-4)
 census_data.4 <- na.omit(census_data.3)
 ```
 
-#Syncing data variables with Census data so that we only have the variables avalible to us
-```{r}
+```{r, Syncing data, echo = FALSE}
 ## EDUCATION
 
 # combining the "Trade certificate or diploma" +"College, CEGEP or other non-university certificate or di..."
@@ -112,15 +127,26 @@ census_data.4$age <- floor(census_data.4$age)
 #https://stackoverflow.com/questions/40399255/remove-decimals-from-a-column-in-a-data-frame
 ```
 
-#Dropping the columns in the census data which are not present in the survey data 
-```{r}
-#census_data.8 <- census_data.7 %>%
- # select(sex, province, feelings_life, education, religion_participation, age, income_family)
+## Description of Important Variables
+As previously mentioned, we will be using the survey data to predict the popular vote among the country based on the individuals that are present in the census data.  To conduct our analysis, we need to ensure that the variables in both the survey and census were in the same manner for obvious reasons. Initially we had begun with 81 variables in the data, however after narrowing down the variables we ended up giving importance to 6 main variables which include sex, province, education, political preference, family’s income and age. \
 
-```
+Once again, our goal is to forecast the outcome of the next federal election by using political preference and province as our response variables which are two very important variables as it would be extremely challenging and nearly impossible to conduct a realistic analysis without knowing these details. \
 
-## Data Analysis
-```{r, fig.height=20, fig.width=40}
+Ekos Research Associates is a Canadian research company that measured males are almost equally inclined to vote for Liberal as they are for Conservatives. More specifically, 37% of males have intended to vote for Conservatives and 35% had intentions to vote Liberal [same url below]. This is to say that if the voting population consisted of just Males there would be a tie between the Liberal and Conservatives. On the other hand, Ekos reported that 47% of females were in favour of Liberals and only 23% were in favor of the Conservatives
+**[https://www.macleans.ca/politics/ottawa/the-biggest-divide-in-canadian-politics-men-vs-women/]**.  Thus, it can be seen that sex definitely has a huge impact on voting behaviour as male and females differ between their political preferences. \
+The age of the electoral population matters a great deal as it has been hypothesized that younger people are more likely to vote for liberal in comparison to older people **[ https://research.libraries.wsu.edu/xmlui/handle/2376/4982 ]**.  Accordingly, the prediction of the popular vote can be greatly influenced by age depending on the size of the different age groups.
+Similarly, the education level of the voters can impact the voter turnout as those with a university degree are 78% likely to vote whereas the voting rate for those with high school education or less is 60%**[ https://www150.statcan.gc.ca/n1/pub/75-001-x/2012001/article/11629-eng.htm ]**. \
+Additionally, it has been recorded that families with higher income levels have a greater voter turnout in comparison to those who come from families with a lower income[ same as below]. A possible reason for this is due to how costly an activity voting may be as it requires time, information, transportation, and other things that may be inconvenient for lower income families [ same as below].  Furthermore, higher income could be associated with higher education and once again this would influence voting results as mentioned previously **[ https://econofact.org/voting-and-income#:~:text=Voter%20participation%20increases%20with%20family%20income.&text=The%20ratio%20of%20differences%20across,be%20more%20likely%20to%20vote. ]**. \
+
+**TABLE**
+
+
+## Data Drawbacks                 ---COME BACK TO IT__ 
+Some of the issues we can see in the data are that the gender does not have the same category as the other data set. Also, we feel there is not enough data from each region, and some of the assumptions we made may affect our results. 
+##SHOW THE NUMBER FOR EACH PROVIENCE##
+
+
+```{r, Data Analysis, fig.height=60, fig.width=40, echo = FALSE}
 
 mytable.1 <- table(survey_data$sex)
 lbls.1 <- paste(names(mytable.1), "\n", mytable.1, sep="")
@@ -128,53 +154,90 @@ lbls.1 <- paste(names(mytable.1), "\n", mytable.1, sep="")
 mytable.2 <- table(census_data$sex)
 lbls.2 <- paste(names(mytable.2), "\n", mytable.2, sep="")
 
-# Pie Chart from data frame with Appended Sample Sizes                              [https://www.statmethods.net/graphs/pie.html]
-# spreads of Sex, pie chart
-#ggarrange(
-  
-#pie(mytable.1, labels = lbls.1,
-  # main="Sex in Survey"),
-#pie(mytable.2, labels = lbls.2,
-  # main="Sex in Census"), ncol=2, nrow=1
-#)
-
 ggarrange(
 ggplot(survey_data, aes(x=sex ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
-  ggtitle("Spread of Sex in Survey"),
+  ggtitle("Spread of Sex in Survey") + theme(axis.text=element_text(size=20),
+  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold")) ,
 
 ggplot(census_data.4, aes(x=sex))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
-  ggtitle("Spread of Sex in Census"),
+  ggtitle("Spread of Sex in Census")+ theme(axis.text=element_text(size=20),
+  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold")),
 
 ggplot(survey_data, aes(x=province ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
-  ggtitle("Spread of Province in Survey"),
+  ggtitle("Spread of Province in Survey")+ theme(axis.text=element_text(size=20),
+  axis.title=element_text(size=20),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold"),axis.text.x = element_text(angle = 90)),
 
 ggplot(census_data.4, aes(x=province))+
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
-  ggtitle("Spread of Province in Census"),
+  ggtitle("Spread of Province in Census")+ theme(axis.text=element_text(size=20),
+  axis.title=element_text(size=20),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold"),axis.text.x = element_text(angle = 90)),
 
 ggplot(survey_data, aes(x=age ))+
   geom_histogram(color="darkblue", fill="lightblue", bins = 40) +
-  ggtitle("Spread of Ages in Survey"),
+  ggtitle("Spread of Ages in Survey")+ theme(axis.text=element_text(size=20),
+  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold")),
 
 ggplot(census_data.4, aes(x=age))+
   geom_histogram(color="darkblue", fill="lightblue", bins = 50) +
-  ggtitle("Spread of Ages in Census"),
+  ggtitle("Spread of Ages in Census")+ theme(axis.text=element_text(size=20),
+  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold")),
 
 ggplot(survey_data, aes(x=income_family ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
-  ggtitle("Spread of Family's incomes in Survey"),
+  ggtitle("Spread of Family's incomes in Survey")+ theme(axis.text=element_text(size=20),
+  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold")),
 
 ggplot(census_data.4, aes(x=income_family))+
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
-  ggtitle("Spread of Family's incomes in Census"),
+  ggtitle("Spread of Family's incomes in Census")+ theme(axis.text=element_text(size=20),
+  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold")),
  ncol=2, nrow=4)
 
 # get the frequency for each variable using 
 table(census_data.4$province)
 ```
+## Plot Description
+
+Bar Chart 1: Spread of Sex in Survey
+There is a greater percentage of Male voters in the electoral population of the survey data. More precisely, around 63% of the population consists of Male voters.
+
+Bar Chart 2: Spread of Sex in Census
+Unlike the survey data, the electoral population in the census data consists of more females than males as roughly 46%  of the population consists of Male voters.
+
+**Bar Chart 3:** Spread of Province in Survey:
+The bar chart shows the current province the voters of the survey data resides in. The top three provinces that make up the electoral population are British Columbia, Ontario and Quebec as there are over 200 voters from each of these provinces which cover around 61% of the population. Meanwhile, 11% of the population consists of voters in New Brunswick, Newfoundland Labrador and Prince Edward Island with just under 50 voters from each of these provinces. The remaining 28% of the population resides in Alberta, Manitoba, Nova Scotia and Saskatchewan.
+
+**Bar Chart 4:** Spread of Province in Census
+Similar to  the bar chart about the spread of provinces in the survey, most of the population resides in British Columbia, Ontario and Quebec. More exactly, roughly 58% of the voters belong to these provinces. Unlike the survey data which had 20% of voters from British Columbia, the census data records only 12% of voters from this province. Manitoba,New Brunswick, Newfoundland and Labrador, Nova Scotia, and Saskatchewan all have 1000 to 1400 individuals from their province. Least amount of voters are from Prince Edward Island as expected since it is the smallest province in Canada.\
+
+**Histogram 1:** Spread of Ages in Survey
+The data spread closely represents a normal histogram. The mean is around 50 years. A very small amount of the old people (people over the age of 80) vote.\
+
+**Histogram 2:** Spread of Ages in Census
+This histogram is close to a left skewed distribution. Surprisingly, unlike the Spread of the ages in Survey, the max amount of the voters were from the older ager group (80 years old). 
+
+**Histogram 3:** Spread of Family's incomes in Survey
+This histogram is close to a left skewed distribution. (FIX GRAPH). In this data, the majority of the population belongs to the $125,000 and more group. The other groups are almost ⅓ of the number of people in this group.
+
+**Histogram 4:** Spread of Family's incomes in Census
+This histogram is close to a right skewed distribution. FIX GRAPH. In the census data too, the maximum amount of the voters have an income of $125,000 and above. All other groups are decreasing, but there is not as much of a difference as there was in the previous graph.
+
+
+
+
+
+
 
 # Methods
 ## Regression Model Choice and Setup
@@ -213,12 +276,12 @@ Total & 338 \\[1ex] % [1ex] adds vertical space
 ```
 Based on this table we can see how the distribution of the seats is not even across the provinces, hence we need to account for this. Furthermore another thing to note is how political preference has a really high correlation with which province a person belongs to.**[https://www.jstor.org/stable/2146812?seq=1]** \
 Having established how the distribution of seats are not even and how the voting preference differs across the provinces, to account for this we will be running our regression models for each province to get better results.\
-Another thing to note is that within each province there how voting preference shifts across different income levels**[https://pdf.sciencedirectassets.com/277811/1-s2.0-S1877042814X00030/1-s2.0-S1877042813052051/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFw2TxwYvifcSORdKy1tY9jMLmNeRIsnynssW9hoT%2F70AiAjxJZy9H%2F8mu7WLmtusZ%2FXaRQ6xFe7Fac9nvRp0vJs%2FSr6Awh8EAQaDDA1OTAwMzU0Njg2NSIMzcSBCYNH0vSlNNkCKtcD%2BQ1kTcvjGoEvFHERhB9C5YKrB8%2BEba4%2FE63KiZjmclrZcskNo92tUSc8IbkM169P24Dpuw3k2ZAHWUNrnCMg91RZL0TzAuDL8R28VXFGBaLyiUKSI1HtaSjNfYaPK2b8d7puFdrAawTPMPQQvkgIrFwg0V5GZBaNYj2wafxGewUYB5%2B9TBiyBnRCzHIsj7p82YexO8vI315YyQMTrGTcgfriOqKwxXBMiAb858IDCNPKG%2FD7f8Bf3wJSBGDsUlou2eyjLwN3bBso1Lv5gMXMautKRjuAn6cX2XUefGmjySP2LLSaEVBwGyLL3cv8n2psZYpm%2FYXDWjWJsdz7TQ8E%2BLO6hefSrCUEztKUKtYj42Psj2%2Fx2bScowFnBBt4beFowD2zLnLPvdEBwqmGED%2FeQh14a9SmxjW9kYFxwRS6adCrhctb9JAwrJlFiuv%2Fwxb40LaCcdGKayloT1QElFct8buxL%2F0Xj462Q1dYwlGkCrz9nY%2BwJEHqJdXwy%2BFzDl%2FFMWid%2Bfxqs34SkAHjyeajwtsLqTrBTb%2Fhz6cQC0uoQXJtVmgwTv%2FbEMi8RKj0khUNIcM8Wr5qCGpfnyciR7I7TwAsTXvIlafOc26F%2FYbNFjCqGjql%2BQYbMJaSyoUGOqYBWFxwr1c68ArKcOHYp70uWO2KLaI%2BIsODpeqLYoq2vQU9FFZ%2BIeQwesN7QUzagoSkyKZqf7vVnv8ZI64w3glYvGJ%2BWIKmAk6QtGQxefGS6mil5VIaoAxN7QXxLjpVzEgSQp%2BhSj%2Fu5LHI6RemwXF4IIO1X2Uqqq0mHV4KrblzuDQfE45m4ACvjRvN38jdlVNp74oPcH4R%2Btfu%2Fe9DHiNmFECl0n78kw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210529T184210Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTYRNLVCUDN%2F20210529%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=cfcf9f5534d9712b8f6bf183ffb373b9c483ebb2b8ed9f89da7f8c4e349d002a&hash=1d974ebb4e50b2b09c568f2da77736c59e4508311cc941cae68af32d42eea57a&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1877042813052051&tid=spdf-fa89cf0e-a1e8-40fb-a1f4-73f8badd3c0f&sid=6f95b77b8646a9423a3b81965227e41d1f0bgxrqa&type=client]**. To account for this we will be using **Multilevel Regression**. Multilevel regression differs from normal regression on the way that in normal regression not accounting for the different levels which effect our data would have an offset in our regression line. The intercept of the line needs to be adjusted to account for the different levels. **NOTE** here in our case "level" refers to the groups within each province, which is ***family income level*** which we expect to have similar effects on the variable of interest. \
+Another thing to note is that within each province voting preference shifts across different income levels**[https://pdf.sciencedirectassets.com/277811/1-s2.0-S1877042814X00030/1-s2.0-S1877042813052051/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjENP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFw2TxwYvifcSORdKy1tY9jMLmNeRIsnynssW9hoT%2F70AiAjxJZy9H%2F8mu7WLmtusZ%2FXaRQ6xFe7Fac9nvRp0vJs%2FSr6Awh8EAQaDDA1OTAwMzU0Njg2NSIMzcSBCYNH0vSlNNkCKtcD%2BQ1kTcvjGoEvFHERhB9C5YKrB8%2BEba4%2FE63KiZjmclrZcskNo92tUSc8IbkM169P24Dpuw3k2ZAHWUNrnCMg91RZL0TzAuDL8R28VXFGBaLyiUKSI1HtaSjNfYaPK2b8d7puFdrAawTPMPQQvkgIrFwg0V5GZBaNYj2wafxGewUYB5%2B9TBiyBnRCzHIsj7p82YexO8vI315YyQMTrGTcgfriOqKwxXBMiAb858IDCNPKG%2FD7f8Bf3wJSBGDsUlou2eyjLwN3bBso1Lv5gMXMautKRjuAn6cX2XUefGmjySP2LLSaEVBwGyLL3cv8n2psZYpm%2FYXDWjWJsdz7TQ8E%2BLO6hefSrCUEztKUKtYj42Psj2%2Fx2bScowFnBBt4beFowD2zLnLPvdEBwqmGED%2FeQh14a9SmxjW9kYFxwRS6adCrhctb9JAwrJlFiuv%2Fwxb40LaCcdGKayloT1QElFct8buxL%2F0Xj462Q1dYwlGkCrz9nY%2BwJEHqJdXwy%2BFzDl%2FFMWid%2Bfxqs34SkAHjyeajwtsLqTrBTb%2Fhz6cQC0uoQXJtVmgwTv%2FbEMi8RKj0khUNIcM8Wr5qCGpfnyciR7I7TwAsTXvIlafOc26F%2FYbNFjCqGjql%2BQYbMJaSyoUGOqYBWFxwr1c68ArKcOHYp70uWO2KLaI%2BIsODpeqLYoq2vQU9FFZ%2BIeQwesN7QUzagoSkyKZqf7vVnv8ZI64w3glYvGJ%2BWIKmAk6QtGQxefGS6mil5VIaoAxN7QXxLjpVzEgSQp%2BhSj%2Fu5LHI6RemwXF4IIO1X2Uqqq0mHV4KrblzuDQfE45m4ACvjRvN38jdlVNp74oPcH4R%2Btfu%2Fe9DHiNmFECl0n78kw%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210529T184210Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTYRNLVCUDN%2F20210529%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=cfcf9f5534d9712b8f6bf183ffb373b9c483ebb2b8ed9f89da7f8c4e349d002a&hash=1d974ebb4e50b2b09c568f2da77736c59e4508311cc941cae68af32d42eea57a&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S1877042813052051&tid=spdf-fa89cf0e-a1e8-40fb-a1f4-73f8badd3c0f&sid=6f95b77b8646a9423a3b81965227e41d1f0bgxrqa&type=client]**. To account for this we will be using **Multilevel Regression**. Multilevel regression differs from normal regression on the way that in normal regression not accounting for the different levels which effect our data would have an offset in our regression line. The intercept of the line needs to be adjusted to account for the different levels. **NOTE** here in our case "level" refers to the groups within each province, which is ***family income level*** which we expect to have similar effects on the variable of interest. \
 Lastly another important aspect about the past elections has been that they have been dominated by particular parties. These political parties also happen to dominate and have majority number of seats in each province, hence estimating and predicting whether they win their particular provinces will acts as an estimate as to whether they will win the general election and form the government**[https://en.wikipedia.org/wiki/Politics_of_Canada#:~:text=The%20two%20dominant%20political%20parties,well%20as%20its%20numerous%20predecessors).]**.\
 To make this estimate we are going to hypothesise and setup our model using the *survey data* and train it to estimate whether someone **will be voting for a particular party or not**. To do this we will be using **Multilevel Logistic Regression**, logistic regression is used when we are dealing with a **binary response variable**. \
 
 ## Post stratatification and Estimation
-Now in our case we will be first dicinde our **CENSUS DATA** for each provience then then into different **bins**. The concept of bins here is based on grouping the data into different groups and these are the variables which are present in our regression model.
+Now in our case we will be first divide our **CENSUS DATA** for each province then then into different **bins**. The concept of bins here is based on grouping the data into different groups and these are the variables which are present in our regression model.
 Now running this data set on the generated model for each popular party in each province will generate **log odds** of the particular group voting in favour of our hypothesised party. \
 
 Now in general the log odds generated from the regression model will look like:
@@ -312,11 +375,19 @@ New Brunswick & Liberal (Grits) \\
 ```
 *Note the given data was not available so we choose the overall popular parties in the region which are Liberals and Conservatives.
 \newpage
-Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with age group as follows
+Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in canada these are as follows.**[https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/]**
+The age groups were, People under 18; "Under 18", people between 18 and 24; "18 to 24 years", people between 25 to 44; "25 to 44 years", people between 45 and 64; "45 to 64 years" and people over; "Over 65". \
+
+
+**Removing for this feeling life, religion participation...**
+
+
+
+#### POST STRAT Function used
 
 ## Alberta
 ### NDP (New Democratic Party, New Democrats, NDPers)
-Based on the 
+Based on this we
 
 
 
@@ -1497,6 +1568,11 @@ Cons_Vote_percen_NL <- NLXcensus.1 %>% summarise(Consv_est_NL = (sum(n*prob_Cons
 ```
 ^Due to such a small percentage * n NaN = 0/N
 
+#Prince Edward Island
+```{r}
+
+```
+
 
 
 #Grouping based on proviences
@@ -1631,8 +1707,24 @@ All analysis for this report was programmed using `R version 4.0.2`.
 
 ## Bibliography
 
-1. Grolemund, G. (2014, July 16) *Introduction to R Markdown*. RStudio. [https://rmarkdown.rstudio.com/articles_intro.html](https://rmarkdown.rstudio.com/articles_intro.html). (Last Accessed: January 15, 2021) 
+1. 1867 Canadian federal election. (n.d.). DBpedia. https://dbpedia.org/page/1867_Canadian_federal_election
 
-2. Dekking, F. M., et al. (2005) *A Modern Introduction to Probability and Statistics: Understanding why and how.* Springer Science & Business Media.
+2. Bill C-16: An Act to amend the Canada Elections Act. (n.d.). Library Of Parliament. Retrieved May 30, 2021, from https://lop.parl.ca/sites/PublicWebsite/default/en_CA/ResearchPublications/LegislativeSummaries/391LS530E#fprovincial
 
-3.  Allaire, J.J., et. el. *References: Introduction to R Markdown*. RStudio. [https://rmarkdown.rstudio.com/docs/](https://rmarkdown.rstudio.com/docs/). (Last Accessed: January 15, 2021) 
+3.  Did you know? (n.d.). Elections Canada. Retrieved May 30, 2021, from https://www.elections.ca/content.aspx?section=abo&dir=100/kno&document=index&lang=e
+
+4. Canadian Election Results by Party 1867 to 2019. (n.d.). Elections. https://www.sfu.ca/~aheard/elections/1867-present.html
+
+5. Elections Step by Step. (n.d.). Elections Canada. https://electionsanddemocracy.ca/canadas-elections/canadas-election-process/elections-step-step
+
+6. Despite global concerns about democracy, more than half of countries are democratic. (n.d.). Pew Research Center. https://www.pewresearch.org/fact-tank/2019/05/14/more-than-half-of-countries-are-democratic/
+
+7.  Functions of elections. (n.d.). Britannica. Retrieved May 30, 2021, from https://www.britannica.com/topic/election-political-science/Functions-of-elections
+
+8. Welcome to the 2019 Canadian Election Study. (n.d.). Canadian Election Study. Retrieved May 30, 2021, from http://www.ces-eec.ca/
+
+9. General Social Survey. (2017, September). https://sda-artsci-utoronto-ca.myaccess.library.utoronto.ca/sdaweb/dli2/gss/gss31/gss31/more_doc/GSS31_User_Guide.pdf
+
+10.
+
+11.
