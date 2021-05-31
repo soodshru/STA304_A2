@@ -8,8 +8,9 @@ author:
 date: "May 28, 2021"
 output:
   pdf_document:
+    extra_dependencies: ["float"]
     latex_engine: xelatex
-subtitle: STA304 - Assignment 2 
+subtitle: STA304 - Group-4 Assignment 2 
 ---
 ![](/Users/ujji7/Desktop/cover page image.png)
 
@@ -23,9 +24,11 @@ library(broom)
 library(ggpubr)
 library(lme4)
 library(survey)
+library(DiagrammeR)
+library(webshot)
 ```
 
-```{r, include = FALSE}
+```{r, echo = FALSE}
 # Here you can load in the census data 
 census_data <- read_csv("gss_clean.csv")
 # Here you can load in the survey data
@@ -73,8 +76,8 @@ The GSS program established in 1985 has been a rich source of data for monitorin
 ## Data manipulation and cleaning
 The journey of Data cleaning started by reducing the number of columns in GSS from 50 to 7 to only include the ones that are needed for the model building. These variables of interest are discussed in the section “description of important variables” which is right below. The reduction of columns was achieved through using the select() function. 
 Next, it was decided to merge \
-\tab column # 3: place_birth_macro_region which contained birthplace regions of participants born outside Canada \
-\tab column # 4: place_birth_province which contained the Province the participants were born in. \
+ column # 3: place_birth_macro_region which contained birthplace regions of participants born outside Canada \
+ column # 4: place_birth_province which contained the Province the participants were born in. \
 The decision to merge these columns was made to reduce the number of parameters for our model and the ease of the reader as both the columns essentially reveal the same characteristic about the participant and each row for these columns had an “NA” whenever the other column didn’t have an “NA”. All the Inputs for both these columns were merged and inserted in a new column labeled place_birth. The inputs for these columns were merged using the coalesce() function and the new column was created using the mutate() function over the coalesce function i.e. mutate(coalesce()) Naturally, column # 3 and # 4 were then deleted using the select() function. \
 Lastly, all the NAs' were then dropped from our modified GSS using the na.omit() function.
 
@@ -217,7 +220,7 @@ This histogram is close to a right skewed distribution. FIX GRAPH. In the census
 
 
 # Methods
-## Regression Model Choice and Setup
+## Model Choice and Setup
 The goal is to make the prediction for the upcoming election. There are a lot of factors which effect someone's voting preference such as their area of residence, their place of birth, income levels, age, sex and many more. \
 Now in order to account for and see how all these factors effect someone's decision in choosing a party to vote for we will be using **Regression**. Regression is a statistical technique which measures the relationship as to how the changes in different quantities(independent variable) effect the quantity of interest(dependent variable). \
 In Canada the party which forms the government is the party which wins majority of the 338 available seats. These sectors are divided and belong to different provinces, the distribution of these seats across the provinces are as follows**[16]**:
@@ -299,7 +302,7 @@ $$\hat p_{h_{0}} (1+(\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}})) = \e
 $$\hat p_{h_{0}} = \frac{\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})}{(1+  (\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}))}$$
 ### Getting the final results **Post Stratification**
 Now note by grouping the data, some bins might have a higher weight that it more number of entries compared to the other bins. Hence we need to account for this, we do this using this general formula:
-$$\hat y^{PS} = \frac{\Sigma_{i =1}^{n}N_{i}\hat{y_{i}}}{\Sigma_{i =1}^{n}N_{i}} \quad n \subset[2,k]\quad \hat y^{PS}, \hat y_{i} \subset [0,1] $$
+$$\hat y^{PS} = \frac{\Sigma_{i =1}^{n}N_{i}\hat{y_{i}}}{\Sigma_{i =1}^{n}N_{i}} \quad n \subset[2,k],\quad \hat y^{PS}, \hat y_{i} \subset [0,1] $$
 Here $\hat y^{PS}$ in our case would be the **expected probability** of the total province sample voting in favor of the political party being tested now. $N_{i}$ is the size of the bin and $\hat{y_{i}}$ is the probability assigned to the bin, this is the same as $\hat p_{h_{0}}$ when calculating teh probability for bins instead of individuals. Finally $k$ is the number of bins generated in our sample data.\
 Note the reason for the assumption for $n \subset [2,k]$ is because we assume there to be more than 1 different group as without that condition, usisng this techinique is of not much significance.
 
@@ -315,21 +318,27 @@ Here is a table of the popular parties in each province[]:
 province & Seats \\ [0.5ex] % inserts table
 %heading
 \hline % inserts single horizontal line
+
         & NDP (New Democratic Party, New Democrats, NDPers)  \\ % inserting body of the table
 Alberta & Conservatives (Tory, PCs, Conservative Party of Canada)  \\
         & Liberal (Grits) \\ \hline
+        
                  & NDP (New Democratic Party, New Democrats, NDPers) \\
 British Columbia & Conservatives (Tory, PCs, Conservative Party of Canada) \\
                  & Liberal (Grits) \\ \hline
+                 
         & NDP (New Democratic Party, New Democrats, NDPers) \\
 Ontario & Conservatives (Tory, PCs, Conservative Party of Canada) \\
         & Liberal (Grits) \\
+        
          & NDP (New Democratic Party, New Democrats, NDPers) \\ \hline
 Manitoba & Conservatives (Tory, PCs, Conservative Party of Canada) \\
          & Liberal (Grits) \\ \hline
+         
         & (Coalition Avenir Québec or the CAQ)* \\ 
 Quebec  & (Quebec Liberal Party)* \\
         & Bloc Québécois (BQ, PQ, Bloc, Parti Québéc \\ \hline
+    
               & Conservatives (Tory, PCs, Conservative Party of Canada) \\ 
 New Brunswick & Liberal (Grits) \\
               & NDP (New Democratic Party, New Democrats, NDPers) \\ \hline
@@ -344,25 +353,22 @@ Nova Scotia & Liberal (Grits) \\
               
               & NDP (New Democratic Party, New Democrats, NDPers) \\ 
 New Brunswick & Liberal (Grits) \\
-              & Conservatives (Tory, PCs, Conservative Party of Canada) \\ \hline  
+              & Conservatives (Tory, PCs, Conservative Party of Canada) \\ \hline
+              
+                        & Liberal (Grits) \\
+Prince Edward Island    & Conservatives (Tory, PCs, Conservative Party of Canada) \\ \hline 
+                        & NDP (New Democratic Party, New Democrats, NDPers) \\ 
                \\[1ex] % [1ex] adds vertical space
  %inserts single line
 \end{tabular}
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
 ```
-
 *Note the given data was not available so we chose the overall popular parties in the region which are Liberals and Conservatives.
 
 \newpage
-
-Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in Canada these are as follows.**[18]**
-The age groups were, People under 18; "Under 18", people between 18 and 24; "18 to 24 years", people between 25 to 44; "25 to 44 years", people between 45 and 64; "45 to 64 years" and people over; "Over 65". \
-
-**Removing for this feeling life, religion participation...**
-
-#### POST STRAT Function used
-Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in Canada these are as follows :**[https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/]**
+#### POST STRATIFICATION changes
+Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in Canada these are as follows **[18]**:
 
 ```{=latex}
 \begin{table}[ht]
@@ -387,9 +393,8 @@ people over 65 & Over 65 \\[1ex] % [1ex] adds vertical space
 The last thing we did was we had to drop two of our categories which were **feeling_life** and **religion_participation** the reason for doing so was to get a better much more reliable model.
 
 #### R-Functions used in calculating results
-Lastly for our study the we used built in R functions for our calculations. To calculate log odds we used **predict(model, data.frame)**, the estimated probability we used a function we made named **est_p** as displayed below. Note the **input** "sum" are the log odds calculated using the predict() funciton.
+Lastly for our study the we used built in R functions for our calculations. To calculate log odds we used **predict(model, data.frame)**, the estimated probability we used a function we made named **est_p** as displayed below. Note the **input** "sum" are the log odds calculated using the predict() function.
 ```{r, Probility Function}
-# probability function                 
 est_p <- function(sum){
   return(exp(sum)/(1+(exp(sum))))
 }
@@ -421,14 +426,65 @@ $Output$            & variable to store the Estimated Probability of Hypothesis 
 \end{tabular}
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
-\end{document}
+```
 
+In summary here are the steps we will be using to calculate our results:
+```{r, echo = F, fig.dim= 300}
+DiagrammeR::grViz("digraph flowchart {
+      # node definitions with substituted label text
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab4 [label = '@@4']
+      tab5 [label = '@@5']
+      tab6 [label = '@@6']
+      tab7 [label = '@@7']
+      tab8 [label = '@@8']
+      tab9 [label = '@@9']
+
+      # edge definitions with the node IDs
+      tab1 -> tab2 -> tab3 -> tab4 -> tab5 -> tab6 -> tab7 -> tab8 -> tab9;
+      }
+
+      [1]: 'Divide both the data frames into provences'
+      [2]: 'Find popular parties for each province'
+      [3]: 'Group the Survey data into people voting in favour/not in favour of the selected party'
+      [4]: 'Make the model based on the new survey data'
+      [5]: 'Group the census province data into bins'
+      [6]: 'Using the model make the predicitons on the data from previous step'
+      [7]: 'Get the estimated percentage for the party in the province'
+      [8]: 'Party with the highest percentage gets all the seats for that region'
+      [9]: 'Part with the most seats is the most popular party and is expected to win'
+      ")
+```
+
+\newpage
+
+## Results for Alberta
+As mentioned earlier the top 3 popular parties in Alberta are **NDP (New Democratic Party, New Democrats, NDPers)**, **Conservatives (Tory, PCs, Conservative Party of Canada)** and **Liberal (Grits)**.
+Here are the results for the top 3 parties:
+```{=latex}
+
+\begin{table}[ht]
+\caption{Popular Political Vote in Alberta} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+NDP (New Democratic Party, New Democrats, NDPers)           & 24.95\% \\ % inserting body of the table
+\textbf{Conservatives (Tory, PCs, Conservative Party of Canada)}     & \textbf{67.76\%}	 \\
+Liberal (Grits)                                             & 12.52\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
 ```
 
 
-
-## Alberta
-### NDP (New Democratic Party, New Democrats, NDPers)
 ```{r, echo= F}
 ## make the according data sets according to the Support of their party               ---WITH AGE GROUPS
 NDP_predic <- survey_data %>%
@@ -471,8 +527,7 @@ Other_pred <- survey_data %>%
                               survey_data$political_pref != "Other"  ~ 0))
 ```
 
-# grouping based on age for bin size
-```{r}
+```{r, echo=FALSE}
 #removing people less than 18 to match with                                ---Move to data cleaning--- **Limitation**
  census_data.44 <- subset(census_data.4, age >18)
   #census_data.4[census_data.4$age > 18, ]
@@ -487,7 +542,6 @@ census_data.5 <- census_data.44 %>%
                               ))
 # dropping place of birth and their age                                   
 census_data.6 <- select(census_data.5, -6, -1)
-
 
 # survey data grouping based on age                                     ---Model Limitation----                             
 survey_data.1 <- survey_data %>%
@@ -509,9 +563,7 @@ est_p <- function(sum){
 }
 ```
 
-#Alberta 
-##NDPxAlberta
-```{r}
+```{r, echo=FALSE}
 # getting the NDP survey data to make the models                            
 NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
@@ -546,11 +598,11 @@ albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_NDP = est_p(NDP_odds))
 N <- sum(albertaXcensus.1$n)
 # prediction for NDPxAlberta
 NDP_Vote_percen_Alberta <- albertaXcensus.1 %>% summarise(NDP_est_Alberta = (sum(n*prob_NDP)/N))
-NDP_Vote_percen_Alberta
+NDP_Vote_percen_Alberta    #<- actual results
 ```
 
 ##ConservativesXAlberta
-```{r, warning=FALSE}
+```{r, warning=FALSE, echo=F}
 ## Making the model and the predictions
 
 # getting the Conservative survey data to make the models                            
@@ -591,13 +643,13 @@ Consv_Vote_percen_Alberta
 ```
 
 ##LiberalXAlberta
-```{r, warning=FALSE}
+```{r, warning=FALSE, echo=F}
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
-                              survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
+                              survey_data.2$political_pref != "Liberal (Grits)" ~ 0))
 
 # filter out based on Alberta
 # group the survey data by the province filter out Alberta people       --Filtering out the liberal survey data for the province to make model
@@ -630,11 +682,10 @@ N <- sum(albertaXcensus.1$n)
 Lib_Vote_percen_Alberta <- albertaXcensus.1 %>% summarise(Lib_est_Alberta = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Alberta
 ```
-BASED on the result we can see that Majority of the people in Alberta .... 
 
 #British Columbia 
 ##NDPxBritish Columbia
-```{r, warning=FALSE}
+```{r, warning=FALSE, echo=F}
 # getting the NDP survey data to make the models                            
 NDP_predic.2 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
@@ -672,8 +723,32 @@ NDP_Vote_percen_BC <- albertaXcensus.1 %>% summarise(NDP_est_BC = (sum(n*prob_ND
 NDP_Vote_percen_BC
 ```
 
-##Conservatives x British Columbia
-```{r, warning=FALSE}
+## Results for British Columbia
+The top 3 poplar political parties in British Columbia are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
+Here are the results for the top 3 parties:
+
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in British Columbia} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+NDP (New Democratic Party, New Democrats, NDPers)           & 23.10\% \\ % inserting body of the table
+\textbf{Conservatives (Tory, PCs, Conservative Party of Canada)}     & \textbf{27.72\%}	 \\
+Liberal (Grits)                                             & 26.75\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
+
+
+```{r, warning=FALSE, echo=FALSE}
+#Consv X BC
 # getting the NDP survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
@@ -711,14 +786,15 @@ Consv_Vote_percen_Bc <- BcXcensus.1 %>% summarise(Consv_est_Bc = (sum(n*prob_Con
 Consv_Vote_percen_Bc
 ```
 
-##LiberalXBritish Columbia
-```{r, warning=FALSE}
+
+```{r, warning=FALSE, echo=F}
+#LiberalXBritish Columbia
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
-                              survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
+                              survey_data.2$political_pref != "Liberal (Grits)" ~ 0))
 
 # filter out based on BC
 # group the survey data by the province filter out Bc people       --Filtering out the Liberal survey data for the province to make model
@@ -751,9 +827,30 @@ Lib_Vote_percen_Bc <- BcXcensus.1 %>% summarise(Lib_est_Bc = (sum(n*prob_Lib)/N)
 Lib_Vote_percen_Bc
 ```
 
-#Ontario
+## Results for Ontario
+The top 3 poplar political parties in Ontario are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
+Here are the results for the top 3 parties:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in Ontario} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+NDP (New Democratic Party, New Democrats, NDPers)           & 14.77\% \\ % inserting body of the table
+\textbf{Conservatives (Tory, PCs, Conservative Party of Canada)}     & \textbf{27.57\%}	 \\
+Liberal (Grits)                                             & 26.76\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
+
+```{r, warning=FALSE, echo = F}
 ##NDPxOntario
-```{r, warning=FALSE}
 # getting the NDP survey data to make the models                            
 NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
@@ -791,8 +888,9 @@ NDP_Vote_percen_Ontario <- ontarioXcensus.1 %>% summarise(NDP_est_Ontario = (sum
 NDP_Vote_percen_Ontario
 ```
 
+
+```{r, warning=FALSE, echo=FALSE}
 ##Conservatives x Ontario
-```{r, warning=FALSE}
 # getting the Conservatives survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
@@ -830,8 +928,8 @@ Cons_Vote_percen_Bc <- OnXcensus.1 %>% summarise(Consv_est_On = (sum(n*prob_Cons
 Cons_Vote_percen_Bc
 ```
 
-##Liberal X Ontario
-```{r, warning=FALSE}
+```{r, warning=FALSE,echo=F}
+###Liberal X Ontario
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
@@ -869,10 +967,31 @@ N <- sum(OnXcensus.1$n)
 Lib_Vote_percen_On <- OnXcensus.1 %>% summarise(Lib_est_On = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_On
 ```
+## Results for Manitoba
+The top 3 poplar political parties in Ontario are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
+Here are the results for the top 3 parties:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in Manitoba} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+NDP (New Democratic Party, New Democrats, NDPers)           & 11.98\% \\ % inserting body of the table
+\textbf{Conservatives (Tory, PCs, Conservative Party of Canada)}     & \textbf{31.06\%}	 \\
+Liberal (Grits)                                             & 18.26\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
 
-#Manitoba
+
+```{r, warning=FALSE, echo=F}
 ##NDPxManitoba
-```{r, warning=FALSE}
 # getting the NDP survey data to make the models                            
 NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
@@ -908,10 +1027,8 @@ N <- sum(MnXcensus.1$n)
 # prediction for NDPxManitoba
 NDP_Vote_percen_Manitoba <- MnXcensus.1 %>% summarise(NDP_est_Manitoba = (sum(n*prob_NDP_Manitoba)/N))
 NDP_Vote_percen_Manitoba
-```
 
 ##Conservatives x Manitoba
-```{r, warning=FALSE}
 # getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
@@ -947,10 +1064,8 @@ N <- sum(MnXcensus.1$n)
 # prediction for ConsXManitoba
 Cons_Vote_percen_Mn <- MnXcensus.1 %>% summarise(Consv_est_Mn = (sum(n*prob_Consv_Mn)/N))
 Cons_Vote_percen_Mn
-```
 
 ##Liberal X Manitoba
-```{r, warning=FALSE}
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
@@ -988,10 +1103,29 @@ N <- sum(MnXcensus.1$n)
 Lib_Vote_percen_Mn <- MnXcensus.1 %>% summarise(Lib_est_Mn = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Mn
 ```
+## Results for Quebec
+The top 3 poplar political parties in Ontario are **Coalition Avenir Québec or the CAQ**,**Quebec Liberal Party** and **Bloc Québécois (BQ, PQ, Bloc, Parti Québéc)** but as mentioned due to the limitation of the data we have we choose to go with the next popular parties and the final list of the of the parties as mentioned previously in Table3 are: **Conservatives (Tory, PCs, Conservative Party of Canada)**,  **Liberal (Grits)** & **Bloc Québécois (BQ, PQ, Bloc, Parti Québéc)** and here are the results we found:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in Quebec} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+Bloc Québécois (BQ, PQ, Bloc, Parti Québéc)    & 24.48\% \\ % inserting body of the table
+Conservatives (Tory, PCs, Conservative Party of Canada)     & 17.04\%	 \\
+\textbf{Liberal (Grits)}                                   & \textbf{39.63\%}  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
 
-#Quebec                                     Limitation---No data on (Coalition Avenir Québec or the CAQ) and (Quebec Liberal Party) <- biggest parties in Quebec 
+```{r, warning=FALSE, echo=F}
 ##Bloc Quebecois X Quebec
-```{r, warning=FALSE}
 ## Making the model and the predictions
 
 # getting the Bloc Quebecois survey data to make the models                            
@@ -1028,10 +1162,8 @@ N <- sum(QbXcensus.1$n)
 # prediction for QuebecX_Qb
 Qb_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Qb_est_Qb = (sum(n*prob_Qb)/N))
 Qb_Vote_percen_Qb
-```
 
 ##Conservatives X Quebec
-```{r, warning=FALSE}
 # getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
@@ -1067,16 +1199,14 @@ N <- sum(QbXcensus.1$n)
 # prediction for ConsxQuebec
 Cons_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Consv_est_Qb = (sum(n*prob_Consv_Qb)/N))
 Cons_Vote_percen_Qb
-```
 
 ##Liberal X Quebec
-```{r, warning=FALSE}
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
-                              survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
+                              survey_data.2$political_pref != "Liberal (Grits)" ~ 0))
 
 # filter out based on Quebec
 # group the survey data by the province filter out Quebec people       --Filtering out the Liberal survey data for the province to make model
@@ -1109,11 +1239,34 @@ Lib_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Lib_est_Qb = (sum(n*prob_Lib)/N)
 Lib_Vote_percen_Qb
 ```
 
-#New Brunswick                        LIMITATION no one BW age 18-24 in survey
-##New BrunswickXLiberal                   
-```{r, warning=FALSE}
-## Making the model and the predictions
 
+## Results for New Brunswick
+The top 3 poplar political parties in New Brunswick are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **Green Party (Greens)**. A thing to mention in making our estimate for this province is that the data we used to make the model for New Brunswick had a issue when it came to the age group, we had no data on the people between 18-24 years so our predictions are also missing the estimates from the people in that age group.\
+Here are the results for the top 3 parties:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in New Brunswick} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+Green Party (Greens)                                        & 25.52\% \\ % inserting body of the table
+\textbf{Conservatives (Tory, PCs, Conservative Party of Canada)}     & \textbf{39.70\%}	 \\
+Liberal (Grits)                                    & 22.97\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+
+```
+
+                  
+```{r, warning=FALSE, echo=F}
+##New BrunswickXLiberal 
+## Making the model and the predictions
 # getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
@@ -1151,10 +1304,8 @@ N <- sum(NbXcensus.1$n)
 # prediction for LiberalxNb
 Lib_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Lib_est_Nb = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Nb
-```
 
 ##New BrunswickXConservative
-```{r, warning=FALSE}
 # getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
@@ -1192,10 +1343,8 @@ N <- sum(NbXcensus.1$n)
 # prediction for ConsxNew Brunswick
 Cons_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Consv_est_Nb = (sum(n*prob_Consv_Nb)/N))
 Cons_Vote_percen_Nb
-```
 
 ##New BrunswickXGreen
-```{r, warning=FALSE}
 # getting the Conservative survey data to make the models                            
 Green_predic.1 <- survey_data.2 %>%
   mutate(Green_pref = case_when(survey_data.2$political_pref == "Green Party (Greens)" ~ 1,
@@ -1235,10 +1384,30 @@ Green_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Green_est_Nb = (sum(n*prob_Gre
 Green_Vote_percen_Nb
 ```
 
-#Saskatchewan
+## Results for Saskatchewan
+The top 3 poplar political parties in Saskatchewan are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
+Here are the results for the top 3 parties:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in Saskatchewan} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+NDP (New Democratic Party, New Democrats, NDPers)           & 11.98\% \\ % inserting body of the table
+\textbf{Conservatives (Tory, PCs, Conservative Party of Canada)}     & \textbf{61.75\%}	 \\
+Liberal (Grits)                                             & 10.16\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
 
+```{r, warning=FALSE, echo=F}
 ##Conservative
-```{r, warning=FALSE}
 # getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
@@ -1274,10 +1443,8 @@ N <- sum(SaXcensus.1$n)
 # prediction for ConservativexSaskatchewan
 Consv_Vote_percen_Sa <- SaXcensus.1 %>% summarise(Consv_est_Sa = (sum(n*prob_Consv_Sa)/N))
 Consv_Vote_percen_Sa
-```
 
 ##Liberal
-```{r}
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
@@ -1314,10 +1481,7 @@ N <- sum(SaXcensus.1$n)
 # prediction for  LiberalxSaskatchewan
 Lib_Vote_percen_Sa <- SaXcensus.1 %>% summarise(Lib_est_Sa = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Sa
-```
 
-##NDP
-```{r, warning=FALSE}
 # getting the NDP survey data to make the models                            
 NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
@@ -1355,9 +1519,31 @@ NDP_Vote_percen_Saskatchewan <- SaXcensus.1 %>% summarise(NDP_est_Saskatchewan =
 NDP_Vote_percen_Saskatchewan
 ```
 
-#Nova Scotia
+## Results for Nova Scotia
+The top 3 poplar political parties in Nova Scotia are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
+Here are the results for the top 3 parties:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in Nova Scotia} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+NDP (New Democratic Party, New Democrats, NDPers)           & 15.59\% \\ % inserting body of the table
+\textbf{Conservatives (Tory, PCs, Conservative Party of Canada)}     & \textbf{38.78\%}	 \\
+Liberal (Grits)                                             & 34.827\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
+
+
+```{r, warning=FALSE, echo=F}
 ##Conservative
-```{r, warning=FALSE}
 # getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
@@ -1393,16 +1579,14 @@ N <- sum(SaXcensus.1$n)
 # prediction for ConservativexNova Scotia
 Consv_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Consv_est_Ns = (sum(n*prob_Consv_Sa)/N))
 Consv_Vote_percen_Ns
-```
 
 ##Liberal
-```{r}
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
-                              survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
+                              survey_data.2$political_pref != "Liberal (Grits)" ~ 0))
 
 # filter out based on Nova Scotia
 # group the survey data by the province filter out Nova Scotia people       --Filtering out the Liberal survey data for the province to make model
@@ -1433,10 +1617,8 @@ N <- sum(NsXcensus.1$n)
 # prediction for LiberalxNova Scotia
 Lib_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Lib_est_Ns = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_Ns
-```
 
 ##NDP
-```{r, warning=FALSE}
 # getting the NDP survey data to make the models                            
 NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
@@ -1474,9 +1656,31 @@ NDP_Vote_percen_Ns <- NsXcensus.1 %>% summarise(NDP_est_Ns = (sum(n*prob_NDP_Ns)
 NDP_Vote_percen_Ns
 ```
 
-#Newfoundland and Labrador           ----AGE GROUP 18-24 limitation
+## Results for Newfoundland and Labrador
+The top 3 poplar political parties in Newfoundland and Labrador are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**. A thing to mention in making our estimate for this province is that the data we used to make the model for Newfoundland and Labrador had a issue when it came to the age group, we had no data on the people between 18-24 years so our predictions are also missing the estimates from the people in that age group. Furthermore due to the limitation of the data size available about Conservatives (Tory, PCs, Conservative Party of Canada) we were unable to make estimation for this party.\
+Here are the results for the top 2 parties:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in Nova Scotia} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+\textbf{NDP (New Democratic Party, New Democrats, NDPers) }     & \textbf{38.12\%}	 \\
+Liberal (Grits)                                             & 33.71\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
+
+
+
+```{r, warning=FALSE, echo=F}
 ##NDP
-```{r, warning=FALSE}
 # getting the NDP survey data to make the models                            
 NDP_predic.1 <- survey_data.2 %>%
   mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
@@ -1514,16 +1718,14 @@ N <- sum(NLXcensus.1$n)
 # prediction for NDPxNewfoundland and Labrador
 NDP_Vote_percen_NL <- NLXcensus.1 %>% summarise(NDP_est_NL = (sum(n*prob_NDP_NL)/N))
 NDP_Vote_percen_NL
-```
 
 ##Liberal
-```{r, warning=FALSE}
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
 Liberal_predic.1 <- survey_data.2 %>%
   mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
-                              survey_data.2$political_pref != "Liberal (Grits))" ~ 0))
+                              survey_data.2$political_pref != "Liberal (Grits)" ~ 0))
 
 # filter out based on Newfoundland and Labrador
 # group the survey data by the province filter out Newfoundland and Labrador people       --Filtering out the Liberal survey data for the province to make model
@@ -1556,10 +1758,8 @@ N <- sum(NsXcensus.1$n)
 # prediction for NDPxNewfoundland and Labrador
 Lib_Vote_percen_NL <- NLXcensus.1 %>% summarise(Lib_est_NL = (sum(n*prob_Lib)/N))
 Lib_Vote_percen_NL
-```
 
 ##Conservatives
-```{r, warning=FALSE}
 # getting the Conservative survey data to make the models                            
 Conservatives_predic.1 <- survey_data.2 %>%
   mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
@@ -1596,17 +1796,180 @@ NLXcensus.1 <- NLXcensus.1 %>% mutate(prob_Consv_NL = est_p(Consv_odds))
 N <- sum(NLXcensus.1$n)
 # prediction for ConsxNewfoundland and Labrador
 Cons_Vote_percen_NL <- NLXcensus.1 %>% summarise(Consv_est_NL = (sum(n*prob_Consv_NL)/N))
-# Cons_Vote_percen_NL
-```
-^Due to such a small percentage * n NaN = 0/N
-
-#Prince Edward Island
-```{r}
-
+ Cons_Vote_percen_NL
 ```
 
+## Results forPrince Edward Island
+The top 3 poplar political parties in Prince Edward Island are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
+Here are the results for the top 3 parties:
+```{=latex}
+\begin{table}[ht]
+\caption{Popular Political Vote in Prince Edward Island} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Political Party & Party's Popularity  \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+NDP (New Democratic Party, New Democrats, NDPers)           & 9.86\% \\ % inserting body of the table
+Conservatives (Tory, PCs, Conservative Party of Canada)     & 20.73163\%	 \\
+\textbf{Liberal (Grits)}                                    & \textbf{41.70}\%  \\
+[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
+
+
+```{r, warning=FALSE, echo=F}
+##Conservative
+# getting the Conservative survey data to make the models                            
+Conservatives_predic.1 <- survey_data.2 %>%
+  mutate(Consv_pref = case_when(survey_data.2$political_pref == "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 1,
+                              survey_data.2$political_pref != "Conservatives (Tory, PCs, Conservative Party of Canada)" ~ 0))
+
+# filter out based on Prince Edward Island
+# group the survey data by the province filter out Prince Edward Island people       --Filtering out the Conservative survey data for the province to make model
+NsXsurveyXConsv <- Conservatives_predic.1[Conservatives_predic.1$province == "Prince Edward Island",] 
+# make the model for predicting the results on Prince Edward Island,              
+glm_Consv_model_Ns<-glmer(Consv_pref ~ sex + education + (1|income_family) + age_group, data=NsXsurveyXConsv, family=binomial)
+#results
+#summary(glm_Consv_model_Ns)
+
+## now assign bins and make the predictions
+# filter out for Prince Edward Island in the census data
+NsXcensus <- census_data.5[census_data.5$province == "Prince Edward Island",]    #### Can remove this line##
+# get the bin count corresponding to the model we make
+NsXcensus.1 <- NsXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the log odds for the regression model
+X <- predict(glm_Consv_model_Ns, NsXcensus.1)
+#view(X)
+# appending the log odds to the  ConservativexPrince Edward Island
+NsXcensus.1$Consv_odds <- X
+# getting the probability for each group 
+NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_Consv_Sa = est_p(Consv_odds))
+
+## post-stratification for the Prince Edward IslandX_Consv
+
+## sum of N                             --- add this in the model---
+N <- sum(SaXcensus.1$n)
+# prediction for ConservativexPrince Edward Island
+Consv_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Consv_est_PE = (sum(n*prob_Consv_Sa)/N))
+Consv_Vote_percen_Ns
+
+##Liberal
+## Making the model and the predictions
+
+# getting the Liberal survey data to make the models                            
+Liberal_predic.1 <- survey_data.2 %>%
+  mutate(Lib_pref = case_when(survey_data.2$political_pref == "Liberal (Grits)" ~ 1,
+                              survey_data.2$political_pref != "Liberal (Grits)" ~ 0))
+
+# filter out based on Prince Edward Island
+# group the survey data by the province filter out Prince Edward Island people       --Filtering out the Liberal survey data for the province to make model
+NsXsurveyXLib <- Liberal_predic.1[Liberal_predic.1$province == "Prince Edward Island",]
+# make the model for predicting the results on Prince Edward Island,              
+glm_Lib_model_Ns <-glmer(Lib_pref ~ sex + education + (1|income_family) + age_group, data=NsXsurveyXLib, family=binomial)
+#summary(glm_Lib_model_Ns)
+
+## now assign bins and make the predictions
+# filter out for Prince Edward Island in the census data
+NsXcensus <- census_data.5[census_data.5$province == "Prince Edward Island",]    #### Can remove this line##
+# get the bin count corresponding to the model we make
+NsXcensus.1 <- NsXcensus %>%
+  count(sex, education,  income_family, age_group)        #### Can remove this line##
+
+# make the log odds for the regression model
+X <- predict(glm_Lib_model_Ns, NsXcensus.1)
+#view(X)
+# appending the log odds to the  LiberalxPrince Edward Island
+NsXcensus.1$Lib_odds <- X
+# getting the probability for each group 
+NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
+
+## post-stratification for the Prince Edward IslandXLiberal
+
+## sum of N                             --- add this in the model---
+N <- sum(NsXcensus.1$n)
+# prediction for LiberalxPrince Edward Island
+Lib_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Lib_est_PE = (sum(n*prob_Lib)/N))
+Lib_Vote_percen_Ns
+
+# getting the NDP survey data to make the models                            
+NDP_predic.1 <- survey_data.2 %>%
+  mutate(NDP_pref = case_when(survey_data.2$political_pref == "NDP (New Democratic Party, New Democrats, NDPers)" ~ 1,
+                              survey_data.2$political_pref != "NDP (New Democratic Party, New Democrats, NDPers)" ~ 0))
+
+# group the survey data by the province filter out Prince Edward Island people       --Filtering out the NDP survey data for the province to make model
+NsXsurveyXNDP <- NDP_predic.1[NDP_predic.1$province == "Prince Edward Island",] 
+# make the model for predicting the results on Prince Edward Island,              
+glm_NDP_model.Ns<-glmer(NDP_pref ~ sex + education + (1|income_family) + age_group, data=NsXsurveyXNDP, family=binomial)
+#results
+#summary(glm_NDP_model.Ns)
+
+## assign bins and get the counts for the census data
+
+# filter out for Prince Edward Island in the census data
+NsXcensus <- census_data.5[census_data.5$province =="Prince Edward Island",]
+# get the bin count corresponding to the model we make
+NsXcensus.1 <- NsXcensus %>%
+  count(sex, education,  income_family, age_group)
+
+# make the log odds for the regression model
+X <- predict(glm_NDP_model.Ns, NsXcensus.1)
+#view(X)
+# appending the log odds to the  NDPxPrince Edward Island
+NsXcensus.1$NDP_odds <- X
+# getting the probability for each group
+NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_NDP_Ns = est_p(NDP_odds))
+
+## post-stratification for the Prince Edward IslandX_NDP
+
+## sum of N                             --- add this in the model---
+N <- sum(NsXcensus.1$n)
+# prediction for NDPxPrince Edward Island
+NDP_Vote_percen_Ns <- NsXcensus.1 %>% summarise(NDP_est_PE = (sum(n*prob_NDP_Ns)/N))
+NDP_Vote_percen_Ns
+```
+\newpage
+## Summary, comments about results
+```{=latex}
+\begin{table}[ht]
+\caption{Provincial Seats along with Dominant Political Prefrence } % title of Table
+\centering % used for centering table
+\begin{tabular}{c c c c} % centered columns (4 columns)
+\hline\hline %inserts double horizontal lines
+Provience & Seats & Dominant Party & Percentage Prefrence \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+British Columbia            & 42    & Conservatives (Tory, PCs, Conservative Party of Canada)     & 27.72\% \\ % inserting body of the table
+Alberta                     & 34    & Conservatives (Tory, PCs, Conservative Party of Canada)     & 67.76\% \\
+Saskatchewan                & 14    & Conservatives (Tory, PCs, Conservative Party of Canada)     & 61.75\% \\
+Manitoba                    & 14    & Conservatives (Tory, PCs, Conservative Party of Canada)     & 31.06\% \\
+Ontario                     & 121   & Conservatives (Tory, PCs, Conservative Party of Canada)     & 27.57\% \\
+Quebec                      & 78    & Liberal (Grits)                                             & 39.63\% \\
+New Brunswick               & 10    & Conservatives (Tory, PCs, Conservative Party of Canada)     & 39.70\% \\
+Nova Scotia                 & 11    & Conservatives (Tory, PCs, Conservative Party of Canada)     & 38.78\% \\
+Prince Edward Island        & 4     & Liberal (Grits)                                             & 41.70\% \\
+Newfoundland and Labrador   & 7     & NDP (New Democratic Party, New Democrats, NDPers)           & 38.12\% \\
+Yukon                       & 1     &   NA                                                        & NA    \\
+Northwest Territories       & 1     &   NA                                                        & NA    \\
+Nunavut                     & 1     &   NA                                                        & NA    \\ \hline
+Most Dominant Party & & Conservatives (Tory, PCs, Conservative Party of Canada) &  \\[1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:nonlin} % is used to refer this table in the text
+\end{table}
+```
+Based on results displayed in Table 16 we can see that the most popular party on average is the Conservatives (Tory, PCs, Conservative Party of Canada) so we **expect** them to win. However there are still some things we need to take into account, firstly the mostly if we assume that all the people who choose Conservatives as their political preference they would still have about **~94** out the total 338. Note to have a majority a party would need above half of the total available seats which come to 170. \
+It is now a good time to also note that in some regions the party that was $2^{nd}$ when it comes to popularity was just behind the party that came $1^{st}$ in that region. Because now if the other party dominates the some other region with a higher seat count with a greater percentage difference then this political party would end having more seats.  This is something we need to consider when making a prediction about the general election and base our results. Furthermore governments are also formed on the basis of independent representatives joining or other parties getting together to form a majority government, note we don't have this information available to us. Lastly as mentioned we had no information about certain groups or about certain political parties to make our model so we were not able to make predictions about those groups or about those parties in our census data. \
+In summary however these results seem realistic when compared on a provincial level and also when we compare them to the most recent election from 2019 but there are still much that can be done to get better much more accurate prediction.
+
+```{r, warning=FALSE, eval=F, echo=FALSE}
 #Grouping based on provinces
-```{r, warning=FALSE}
 # make them in groups by province
 alberta <- census_data.4 %>% group_by(province = "Alberta")
 british_columbia <- census_data.4 %>% group_by(province = "British Columbia")
@@ -1615,122 +1978,17 @@ new_brunswick<- census_data.5 %>% group_by(province = "New Brunswick")
 newfoundland_labrador<- census_data.5 %>% group_by(province = "Newfoundland and Labrador")
 nova_scotia<- census_data.5 %>% group_by(province = "Nova Scotia")
 ontario <- census_data.5 %>% group_by(province = "Ontario")
-prince_edward_island<- census_data.5 %>% group_by(province = "Prince Edward Island")
+prince_edward_island<- survey_data.2 %>% group_by(province = "Prince Edward Island")
 quebec<- census_data.5 %>% group_by(province = "Quebec")
 saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 ```
 
-
-```{r, include = FALSE}
-
-#### You will need to update/clean the code below based off the variables you want to use in your post stratification.
-
-```
-
-<Remember, you may want to use multiple data sets here, if you do end up using multiple data sets, or merging the data, be sure to describe this in the cleaning process and be sure to discuss important aspects of all the data that you used.>
-
-<Include a description of the important variables.> 
-
-```{r, include=FALSE}
-
-# Use this to calculate some #summary measures. 
-
-```
-
-<Include a description of the numerical summaries. Remember you can use `r ` to use inline R code.>
-
-```{r, echo = TRUE}
-
-# Use this to create some plots. Should probably describe both the sample and population.
-
-```
-
-<Include a clear description of the plot(s). I would recommend one paragraph for each plot.> 
-
-## Methods
-
-<Include some text introducing the methodology, maybe restating the problem/goal of this analysis.>
-
-### Model Specifics
-<Here you can describe your regression model>
-
-<I will (incorrectly) be using a linear regression model to model the proportion of voters who will vote for Donald Trump. This is a naive model. I will only be using age, which is recorded as a numeric variable, to model the probability of voting for Donald Trump. The simple linear regression model I am using is:> 
-
-$$ y = \beta_0+\beta_1  x_{age} + \epsilon$$
-
-<Where $y$ represents the ....  $\beta_0$ represents....>
-
-```{r, include=FALSE}
-
-# Creating the Model
-
-# Model Results (to Report in Results section)
-# #summary(model)
-# OR
-# broom::tidy(model)
-
-### Don't show the results/output here...
-
-```
-
-## Post-Stratification 
-
-<Here you should explain the poststratification process>
-
-<In order to estimate the proportion of voters.....>
-
-<To put math/LaTeX inline just use one set of dollar signs. Example: $\hat{y}^{PS}$ >
-
-<To put math on its own line use two sets of dollar signs:>
-
-$$ include.your.mathematical.model.here.if.you.have.some.math.to.show $$
-All analysis for this report was programmed using `R version 4.0.2`. 
-
-## Results 
-
-```{r, include=FALSE}
-
-# Creating the Model
-
-# Model Results (to Report in Results section)
-# #summary(model)
-# OR
-# broom::tidy(model)
-```
-
-```{r, include=FALSE}
-
-```
-
-<Here you present your results. You may want to put them into a well formatted table. Be sure that there is some text describing the results.>
-
-<Note: Alternatively you can use the `knitr::kable` function to create a well formatted table from your code. See here: [https://rmarkdown.rstudio.com/lesson-7.html](https://rmarkdown.rstudio.com/lesson-7.html).>
-
-<Remember you can use `r ` to use inline R code.>
-
-```{r, include = FALSE}
-
-# Here you can include some relevant visualizations.
-```
-
-<Include an explanation/interpretation of the visualizations. Make sure to comment on the appropriateness of the assumptions/results.>
-
 ## Conclusions
+
 
 ## Drawbacks
                                                                       **relevant fields not found in the survey, provinces((11) Northwest Territories, (12) Yukon, (13) Nunavut)**
 
-<Here you should give a summary of the Hypotheses, Methods and Results>
-
-<Highlight Key Results.>
-
-<Talk about big picture.>
-
-<Comment on any Weaknesses.>
-
-<Comment on Future Work/Next Steps>
-
-<End with a concluding paragraph to wrap up the report.>
 
 ## Bibliography
 
@@ -1770,3 +2028,7 @@ All analysis for this report was programmed using `R version 4.0.2`.
 
 18. Statista. (2021, March 9). Canada - resident population, by gender and age group 2020. https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/
 
+19*. 
+
+
+* = citation in R chunks in markdown
