@@ -397,9 +397,9 @@ est_p <- function(sum){
 
 And finally the estimate for our hypothesis is done using this following lines of R-code displayed in the code chuck below.
 ```{r, eval=FALSE}
-Output <- data_frame %>% summarise(estimate = (sum(n*probability_bin)/N))
+Output <- data.frame %>% summarise(estimate = (sum(n*probability.bin)/N))
 ```
-Here is a table detailing what everything stands for in the above code chunk:
+Here is a table detailing what everything means for in the above code chunk:
 ```{=latex}
 \begin{table}[ht]
 \caption{R-code breakdown} % title of Table
@@ -409,15 +409,19 @@ Here is a table detailing what everything stands for in the above code chunk:
 R-code & Breakdown  \\ [0.5ex] % inserts table
 %heading
 \hline % inserts single horizontal line
-n & Bin size \\ % inserting body of the table
-probability_bin & Probability of the group \\
-N & sum of all "n"/Bins  \\
-sum(...) & Sums the "..." \\ % inserting body of the table
-summarise(...) & Generates  \\[1ex] % [1ex] adds vertical space
+$n$                 & Bin size \\ % inserting body of the table
+$ probability.bin $   & Probability of the group \\
+$N$                 & sum of all bin size  \\
+sum(...)          & Sums the "..." within the brackets  \\ % inserting body of the table
+summarise(...)    & Generates a summary of the result  \\
+$data.frame$        & Data frame containing the Estimated bin probability \\
+$Output$            & variable to store the Estimated Probability of Hypothesis   \\
+[1ex] % [1ex] adds vertical space
 \hline %inserts single line
 \end{tabular}
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
+\end{document}
 
 ```
 
