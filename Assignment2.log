@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.5.30)  31 MAY 2021 08:20
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.5.30)  1 JUN 2021 01:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -819,169 +819,189 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 File: /Users/ujji7/Desktop/cover page image.png Graphic file (type bmp)
 </Users/ujji7/Desktop/cover page image.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 119--120
+[][]
+ []
+
 [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 129--149
+Underfull \hbox (badness 10000) in paragraph at lines 128--148
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--159
+Underfull \hbox (badness 10000) in paragraph at lines 152--158
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--173
+Underfull \hbox (badness 10000) in paragraph at lines 162--172
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 177--190
+Underfull \hbox (badness 10000) in paragraph at lines 176--189
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 194--215
+Underfull \hbox (badness 10000) in paragraph at lines 193--214
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 238--250
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 257--284
+Underfull \hbox (badness 10000) in paragraph at lines 237--249
 
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 315--327
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 332--372
+Underfull \hbox (badness 10000) in paragraph at lines 258--285
 
  []
 
 [4]
+Underfull \hbox (badness 10000) in paragraph at lines 316--328
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 333--373
+
+ []
+
+[5]
+File: Assignment2_files/figure-latex/Data Analysis_1-1.pdf Graphic file (type p
+df)
+<use Assignment2_files/figure-latex/Data Analysis_1-1.pdf>
+[6]
 File: Assignment2_files/figure-latex/Data Analysis-1.pdf Graphic file (type pdf
 )
 <use Assignment2_files/figure-latex/Data Analysis-1.pdf>
-
-Overfull \hbox (195.1108pt too wide) in paragraph at lines 384--386
-[]\TU/lmr/m/n/10 ##SHOW THE NUMBER FOR EACH province## [] 
- []
-
-[5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 421--431
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 430--440
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 432--435
+Underfull \hbox (badness 10000) in paragraph at lines 441--445
 
  []
 
 Missing character: There is no ⅓ (U+2153) in font [lmroman10-regular]:mapping=t
 ex-text;!
-[7]
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 477.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 477.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 477.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 477.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 477.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 477.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 477.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 477.
-
-Underfull \hbox (badness 10000) in paragraph at lines 502--533
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 538--545
-
- []
-
 [8]
-Missing character: There is no 𝛽 (U+1D6FD) in font [lmroman10-regular]:mapping=
-tex-text;!
-Missing character: There is no ⊂ (U+2282) in font [lmroman10-regular]:mapping=t
-ex-text;!
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 7.0pt on input line 489.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 5.0pt on input line 489.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 10.00092pt on input line 489.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 7.00064pt on input line 489.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 5.00046pt on input line 489.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 9.99893pt on input line 489.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 6.99925pt on input line 489.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 4.99947pt on input line 489.
 
-Underfull \hbox (badness 10000) in paragraph at lines 548--552
+Underfull \hbox (badness 10000) in paragraph at lines 514--545
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 550--557
 
  []
 
 
-Overfull \hbox (3.72603pt too wide) detected at line 590
+Underfull \hbox (badness 10000) in paragraph at lines 560--565
+
+ []
+
+[10]
+Overfull \hbox (16.97005pt too wide) detected at line 605
 [] [] [][][] [][][] [] [][][][] [] [][] [] [] [][][] [] [][] [][][] [] [] [][]
  []
 
-[9] [10]
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 721.
 [11]
+Underfull \hbox (badness 10000) in paragraph at lines 633--637
+
+ []
+
+[12]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 700.
+
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 742.
+[13]
 File: Assignment2_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type p
 df)
 <use Assignment2_files/figure-latex/unnamed-chunk-4-1.pdf>
-
-Overfull \hbox (302.66618pt too wide) in paragraph at lines 760--762
-[]\TU/lmr/m/n/10 In summary here are the steps we will be using to calculate ou
-r results: [] 
- []
-
-[12] [13] [14] [15] [16] [17] [18]
-Overfull \hbox (71.15508pt too wide) in paragraph at lines 1264--1286
+[14] [15] [16] [17] [18]
+Overfull \hbox (71.15508pt too wide) in paragraph at lines 1078--1100
  [][] 
  []
 
-
-Overfull \hbox (443.74498pt too wide) in paragraph at lines 1322--1322
-[]                                                                  \TU/lmtt/m/
-n/10 **relevant fields not found in the survey, provinces((11) Northwest Territ
-ories, (12) Yukon, (13) Nunavut)**[] 
- []
-
 [19]
-Underfull \hbox (badness 1859) in paragraph at lines 1388--1391
-\TU/lmr/m/n/10 May 31, 2021, from []$[][][][][] [] [] [] [][][] [] [][][][][][]
-[][][] [] [][] [] [][][][][][][] [] [][][][] [] [][][][][][][] [] [][][][][][][
-] [] [][][] [] [][][] [] [][][][][][][][][][][][][] []
+Underfull \hbox (badness 10000) in paragraph at lines 1136--1167
+
+ []
+
+[20]
+Underfull \hbox (badness 1708) in paragraph at lines 1258--1262
+\TU/lmr/m/n/10 Retrieved May 31, 2021, from []$[][][][][] [] [] [] [][][] [] []
+[][][][][][][][] [] [][] [] [][][][][][][] [] [][][][] [] [][][][][][][] [] [][
+][][][][][] [] [][][] [] [][][] []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1396--1399
+Underfull \hbox (badness 10000) in paragraph at lines 1262--1265
 [][][][] [] [][][][][][][][] [] [][] [] [][][][][][][] [] [][][] [] [][][][] []
  [][][] [] [][][][][] [] [][][][][][][][][][] [] [][][][][][][][][][][] [] [][]
 [][][][][][][] [][] [][][][] [] [][][][] []
  []
 
-[20] (./Assignment2.aux)
+[21]
+Overfull \hbox (161.14496pt too wide) in paragraph at lines 1273--1277
+[][][] [] [][][][] [] [][][][][][][][] [] [][] [] [][][][][][][][]$[]\TU/lmr/m/
+n/10 :~:text=Ontario’s%20current%20primary%20political%20parties,the%20Green%20
+Party%20of%20Ontario. 
+ []
+
+
+Overfull \hbox (144.18498pt too wide) in paragraph at lines 1277--1280
+[][][][][][][][] [] [][] [] [][][][][][][][][]$[]\TU/lmr/m/n/10 :~:text=Manitob
+a’s%20primary%20political%20parties%20are,Progressive%20Conservative%20Party%20
+(PC). 
+ []
+
+
+Overfull \hbox (106.10497pt too wide) in paragraph at lines 1280--1283
+[][][][][][][][] [] [][] [] [][][][][][][]$[]\TU/lmr/m/n/10 :~:text=Five%20part
+ies%20had%20representatives%20elected,the%20Green%20Party%20of%20Canada. 
+ []
+
+[22] (./Assignment2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Assignment2.out' has not changed.
-(rerunfilecheck)             Checksum: 62837E80396B761FD37D1CDB6A2D3E0B;5396.
+(rerunfilecheck)             Checksum: 5B7823C2DA6481A5A111C7C5D5D06276;6076.
  ) 
 Here is how much of TeX's memory you used:
- 16673 strings out of 478682
- 296556 string characters out of 5861758
- 786783 words of memory out of 5000000
- 36535 multiletter control sequences out of 15000+600000
+ 16691 strings out of 478682
+ 297393 string characters out of 5861758
+ 787921 words of memory out of 5000000
+ 36552 multiletter control sequences out of 15000+600000
  409881 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,10n,120p,354b,469s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,10n,120p,358b,447s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Assignment2.pdf (20 pages).
+Output written on Assignment2.pdf (22 pages).

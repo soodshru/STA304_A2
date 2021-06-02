@@ -13,7 +13,7 @@ output:
 subtitle: STA304 - Group-4 Assignment 2 
 ---
 ![](/Users/ujji7/Desktop/cover page image.png)
-
+**[25]**
 \newpage
 
 ```{r, include=FALSE, warning=FALSE}
@@ -38,7 +38,7 @@ survey_data <- read_csv("ces2019_clean.csv")
 # Introduction
 ## Goal
 Canada has always been a vibrant democracy which is solely for the people, of the people and by the people. Canada’s Egalitarian approach to Democracy has particularly made sure that during any form of decision making in the government at any level, the above statement is given the utmost importance. At the heart of Canadian Democracy, Canadian decision making lies in the Federal election during which a general vote is held to elect the people who will make decisions for Canada’s future: the members of Parliament. Under the Canadian law, the federal elections are scheduled every four years during which election races are held in electoral districts to represent the people living in that area. There are a total of 338 electoral districts with the most being present in Ontario. \
-The goal of this study will be to predict the overall popular vote of the next Federal elections which are scheduled to take place on or before October 16 2023. This was done using regression models with post-stratification, both of which will be described in depth in later sections. The models were built using the Canadian Election Study of 2019 which was treated as Survey Data, and predictions were performed using General Social Survey from 2017 which was treated as census data. \
+The goal of this study will be to **predict the overall popular vote of the next Federal elections** which are scheduled to take place on or before October 16 2023. This was done using regression models with post-stratification, both of which will be described in depth in later sections. The models were built using the Canadian Election Study of 2019 which was treated as Survey Data, and predictions were performed using General Social Survey from 2017 which was treated as census data. \
 
 
 ## Background
@@ -66,7 +66,7 @@ Post stratification is a process that involves grouping units with similar chara
 ## Drawbacks
 The biggest potential drawback that needs to be considered is the use of data from 2017 & 2019 to predict the outcome of the 2023 federal election. This drawback will most likely have an even greater effect on the findings due to the fact that the data was collected a year before the start of Covid-19 pandemic which has caused unprecedented changes in government policies and spending that has had a significant impact on the political views of Canadians. Apart from that, another potential drawback could be false answers being put by the participants of the survey for the geography and demographic characteristics part of the survey which did not get detected during data cleaning because of them following the correct format but not being the accurate answer for that respective participant. \
 
-
+\newpage
 # Data
 ## Dataset description
 As mentioned in the Intro, the models were built using the Canadian Election Study of 2019 which was treated as Survey Data, and predictions were performed using General Social Survey from 2017 which was treated as census data. The Canadian election study since 1965 has been a rich source of data on Canadians’ political behavior and attitude. The 2019 iteration of the CES was conducted online with the target population being all Canadian citizens and permanent residents who are 18 years or older. **[8]** An online sample of the participants to be contacted was created from the members of Canadian general population using qualtrics, a survey software tool, with targets stratified by region which were 7 in total. Additionally, within each region, provincial quotas were split evenly. Lastly, the online sample was created with the several aims such as having a 50-50 male & female ratio, 80-20 French & English ratio in Quebec. \
@@ -80,7 +80,7 @@ Next, it was decided to merge \
  column # 4: place_birth_province which contained the Province the participants were born in. \
 The decision to merge these columns was made to reduce the number of parameters for our model and the ease of the reader as both the columns essentially reveal the same characteristic about the participant and each row for these columns had an “NA” whenever the other column didn’t have an “NA”. All the Inputs for both these columns were merged and inserted in a new column labeled place_birth. The inputs for these columns were merged using the coalesce() function and the new column was created using the mutate() function over the coalesce function i.e. mutate(coalesce()) Naturally, column # 3 and # 4 were then deleted using the select() function. \
 Lastly, all the NAs' were then dropped from our modified GSS using the na.omit() function.
-
+\newpage
 
 ## Dataset Syncing
 Since two different surveys were being used for the study, syncing had to be performed between the GSS and the CES data set to move forward. The syncing process began with re-categorizing answers from the column containing the education level of the participant in our modified GSS so that it matched the categories of the column containing the level of education of the participant in the CES data set. This was done using the replace() function. Next, all the decimal points from age in our modified GSS were dropped to match the format of age in CES. This was done through inserting the column containing age inside the floor() function. Lastly, all the columns in our modified GSS for which we couldn’t find equivalent columns in CES were dropped using the select() function. \
@@ -118,106 +118,119 @@ census_data.4$age <- floor(census_data.4$age)
 ```
 
 ## Description of Important Variables
-As previously mentioned, we will be using the survey data to predict the popular vote among the country based on the individuals that are present in the census data. To conduct our analysis, we need to ensure that the variables in both the survey and census were in the same manner for obvious reasons. Initially we had begun with 81 variables in the data, however after narrowing down the variables we ended up giving importance to 6 main variables which include sex, province, education, political preference, family’s income and age. \
+As previously mentioned, we will be using the survey data to predict the popular vote among the country based on the individuals that are present in the census data. To conduct our analysis, we need to ensure that the variables in both the survey and census were in the same manner for obvious reasons. Initially we had begun with 81 variables in the data, however after narrowing down the variables we ended up giving importance to 6 main variables which include **sex, province, education level, political preference, family’s income and age**. \
 Once again, our goal is to forecast the outcome of the next federal election by using political preference and province as our response variables which are two very important variables as it would be extremely challenging and nearly impossible to conduct a realistic analysis without knowing these details. \
 Ekos Research Associates is a Canadian research company that measured males are almost equally inclined to vote for Liberal as they are for Conservatives **[10]**. More specifically, 37% of males have intended to vote for Conservatives and 35% had intentions to vote Liberal **[10]**. This is to say that if the voting population consisted of just Males there would be a tie between the Liberal and Conservatives. On the other hand, Ekos reported that 47% of females were in favor of Liberals and only 23% were in favor of the Conservatives **[10]**. Thus, it can be seen that sex definitely has a huge impact on voting behavior as male and females differ between their political preferences. \
 The age of the electoral population matters a great deal as it has been hypothesized that younger people are more likely to vote for liberal in comparison to older people **[11]**. Accordingly, the prediction of the popular vote can be greatly influenced by age depending on the size of the different age groups.
 Similarly, the education level of the voters can impact the voter turnout as those with a university degree are 78% likely to vote whereas the voting rate for those with high school education or less is 60% **[12]**. \
 Additionally, it has been recorded that families with higher income levels have a greater voter turnout in comparison to those who come from families with a lower income **[13]**. A possible reason for this is due to how costly an activity voting may be as it requires time, information, transportation, and other things that may be inconvenient for lower income families **[13]**. Furthermore, higher income could be associated with higher education and once again this would influence voting results as mentioned previously **[13]**. \
+\newpage
 
-**TABLE**
+## Data Drawbacks 
+The biggest data limitations were encountered due to the fact that the two datasets being used were conducted by different organizations and for largely different goals. These differences were largely minimized due to our syncing of the two datasets but will still have a slight negative impact on our study. Apart from this, we encountered under representation of data for certain age groups and Provinces in our dataset which will lead to a degree of bias in our models. Same was the case when it comes to the income-level as that effects your views and also it has a high correlation with a person casting a vote or not**[19]**. \
+Another thing to consider was that we had information about Gender in one data set and Sex in the other, this not only is a source of error but might also discourage people from the LGBTQ+ group completing the survey. \
+Lastly, and most importantly we have no data about certain provinces(Northwest Territories, Yukon, Nunavut) and also we don't have enough entries from certain provinces to get much more reliable results. We are also missing questions and data to cross-check their responses.
 
-## Data Drawbacks                 ---COME BACK TO IT__ 
-Some of the issues we can see in the data are that the gender does not have the same category as the other data set. Also, we feel there is not enough data from each region, and some of the assumptions we made may affect our results. 
+## Important Variable Plots
+**See the following page for the plot description.**
 
-##SHOW THE NUMBER FOR EACH province##
-```{r, Data Analysis, fig.height=60, fig.width=40, echo = FALSE}
-
-mytable.1 <- table(survey_data$sex)
-lbls.1 <- paste(names(mytable.1), "\n", mytable.1, sep="")
-
-mytable.2 <- table(census_data$sex)
-lbls.2 <- paste(names(mytable.2), "\n", mytable.2, sep="")
+```{r, Data Analysis_1, fig.height=15, fig.width=40, echo = FALSE, fig.align = "center"}
+level_order <- c('Less than $25,000', '$25,000 to $49,999', '$50,000 to $74,999','$75,000 to $99,999','$100,000 to $ 124,999','$125,000 and more')
 
 ggarrange(
 ggplot(survey_data, aes(x=sex ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Sex in Survey") + theme(axis.text=element_text(size=20),
-  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  axis.title=element_text(size=40),plot.title= element_text(size = 30, hjust = 0.5,
   face = "bold")) ,
 
 ggplot(census_data.4, aes(x=sex))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Sex in Census")+ theme(axis.text=element_text(size=20),
-  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
-  face = "bold")),
+  axis.title=element_text(size=40),plot.title= element_text(size = 30, hjust = 0.5,
+  face = "bold")),ncol=2, nrow=1)
 
+```
+\newpage
+
+```{r, Data Analysis, fig.height=55, fig.width=40, echo = FALSE, fig.align = "center"}
+##SHOW THE NUMBER FOR EACH province##
+mytable.1 <- table(survey_data$sex)
+lbls.1 <- paste(names(mytable.1), "\n", mytable.1, sep="")
+
+mytable.2 <- table(census_data$sex)
+lbls.2 <- paste(names(mytable.2), "\n", mytable.2, sep="")
+level_order <- c('Less than $25,000', '$25,000 to $49,999', '$50,000 to $74,999','$75,000 to $99,999','$100,000 to $ 124,999','$125,000 and more')
+
+ggarrange(
 ggplot(survey_data, aes(x=province ))+
   geom_bar(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Province in Survey")+ theme(axis.text=element_text(size=20),
-  axis.title=element_text(size=20),plot.title= element_text(size = 30, hjust = 0.5,
+  axis.title=element_text(size=40),plot.title= element_text(size = 30, hjust = 0.5,
   face = "bold"),axis.text.x = element_text(angle = 90)),
 
 ggplot(census_data.4, aes(x=province))+
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Province in Census")+ theme(axis.text=element_text(size=20),
-  axis.title=element_text(size=20),plot.title= element_text(size = 30, hjust = 0.5,
+  axis.title=element_text(size=40),plot.title= element_text(size = 30, hjust = 0.5,
   face = "bold"),axis.text.x = element_text(angle = 90)),
 
 ggplot(survey_data, aes(x=age ))+
   geom_histogram(color="darkblue", fill="lightblue", bins = 40) +
   ggtitle("Spread of Ages in Survey")+ theme(axis.text=element_text(size=20),
-  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  axis.title=element_text(size=40),plot.title= element_text(size = 30, hjust = 0.5,
   face = "bold")),
 
 ggplot(census_data.4, aes(x=age))+
   geom_histogram(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Ages in Census")+ theme(axis.text=element_text(size=20),
-  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  axis.title=element_text(size=40),plot.title= element_text(size = 30, hjust = 0.5,
   face = "bold")),
 
-ggplot(survey_data, aes(x=income_family ))+
-  geom_bar(color="darkblue", fill="lightblue", bins = 40) +
+ggplot(survey_data, aes(x=factor(income_family,level=level_order)))+
+  geom_bar(color="darkblue", fill="lightblue", bins = 40) + xlab("income") +
   ggtitle("Spread of Family's incomes in Survey")+ theme(axis.text=element_text(size=20),
-  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  axis.title=element_text(size=40),plot.title= element_text(size = 30, hjust = 0.5,
   face = "bold")),
 
-ggplot(census_data.4, aes(x=income_family))+
+ggplot(census_data.4, aes(x=factor(income_family,level=level_order)))+ xlab("income") +
   geom_bar(color="darkblue", fill="lightblue", bins = 50) +
   ggtitle("Spread of Family's incomes in Census")+ theme(axis.text=element_text(size=20),
-  axis.title=element_text(size=25),plot.title= element_text(size = 30, hjust = 0.5,
+  axis.title=element_text(size=40),plot.title= element_text(size = 30, hjust = 0.5,
   face = "bold")),
- ncol=2, nrow=4)
+ ncol=2, nrow=3)
 
 # get the frequency for each variable using 
-table(census_data.4$province)
+#table(census_data.4$province)
 ```
 
+
 ## Plot Description
-**Bar Chart 1:** Spread of Sex in Survey
+**Bar Chart 1** Spread of Sex in Survey: \
 There is a greater percentage of Male voters in the electoral population of the survey data. More precisely, around 63% of the population consists of Male voters.
 
-**Bar Chart 2:** Spread of Sex in Census
+**Bar Chart 2** Spread of Sex in Census: \
 Unlike the survey data, the electoral population in the census data consists of more females than males as roughly 46%  of the population consists of Male voters.
 
-**Bar Chart 3:** Spread of Province in Survey:
+**Bar Chart 3** Spread of Province in Survey: \
 The bar chart shows the current province the voters of the survey data reside in. The top three provinces that make up the electoral population are British Columbia, Ontario and Quebec as there are over 200 voters from each of these provinces which cover around 61% of the population. Meanwhile, 11% of the population consists of voters in New Brunswick, Newfoundland Labrador and Prince Edward Island with just under 50 voters from each of these provinces. The remaining 28% of the population resides in Alberta, Manitoba, Nova Scotia and Saskatchewan.
 
-**Bar Chart 4:** Spread of Province in Census
+**Bar Chart 4** Spread of Province in Census: \
 Similar to  the bar chart about the spread of provinces in the survey, most of the population resides in British Columbia, Ontario and Quebec. More exactly, roughly 58% of the voters belong to these provinces. Unlike the survey data which had 20% of voters from British Columbia, the census data records only 12% of voters from this province. Manitoba,New Brunswick, Newfoundland and Labrador, Nova Scotia, and Saskatchewan all have 1000 to 1400 individuals from their province. Least amount of voters are from Prince Edward Island as expected since it is the smallest province in Canada.\
 
-**Histogram 1:** Spread of Ages in Survey
+**Histogram 1** Spread of Ages in Survey: \
 The data spread closely represents a normal histogram. The mean is around 50 years. A very small amount of the old people (people over the age of 80) vote.\
 
-**Histogram 2:** Spread of Ages in Census
+**Histogram 2** Spread of Ages in Census: \
 This histogram is close to a left skewed distribution. Surprisingly, unlike the Spread of the ages in Survey, the max amount of the voters were from the older ager group (80 years old). 
 
-**Histogram 3:** Spread of Family's incomes in Survey
+**Histogram 3** Spread of Family's incomes in Survey: \
 This histogram is close to a left skewed distribution. (FIX GRAPH). In this data, the majority of the population belongs to the $125,000 and more group. The other groups are almost ⅓ of the number of people in this group.
 
-**Histogram 4:** Spread of Family's incomes in Census
+**Histogram 4** Spread of Family's incomes in Census: \
 This histogram is close to a right skewed distribution. FIX GRAPH. In the census data too, the maximum amount of the voters have an income of $125,000 and above. All other groups are decreasing, but there is not as much of a difference as there was in the previous graph.
 
+\newpage
 
 # Methods
 ## Model Choice and Setup
@@ -257,7 +270,7 @@ Total & 338 \\[1ex] % [1ex] adds vertical space
 Based on this table we can see how the distribution of the seats is not even across the provinces, hence we need to account for this. Furthermore another thing to note is how political preference has a really high correlation with which province a person belongs to.**[14]** \
 Having established how the distribution of seats are not even and how the voting preference differs across the provinces, to account for this we will be running our regression models for each province to get better results.\
 Another thing to note is that within each province voting preference shifts across different income levels **[15]**. To account for this we will be using **Multilevel Regression**. Multilevel regression differs from normal regression on the way that in normal regression not accounting for the different levels which effect our data would have an offset in our regression line. The intercept of the line needs to be adjusted to account for the different levels. **NOTE** here in our case "level" refers to the groups within each province, which is ***family income level*** which we expect to have similar effects on the variable of interest. \
-Lastly another important aspect about the past elections has been that they have been dominated by particular parties. These political parties also happen to dominate and have majority number of seats in each province, hence estimating and predicting whether they win their particular provinces will acts as an estimate as to whether they will win the general election and form the government**[17]**.\
+Lastly another important aspect about the past elections has been that they have been dominated by particular parties. These political parties also happen to dominate and have majority number of seats in each province, hence estimating and predicting whether they win their particular provinces will acts as an estimate as to whether they will win the federal election and form the government**[17]**.\
 To make this estimate we are going to hypothesize and setup our model using the *survey data* and train it to estimate whether someone **will be voting for a particular party or not**. To do this we will be using **Multilevel Logistic Regression**, logistic regression is used when we are dealing with a **binary response variable**. \
 
 ## Post stratatification and Estimation
@@ -265,8 +278,8 @@ Now in our case we will be first divide our **CENSUS DATA** for each province th
 Now running this data set on the generated model for each popular party in each province will generate **log odds** of the particular group voting in favor of our hypothesized party. \
 
 Now in general the log odds generated from the regression model will look like:
- $$\log(\frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}}) = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} + ... + \beta_{k}x_{k} \qquad i \subset [1,k]$$ 
-Here $\beta_{0}$ is the measure for the level is random intercept which accounts for the different income levels and $\beta_{i}, i \subset[1,k] $ are the other factors which effect our model. \
+ $$\log(\frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}}) = \beta_{0j} + \beta_{1}x_{1} + \beta_{2}x_{2} + ... + \beta_{i}x_{i} \qquad i \subset [1,k], \quad j \subset [1,m]$$ 
+Here $\beta_{0j}$ is the measure for the level is random intercept which accounts for the different income levels, as we have 6 income levels hence $m = 6$ in our case and $\beta_{i}$, i from [1,k] are the k factors which effect our model. \
 
 Although as previously mentioned that there are many variables which effect someone's voting preference but due to the limitation of data we will be dividing our data set in different provinces and then for each province we will be making our model on **family income level**, **sex**, **education level** and **age group**. So the resulting $\beta_{i}$ will be the following:
 ```{=latex}
@@ -287,28 +300,31 @@ $\beta_{3}$ & Age group \\[1ex] % [1ex] adds vertical space
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
 ```
+\newpage
 
 ### From log Odds to Estimating Probability
 Now after generating the model and running the model on our test data to get the log odds we would need to extract the probability of that particular person voting for in favour of the party. To do this we would need to follow these 4 steps: \
 **STEP 1:**
-$$\log(\frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}}) = \beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i} \quad{} \Longrightarrow \frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}} =  \exp({\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i})}$$
+$$\log(\frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}}) = \beta_{0j} + \Sigma^{k}_{i = 1} \beta_{i}x_{i} \quad{} \Longrightarrow \frac{\hat p_{h_{0}}}{1- \hat p_{h_{0}}} =  \exp({\beta_{0j} + \Sigma^{k}_{i = 1} \beta_{i}x_{i})}$$
 **STEP 2:**
-$$\hat p_{h_{0}} = (1 - \hat p_{h_{0}})( \exp{(\beta_{0} +\Sigma^{k}_{i = 1} \beta_{i}x_{i}})) \quad{} \Longrightarrow \hat p_{h_{0}} = ( \exp{(\beta_{0} +\Sigma^{k}_{i = 1} \beta_{i}x_{i}})) - \hat p_{h_{0}} (\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}}))$$
+$$\hat p_{h_{0}} = (1 - \hat p_{h_{0}})( \exp{(\beta_{0j} +\Sigma^{k}_{i = 1} \beta_{i}x_{i}})) \quad{} \Longrightarrow \hat p_{h_{0}} = ( \exp{(\beta_{0j} +\Sigma^{k}_{i = 1} \beta_{i}x_{i}})) - \hat p_{h_{0}} (\exp{(\beta_{0j} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}}))$$
 **STEP 3:**
-$$\hat p_{h_{0}} +  \hat p_{h_{0}} (\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}}))  = \exp(\beta_{0} +{\Sigma^{k}_{i = 1} \beta_{i}x_{i}}) \quad{} \Longrightarrow \hat p_{h_{0}} (1+(\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}})) = \exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})$$
+$$\hat p_{h_{0}} +  \hat p_{h_{0}} (\exp{(\beta_{0j} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}}))  = \exp(\beta_{0j} +{\Sigma^{k}_{i = 1} \beta_{i}x_{i}}) \quad{} \Longrightarrow \hat p_{h_{0}} (1+(\exp{(\beta_{0j} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}})) = \exp{(\beta_{0j}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})$$
 **STEP 4:**
-$$\hat p_{h_{0}} (1+(\exp{(\beta_{0} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}})) = \exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}) \quad \Longrightarrow \hat p_{h_{0}} = \frac{\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})}{(1+  (\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}))}$$
+$$\hat p_{h_{0}} (1+(\exp{(\beta_{0j} + \Sigma^{k}_{i = 1} \beta_{i}x_{i}})) = \exp{(\beta_{0j}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}) \quad \Longrightarrow \hat p_{h_{0}} = \frac{\exp{(\beta_{0j}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})}{(1+  (\exp{(\beta_{0j}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}))}$$
 **So we have:**
-$$\hat p_{h_{0}} = \frac{\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})}{(1+  (\exp{(\beta_{0}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}))}$$
-### Getting the final results **Post Stratification**
+$$\hat p_{h_{0}} = \frac{\exp{(\beta_{0j}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}})}{(1+  (\exp{(\beta_{0j}+\Sigma^{k}_{i = 1} \beta_{i}x_{i}}))}$$
+
+### Getting the final results, Post Stratification
 Now note by grouping the data, some bins might have a higher weight that it more number of entries compared to the other bins. Hence we need to account for this, we do this using this general formula:
 $$\hat y^{PS} = \frac{\Sigma_{i =1}^{n}N_{i}\hat{y_{i}}}{\Sigma_{i =1}^{n}N_{i}} \quad n \subset[2,k],\quad \hat y^{PS}, \hat y_{i} \subset [0,1] $$
 Here $\hat y^{PS}$ in our case would be the **expected probability** of the total province sample voting in favor of the political party being tested now. $N_{i}$ is the size of the bin and $\hat{y_{i}}$ is the probability assigned to the bin, this is the same as $\hat p_{h_{0}}$ when calculating teh probability for bins instead of individuals. Finally $k$ is the number of bins generated in our sample data.\
-Note the reason for the assumption for $n \subset [2,k]$ is because we assume there to be more than 1 different group as without that condition, usisng this techinique is of not much significance.
+Note the reason for the assumption for $n \subset [2,k]$ is because we assume there to be more than 1 different group as without that condition, usisng this technique is of not much significance.
+\newpage
 
 # Results
 As mentioned we are generating results for every province, so here we need to first outline the popular political parties in each province.
-Here is a table of the popular parties in each province[]:
+Here is a table of the popular parties in each province**[20],[21],[22]**: \
 ```{=latex}
 \begin{table}[ht]
 \caption{Popular political parties} % title of Table
@@ -356,8 +372,9 @@ New Brunswick & Liberal (Grits) \\
               & Conservatives (Tory, PCs, Conservative Party of Canada) \\ \hline
               
                         & Liberal (Grits) \\
-Prince Edward Island    & Conservatives (Tory, PCs, Conservative Party of Canada) \\ \hline 
-                        & NDP (New Democratic Party, New Democrats, NDPers) \\ 
+Prince Edward Island    & Conservatives (Tory, PCs, Conservative Party of Canada) \\ 
+                        & NDP (New Democratic Party, New Democrats, NDPers) \\ \hline 
+                        
                \\[1ex] % [1ex] adds vertical space
  %inserts single line
 \end{tabular}
@@ -367,7 +384,7 @@ Prince Edward Island    & Conservatives (Tory, PCs, Conservative Party of Canada
 *Note the given data was not available so we chose the overall popular parties in the region which are Liberals and Conservatives.
 
 \newpage
-#### POST STRATIFICATION changes
+### POST STRATIFICATION CHANGES
 Note that to make the bins and have a healthy number of people in each bin we ended up grouping people in different age groups instead of leaving them as it is. Hence we ended up with grouping the different ages, the age groups were based on the standard age groups in Canada these are as follows **[18]**:
 
 ```{=latex}
@@ -383,7 +400,7 @@ People under 18 & Under 18 \\ % inserting body of the table
 people between 18 and 24 & 18 to 24 years \\
 people between 25 to 44 & 25 to 44 years \\
 people between 45 and 64 & 45 to 64 years \\ % inserting body of the table
-people over 65 & Over 65 \\[1ex] % [1ex] adds vertical space
+people 65 and above & Over 65 \\[1ex] % [1ex] adds vertical space
 \hline %inserts single line
 \end{tabular}
 \label{table:nonlin} % is used to refer this table in the text
@@ -428,11 +445,12 @@ $Output$            & variable to store the Estimated Probability of Hypothesis 
 \end{table}
 ```
 
+\newpage
 In summary here are the steps we will be using to calculate our results:
-```{r, echo = F, fig.dim= 300}
+```{r, echo = F, , fig.dim= 1000, fig.align = "center"}
 DiagrammeR::grViz("digraph flowchart {
       # node definitions with substituted label text
-      node [fontname = Helvetica, shape = rectangle]        
+      node [fontname = Helvetica, shape = rectangle, fontsize = 40]        
       tab1 [label = '@@1']
       tab2 [label = '@@2']
       tab3 [label = '@@3']
@@ -453,14 +471,13 @@ DiagrammeR::grViz("digraph flowchart {
       [4]: 'Make the model based on the new survey data'
       [5]: 'Group the census province data into bins'
       [6]: 'Using the model make the predicitons on the data from previous step'
-      [7]: 'Get the estimated percentage for the party in the province'
-      [8]: 'Party with the highest percentage gets all the seats for that region'
-      [9]: 'Part with the most seats is the most popular party and is expected to win'
+      [7]: 'Get the estimated popularity percentage for the party in the province'
+      [8]: 'Party with the highest percentage is the most popular party in the region'
+      [9]: 'Most popular party is the party which is popular in majority of the regions'
       ")
 ```
 
 \newpage
-
 ## Results for Alberta
 As mentioned earlier the top 3 popular parties in Alberta are **NDP (New Democratic Party, New Democrats, NDPers)**, **Conservatives (Tory, PCs, Conservative Party of Canada)** and **Liberal (Grits)**.
 Here are the results for the top 3 parties:
@@ -483,7 +500,6 @@ Liberal (Grits)                                             & 12.52\%  \\
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
 ```
-
 
 ```{r, echo= F}
 ## make the according data sets according to the Support of their party               ---WITH AGE GROUPS
@@ -598,11 +614,11 @@ albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_NDP = est_p(NDP_odds))
 N <- sum(albertaXcensus.1$n)
 # prediction for NDPxAlberta
 NDP_Vote_percen_Alberta <- albertaXcensus.1 %>% summarise(NDP_est_Alberta = (sum(n*prob_NDP)/N))
-NDP_Vote_percen_Alberta    #<- actual results
+#NDP_Vote_percen_Alberta    #<- actual results
 ```
 
-##ConservativesXAlberta
 ```{r, warning=FALSE, echo=F}
+##ConservativesXAlberta
 ## Making the model and the predictions
 
 # getting the Conservative survey data to make the models                            
@@ -639,11 +655,11 @@ albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_Consv = est_p(Consv_odds))
 N <- sum(albertaXcensus.1$n)
 # prediction for ConservativexAlberta
 Consv_Vote_percen_Alberta <- albertaXcensus.1 %>% summarise(Consv_est_Alberta = (sum(n*prob_Consv)/N))
-Consv_Vote_percen_Alberta
+#Consv_Vote_percen_Alberta
 ```
 
-##LiberalXAlberta
 ```{r, warning=FALSE, echo=F}
+##LiberalXAlberta
 ## Making the model and the predictions
 
 # getting the Liberal survey data to make the models                            
@@ -680,11 +696,9 @@ albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(albertaXcensus.1$n)
 # prediction for LiberalxAlberta
 Lib_Vote_percen_Alberta <- albertaXcensus.1 %>% summarise(Lib_est_Alberta = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_Alberta
+#Lib_Vote_percen_Alberta
 ```
 
-#British Columbia 
-##NDPxBritish Columbia
 ```{r, warning=FALSE, echo=F}
 # getting the NDP survey data to make the models                            
 NDP_predic.2 <- survey_data.2 %>%
@@ -720,13 +734,12 @@ albertaXcensus.1 <- albertaXcensus.1 %>% mutate(prob_NDP = est_p(NDP_odds))
 N <- sum(BcXcensus.1$n)
 # prediction for NDPxBritish Columbia
 NDP_Vote_percen_BC <- albertaXcensus.1 %>% summarise(NDP_est_BC = (sum(n*prob_NDP)/N))
-NDP_Vote_percen_BC
+#NDP_Vote_percen_BC
 ```
 
 ## Results for British Columbia
 The top 3 poplar political parties in British Columbia are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
 Here are the results for the top 3 parties:
-
 ```{=latex}
 \begin{table}[ht]
 \caption{Popular Political Vote in British Columbia} % title of Table
@@ -783,9 +796,8 @@ BcXcensus.1 <- BcXcensus.1 %>% mutate(prob_Consv_Bc = est_p(Consv_odds))
 N <- sum(BcXcensus.1$n)
 # prediction for NDPxBritish Columbia
 Consv_Vote_percen_Bc <- BcXcensus.1 %>% summarise(Consv_est_Bc = (sum(n*prob_Consv_Bc)/N))
-Consv_Vote_percen_Bc
+#Consv_Vote_percen_Bc
 ```
-
 
 ```{r, warning=FALSE, echo=F}
 #LiberalXBritish Columbia
@@ -824,7 +836,7 @@ BcXcensus.1 <- BcXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(BcXcensus.1$n)
 # prediction for LiberalxBc
 Lib_Vote_percen_Bc <- BcXcensus.1 %>% summarise(Lib_est_Bc = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_Bc
+#Lib_Vote_percen_Bc
 ```
 
 ## Results for Ontario
@@ -885,9 +897,8 @@ ontarioXcensus.1 <- ontarioXcensus.1 %>% mutate(prob_NDP_Ontario = est_p(NDP_odd
 N <- sum(ontarioXcensus.1$n)
 # prediction for NDPxOntario
 NDP_Vote_percen_Ontario <- ontarioXcensus.1 %>% summarise(NDP_est_Ontario = (sum(n*prob_NDP_Ontario)/N))
-NDP_Vote_percen_Ontario
+#NDP_Vote_percen_Ontario
 ```
-
 
 ```{r, warning=FALSE, echo=FALSE}
 ##Conservatives x Ontario
@@ -925,7 +936,7 @@ OnXcensus.1 <- OnXcensus.1 %>% mutate(prob_Consv_On = est_p(Consv_odds))
 N <- sum(OnXcensus.1$n)
 # prediction for ConsxOntario
 Cons_Vote_percen_Bc <- OnXcensus.1 %>% summarise(Consv_est_On = (sum(n*prob_Consv_On)/N))
-Cons_Vote_percen_Bc
+#Cons_Vote_percen_Bc
 ```
 
 ```{r, warning=FALSE,echo=F}
@@ -965,8 +976,9 @@ OnXcensus.1 <- OnXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(OnXcensus.1$n)
 # prediction for LiberalxOntario
 Lib_Vote_percen_On <- OnXcensus.1 %>% summarise(Lib_est_On = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_On
+#Lib_Vote_percen_On
 ```
+\newpage
 ## Results for Manitoba
 The top 3 poplar political parties in Ontario are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
 Here are the results for the top 3 parties:
@@ -1026,7 +1038,7 @@ MnXcensus.1 <- MnXcensus.1 %>% mutate(prob_NDP_Manitoba = est_p(NDP_odds))
 N <- sum(MnXcensus.1$n)
 # prediction for NDPxManitoba
 NDP_Vote_percen_Manitoba <- MnXcensus.1 %>% summarise(NDP_est_Manitoba = (sum(n*prob_NDP_Manitoba)/N))
-NDP_Vote_percen_Manitoba
+#NDP_Vote_percen_Manitoba
 
 ##Conservatives x Manitoba
 # getting the Conservative survey data to make the models                            
@@ -1063,7 +1075,7 @@ MnXcensus.1 <- MnXcensus.1 %>% mutate(prob_Consv_Mn = est_p(Consv_odds))
 N <- sum(MnXcensus.1$n)
 # prediction for ConsXManitoba
 Cons_Vote_percen_Mn <- MnXcensus.1 %>% summarise(Consv_est_Mn = (sum(n*prob_Consv_Mn)/N))
-Cons_Vote_percen_Mn
+#Cons_Vote_percen_Mn
 
 ##Liberal X Manitoba
 ## Making the model and the predictions
@@ -1101,7 +1113,7 @@ MnXcensus.1 <- MnXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(MnXcensus.1$n)
 # prediction for LibxManitoba
 Lib_Vote_percen_Mn <- MnXcensus.1 %>% summarise(Lib_est_Mn = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_Mn
+#Lib_Vote_percen_Mn
 ```
 ## Results for Quebec
 The top 3 poplar political parties in Ontario are **Coalition Avenir Québec or the CAQ**,**Quebec Liberal Party** and **Bloc Québécois (BQ, PQ, Bloc, Parti Québéc)** but as mentioned due to the limitation of the data we have we choose to go with the next popular parties and the final list of the of the parties as mentioned previously in Table3 are: **Conservatives (Tory, PCs, Conservative Party of Canada)**,  **Liberal (Grits)** & **Bloc Québécois (BQ, PQ, Bloc, Parti Québéc)** and here are the results we found:
@@ -1161,7 +1173,7 @@ QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Qb = est_p(Qb_odds))
 N <- sum(QbXcensus.1$n)
 # prediction for QuebecX_Qb
 Qb_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Qb_est_Qb = (sum(n*prob_Qb)/N))
-Qb_Vote_percen_Qb
+#Qb_Vote_percen_Qb
 
 ##Conservatives X Quebec
 # getting the Conservative survey data to make the models                            
@@ -1198,7 +1210,7 @@ QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Consv_Qb = est_p(Consv_odds))
 N <- sum(QbXcensus.1$n)
 # prediction for ConsxQuebec
 Cons_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Consv_est_Qb = (sum(n*prob_Consv_Qb)/N))
-Cons_Vote_percen_Qb
+#Cons_Vote_percen_Qb
 
 ##Liberal X Quebec
 ## Making the model and the predictions
@@ -1236,9 +1248,8 @@ QbXcensus.1 <- QbXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(QbXcensus.1$n)
 # prediction for LiberalxQuebec
 Lib_Vote_percen_Qb <- QbXcensus.1 %>% summarise(Lib_est_Qb = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_Qb
+#Lib_Vote_percen_Qb
 ```
-
 
 ## Results for New Brunswick
 The top 3 poplar political parties in New Brunswick are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **Green Party (Greens)**. A thing to mention in making our estimate for this province is that the data we used to make the model for New Brunswick had a issue when it came to the age group, we had no data on the people between 18-24 years so our predictions are also missing the estimates from the people in that age group.\
@@ -1303,7 +1314,7 @@ NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(NbXcensus.1$n)
 # prediction for LiberalxNb
 Lib_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Lib_est_Nb = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_Nb
+#Lib_Vote_percen_Nb
 
 ##New BrunswickXConservative
 # getting the Conservative survey data to make the models                            
@@ -1342,7 +1353,7 @@ NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Consv_Nb = est_p(Consv_odds))
 N <- sum(NbXcensus.1$n)
 # prediction for ConsxNew Brunswick
 Cons_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Consv_est_Nb = (sum(n*prob_Consv_Nb)/N))
-Cons_Vote_percen_Nb
+#Cons_Vote_percen_Nb
 
 ##New BrunswickXGreen
 # getting the Conservative survey data to make the models                            
@@ -1381,8 +1392,9 @@ NbXcensus.1 <- NbXcensus.1 %>% mutate(prob_Green_Nb = est_p(Green_odds))
 N <- sum(NbXcensus.1$n)
 # prediction for GreensxNew Brunswick
 Green_Vote_percen_Nb <- NbXcensus.1 %>% summarise(Green_est_Nb = (sum(n*prob_Green_Nb)/N))
-Green_Vote_percen_Nb
+#Green_Vote_percen_Nb
 ```
+\newpage
 
 ## Results for Saskatchewan
 The top 3 poplar political parties in Saskatchewan are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
@@ -1442,7 +1454,7 @@ SaXcensus.1 <- SaXcensus.1 %>% mutate(prob_Consv_Sa = est_p(Consv_odds))
 N <- sum(SaXcensus.1$n)
 # prediction for ConservativexSaskatchewan
 Consv_Vote_percen_Sa <- SaXcensus.1 %>% summarise(Consv_est_Sa = (sum(n*prob_Consv_Sa)/N))
-Consv_Vote_percen_Sa
+#Consv_Vote_percen_Sa
 
 ##Liberal
 ## Making the model and the predictions
@@ -1480,7 +1492,7 @@ SaXcensus.1 <- SaXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(SaXcensus.1$n)
 # prediction for  LiberalxSaskatchewan
 Lib_Vote_percen_Sa <- SaXcensus.1 %>% summarise(Lib_est_Sa = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_Sa
+#Lib_Vote_percen_Sa
 
 # getting the NDP survey data to make the models                            
 NDP_predic.1 <- survey_data.2 %>%
@@ -1516,7 +1528,7 @@ SaXcensus.1 <- SaXcensus.1 %>% mutate(prob_NDP_Manitoba = est_p(NDP_odds))
 N <- sum(SaXcensus.1$n)
 # prediction for NDPxSaskatchewan
 NDP_Vote_percen_Saskatchewan <- SaXcensus.1 %>% summarise(NDP_est_Saskatchewan = (sum(n*prob_NDP_Manitoba)/N))
-NDP_Vote_percen_Saskatchewan
+#NDP_Vote_percen_Saskatchewan
 ```
 
 ## Results for Nova Scotia
@@ -1578,7 +1590,7 @@ NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_Consv_Sa = est_p(Consv_odds))
 N <- sum(SaXcensus.1$n)
 # prediction for ConservativexNova Scotia
 Consv_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Consv_est_Ns = (sum(n*prob_Consv_Sa)/N))
-Consv_Vote_percen_Ns
+#Consv_Vote_percen_Ns
 
 ##Liberal
 ## Making the model and the predictions
@@ -1616,7 +1628,7 @@ NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(NsXcensus.1$n)
 # prediction for LiberalxNova Scotia
 Lib_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Lib_est_Ns = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_Ns
+#Lib_Vote_percen_Ns
 
 ##NDP
 # getting the NDP survey data to make the models                            
@@ -1653,7 +1665,7 @@ NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_NDP_Ns = est_p(NDP_odds))
 N <- sum(NsXcensus.1$n)
 # prediction for NDPxNova Scotia
 NDP_Vote_percen_Ns <- NsXcensus.1 %>% summarise(NDP_est_Ns = (sum(n*prob_NDP_Ns)/N))
-NDP_Vote_percen_Ns
+#NDP_Vote_percen_Ns
 ```
 
 ## Results for Newfoundland and Labrador
@@ -1676,8 +1688,6 @@ Liberal (Grits)                                             & 33.71\%  \\
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
 ```
-
-
 
 ```{r, warning=FALSE, echo=F}
 ##NDP
@@ -1717,7 +1727,7 @@ NLXcensus.1 <- NLXcensus.1 %>% mutate(prob_NDP_NL = est_p(NDP_odds))
 N <- sum(NLXcensus.1$n)
 # prediction for NDPxNewfoundland and Labrador
 NDP_Vote_percen_NL <- NLXcensus.1 %>% summarise(NDP_est_NL = (sum(n*prob_NDP_NL)/N))
-NDP_Vote_percen_NL
+#NDP_Vote_percen_NL
 
 ##Liberal
 ## Making the model and the predictions
@@ -1757,7 +1767,7 @@ NLXcensus.1 <- NLXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(NsXcensus.1$n)
 # prediction for NDPxNewfoundland and Labrador
 Lib_Vote_percen_NL <- NLXcensus.1 %>% summarise(Lib_est_NL = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_NL
+#Lib_Vote_percen_NL
 
 ##Conservatives
 # getting the Conservative survey data to make the models                            
@@ -1796,8 +1806,9 @@ NLXcensus.1 <- NLXcensus.1 %>% mutate(prob_Consv_NL = est_p(Consv_odds))
 N <- sum(NLXcensus.1$n)
 # prediction for ConsxNewfoundland and Labrador
 Cons_Vote_percen_NL <- NLXcensus.1 %>% summarise(Consv_est_NL = (sum(n*prob_Consv_NL)/N))
- Cons_Vote_percen_NL
+ #Cons_Vote_percen_NL
 ```
+\newpage
 
 ## Results forPrince Edward Island
 The top 3 poplar political parties in Prince Edward Island are **Conservatives (Tory, PCs, Conservative Party of Canada)**, **Liberal (Grits)** and **NDP (New Democratic Party, New Democrats, NDPers)**.\
@@ -1858,7 +1869,7 @@ NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_Consv_Sa = est_p(Consv_odds))
 N <- sum(SaXcensus.1$n)
 # prediction for ConservativexPrince Edward Island
 Consv_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Consv_est_PE = (sum(n*prob_Consv_Sa)/N))
-Consv_Vote_percen_Ns
+#Consv_Vote_percen_Ns
 
 ##Liberal
 ## Making the model and the predictions
@@ -1896,7 +1907,7 @@ NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_Lib = est_p(Lib_odds))
 N <- sum(NsXcensus.1$n)
 # prediction for LiberalxPrince Edward Island
 Lib_Vote_percen_Ns <- NsXcensus.1 %>% summarise(Lib_est_PE = (sum(n*prob_Lib)/N))
-Lib_Vote_percen_Ns
+#Lib_Vote_percen_Ns
 
 # getting the NDP survey data to make the models                            
 NDP_predic.1 <- survey_data.2 %>%
@@ -1932,9 +1943,10 @@ NsXcensus.1 <- NsXcensus.1 %>% mutate(prob_NDP_Ns = est_p(NDP_odds))
 N <- sum(NsXcensus.1$n)
 # prediction for NDPxPrince Edward Island
 NDP_Vote_percen_Ns <- NsXcensus.1 %>% summarise(NDP_est_PE = (sum(n*prob_NDP_Ns)/N))
-NDP_Vote_percen_Ns
+#NDP_Vote_percen_Ns
 ```
 \newpage
+
 ## Summary, comments about results
 ```{=latex}
 \begin{table}[ht]
@@ -1964,9 +1976,12 @@ Most Dominant Party & & Conservatives (Tory, PCs, Conservative Party of Canada) 
 \label{table:nonlin} % is used to refer this table in the text
 \end{table}
 ```
+\
+\
+\
 Based on results displayed in Table 16 we can see that the most popular party on average is the Conservatives (Tory, PCs, Conservative Party of Canada) so we **expect** them to win. However there are still some things we need to take into account, firstly the mostly if we assume that all the people who choose Conservatives as their political preference they would still have about **~94** out the total 338. Note to have a majority a party would need above half of the total available seats which come to 170. \
-It is now a good time to also note that in some regions the party that was $2^{nd}$ when it comes to popularity was just behind the party that came $1^{st}$ in that region. Because now if the other party dominates the some other region with a higher seat count with a greater percentage difference then this political party would end having more seats.  This is something we need to consider when making a prediction about the general election and base our results. Furthermore governments are also formed on the basis of independent representatives joining or other parties getting together to form a majority government, note we don't have this information available to us. Lastly as mentioned we had no information about certain groups or about certain political parties to make our model so we were not able to make predictions about those groups or about those parties in our census data. \
-In summary however these results seem realistic when compared on a provincial level and also when we compare them to the most recent election from 2019 but there are still much that can be done to get better much more accurate prediction.
+It is now a good time to also note that in some regions the party that was $2^{nd}$ when it comes to popularity was just behind the party that came $1^{st}$ in that region. Because now if the other party dominates the some other region with a higher seat count with a greater percentage difference then this political party would end having more seats.  This is something we need to consider when making a prediction about the federal election and base our results. Furthermore governments are also formed on the basis of independent representatives joining or other parties getting together to form a majority government, note we don't have this information available to us. Lastly as mentioned we had no information about certain groups or about certain political parties to make our model so we were not able to make predictions about those groups or about those parties in our census data. \
+In summary however these results seem realistic when compared on a provincial level and also when we compare them to the most recent election from 2019 but there are still much that can be done to get better much more accurate prediction.**[23]**
 
 ```{r, warning=FALSE, eval=F, echo=FALSE}
 #Grouping based on provinces
@@ -1983,13 +1998,23 @@ quebec<- census_data.5 %>% group_by(province = "Quebec")
 saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 ```
 
-## Conclusions
+
+\newpage
+
+# Conclusions
+## Summary
+Our main goal of the study was to predict the popular vote in Canada for the next federal election. Based on the hypothesis of our study we found the popular vote in each province and then using that made a conclusion on the overall popular vote in Canada. \
+To achieve our results we used multilevel-logistic regression to find the popular vote and based on the results generated we then compared the results to the number of seats in that province to get an estimate of the number of seats the party would secure. Now based on this we made a prediction about whether the party would win the federal election or not. \
+In our case we found that Conservatives (Tory, PCs, Conservative Party of Canada) were the overall popular party in the majority of the regions and based on their popularity percentage in each region we expect them to secure about 94 seats out of the 338 available seats. Note however this is not the required number of seats needed to form a government and we expect that if Conservatives (Tory, PCs, Conservative Party of Canada) secure this many seats they would still need support from other parties to reach the minimum number of 170 needed to form the government. When we compare this result to the last election which took place in 2019, we can see that firstly there was an increase in the number of seats secured by the Conservatives (Tory, PCs, Conservative Party of Canada). We can also see that there was a strong dominance by certain parties in certain provinces and also a strong competition between the top 2 parties; Conservatives (Tory, PCs, Conservative Party of Canada), and Liberals in some regions**[23]**. We can see that the predictions we made based on the data fall close to the election which took place in 2019, but as mentioned before we need to be careful and account for the possible biases when it comes to the quality of the data being collected such as biases involved in people filling the surveys and also the drawbacks of making inference using limited categories and insufficient amounts of data. \
+
+## Looking forward
+For improvement and making better inference, we need to consider ways of improving our data, methods and perhaps even our goals. As methods are derived and dependent on the data let us first discuss about possible improvements in data. \
+Firstly as mentioned, the main issue when it comes to data, that we used outdated data in the age of social media and online presence, opinions are influenced and can even change in any moment. So the best predictor or way to collect data would be to find an **ethical** way of collecting data online. This would also result in the most up to date form of data, furthermore we can also collect data at regular intervals to see the trend of how opinions and preferences change from time to time and also perhaps cross-check the data we are collecting. \
+Now if we don't have these means to collect data we should firstly use the most updated version of the data, secondly we should try to get information based on every region and perhaps add more variables that way we can add more variables to our model and get better results. \
+Lastly with a quality set of data we can also perhaps change our goal and the model to get a result of how many seats each party is expected to win in every province. That we we can have a good idea about the seats won by the other minor parties and how that influences the overall majority government formation.
 
 
-## Drawbacks
-                                                                      **relevant fields not found in the survey, provinces((11) Northwest Territories, (12) Yukon, (13) Nunavut)**
-
-
+\newpage
 ## Bibliography
 
 1. 1867 Canadian federal election. (n.d.). DBpedia. https://dbpedia.org/page/1867_Canadian_federal_election
@@ -2022,13 +2047,24 @@ saskatchewan<- census_data.5 %>% group_by(province = "Saskatchewan")
 
 15. H.Y.A.E.M.M. (2014, January 8). The Relationship Between Income Level and Political Preferences for University Academic Staff: The Case of Hakkari. ScienceDirect. https://www.sciencedirect.com/science/article/pii/S1877042813052051
 
-16.House of Commons Seat Allocation by Province – Elections Canada. (n.d.). Elections Canada. Retrieved May 31, 2021, from https://www.elections.ca/content.aspx?section=res&dir=cir/red/allo&document=index&lang=e
+16. House of Commons Seat Allocation by Province – Elections Canada. (n.d.). Elections Canada. Retrieved May 31, 2021, from https://www.elections.ca/content.aspx?section=res&dir=cir/red/allo&document=index&lang=e
 
 17. Wikipedia contributors. (2021, May 24). Politics of Canada. Wikipedia. https://en.wikipedia.org/wiki/Politics_of_Canada#:%7E:text=The%20two%20dominant%20political%20parties,well%20as%20its%20numerous%20predecessors).
 
 18. Statista. (2021, March 9). Canada - resident population, by gender and age group 2020. https://www.statista.com/statistics/444858/canada-resident-population-by-gender-and-age-group/
 
-19*. 
+19. This is the link between voting in elections and income. (n.d.). World Economic Forum. Retrieved May 31, 2021, from https://www.weforum.org/agenda/2018/07/low-voter-turnout-increasing-household-income-may-help
 
+20. Politics of Ontario. (n.d.). Politics Of Ontario. Retrieved May 31, 2021, from https://en.wikipedia.org/wiki/Politics_of_Ontario#:~:text=Ontario’s%20current%20primary%20political%20parties,the%20Green%20Party%20of%20Ontario.
 
-* = citation in R chunks in markdown
+21. Politics of Manitoba. (n.d.). Wikipedia. Retrieved May 31, 2021, from https://en.wikipedia.org/wiki/Politics_of_Manitoba#:~:text=Manitoba’s%20primary%20political%20parties%20are,Progressive%20Conservative%20Party%20(PC).
+
+22. Politics of Canada. (n.d.). Wikipedia. Retrieved May 31, 2021, from https://en.wikipedia.org/wiki/Politics_of_Canada#:~:text=Five%20parties%20had%20representatives%20elected,the%20Green%20Party%20of%20Canada.
+
+23. File:Canada 2019 Federal Election.svg. (n.d.). Wikipedia. Retrieved May 31, 2021, from https://en.wikipedia.org/wiki/File:Canada_2019_Federal_Election.svg
+
+*24. Add an Image to Your Report. (n.d.). Earth Lab. https://www.earthdatascience.org/courses/earth-analytics/document-your-science/add-images-to-rmarkdown-report/
+
+25. Bloomberg.com Canada Election 2019: Live Results. (n.d.). [Illustration]. https://www.bloomberg.com/graphics/2019-canada-election-results/img/2019-canada-election-results-facebook.png
+
+*citation in R chunks in the markdown
